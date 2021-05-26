@@ -1,6 +1,22 @@
-# Nodepop-React
+# Nodepop-React-Avanzado
 
-Vamos a crear una aplicación de tipo dashboard que será la interfaz gráfica desde la que podremos gestionar el API de anuncios Nodepop.
+Vamos a crear una aplicación de tipo dashboard que será la interfaz gráfica desde la que podremos gestionar el API de anuncios Nodepop. Para esta práctica usaremos de punto de inicio la práctica que se realizó en el modulo de fundamentos: [Nodepop-React](hhttps://github.com/danielbueno76/Nodepop-React).
+
+## Objetivos de la práctica:
+
+1. Configurar un store Redux donde se almacenará al menos la siguiente información:
+   - Información sobre la sesión o el usuario registrado en el sistema. Al iniciar la aplicación se deberá leer la información del usuario desde el LocalStorage (si existiese) y se almacenará en el store de Redux. Al hacer login un un usuario su información deberá guardarse en el store de Redux y en el Local Storage si se eligió recordar el login.
+   - Información sobre los anuncios. El store deberá manejar la obtención de tags disponibles, de anuncios desde el API (listado y detalle), así como la creación y borrado de anuncios. Será importante modelar correctamente el estado que se va a guardar en el store.
+2. Crear las acciones y reducers necesarios para poder cumplir los objetivos del punto 1.
+3. Conectar los componentes con el store de redux (connect / hooks)
+4. Configurar Redux Dev Tools para simplificar las tareas de debugging de la aplicación.
+5. Testing. Crear tests unitarios, dando al menos un ejemplo de cada uno de estos casos.
+   - Una acción síncrona.
+   - Una acción asíncrona.
+   - Un reducer.
+   - Un selector.
+   - Un componente con snapshot testing.
+   - Comprobar el funcionamiento de un componente que ejecuta una acción del store, mockeando la acción.
 
 ## Backend
 
