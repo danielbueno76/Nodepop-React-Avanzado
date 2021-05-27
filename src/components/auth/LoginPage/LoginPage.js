@@ -1,40 +1,16 @@
 import React from "react";
 import LoginForm from "./LoginForm";
-import { login } from "../../../api/auth";
-
+import { getUi } from "../../../store/selectors";
+import { loginAction, resetError } from "../../../store/actions";
+import { useDispatch, useSelector } from "react-redux";
 import "./LoginPage.css";
-import { useAuthContext } from "../context";
-import { useHistory, useLocation } from "react-router";
 
 function LoginPage() {
-  const [error, setError] = React.useState(null);
-  const [isLoading, setIsLoading] = React.useState(false);
-  const isLogged = React.useRef(false);
+  const dispatch = useDispatch();
+  const { isLoading, error } = useSelector(getUi);
 
-  const resetError = React.useCallback(() => setError(), []);
-  const history = useHistory();
-  const location = useLocation();
-  const { onLogin } = useAuthContext();
-
-  React.useEffect(() => {
-    if (isLogged.current) {
-      onLogin();
-      const { from } = location.state || { from: { pathname: "/" } };
-      history.replace(from);
-    }
-  });
-
-  const handleSubmit = async (credentials, storeCredentials = false) => {
-    resetError();
-    setIsLoading(true);
-    try {
-      await login(credentials, storeCredentials);
-      isLogged.current = true;
-    } catch (err) {
-      setError(err);
-    } finally {
-      setIsLoading(false);
-    }
+  const handleSubmit = (credentials, storeCredentials = false) => {
+    dispatch(loginAction(credentials, storeCredentials));
   };
 
   return (
