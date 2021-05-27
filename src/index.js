@@ -1,18 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router } from "react-router-dom";
-import "./index.css";
-import App from "./App";
-import "bulma/css/bulma.min.css";
 import storage from "./utils/storage";
 import { configureClient } from "./api/client";
+import Root from "./Root";
+import { createBrowserHistory } from "history";
+import configureStore from "./store";
+import "./index.css";
+import "bulma/css/bulma.min.css";
 
 const accessToken = storage.get("auth");
 configureClient({ accessToken });
+const history = createBrowserHistory();
+
+const store = configureStore({
+  preloadedState: { auth: !!accessToken },
+  history,
+});
 
 ReactDOM.render(
-  <Router>
-    <App isInitiallyLogged={!!accessToken} />
-  </Router>,
+  <Root store={store} history={history} />,
   document.getElementById("root")
 );
