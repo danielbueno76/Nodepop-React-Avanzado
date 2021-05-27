@@ -1,10 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { getLatestAdverts } from "../../../api/adverts";
 import Layout from "../../layout/Layout";
 import AdvertsList from "./AdvertsList";
 import AdvertsFormFilter from "./AdvertsFormFilter";
 import { Button } from "../../shared";
+import { useDispatch, useSelector } from "react-redux";
+import { getAdverts } from "../../../store/selectors";
+import { advertsLoadAction } from "../../../store/actions";
 import storage from "../../../utils/storage";
 import { SELL } from "../../../utils/utils";
 
@@ -18,14 +20,14 @@ const EmptyList = () => (
 );
 
 const AdvertsPage = ({ className, ...props }) => {
-  const [adverts, setAdverts] = React.useState([]);
+  const adverts = useSelector(getAdverts);
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
     const filter = storage.get("filter");
     const query = filter ? filter : "";
-
-    getLatestAdverts(query).then(setAdverts);
-  }, []);
+    dispatch(advertsLoadAction(query));
+  });
 
   const handleSubmit = (advertFilter) => {
     const queryArray = [];
@@ -43,7 +45,7 @@ const AdvertsPage = ({ className, ...props }) => {
     }
     const query = `?${queryArray.join("&")}`;
     storage.set("filter", query);
-    getLatestAdverts(query).then(setAdverts);
+    dispatch(advertsLoadAction(query));
   };
 
   return (

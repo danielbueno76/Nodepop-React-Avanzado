@@ -3,6 +3,15 @@ import {
   AUTH_LOGIN_SUCCESS,
   AUTH_LOGIN_FAILURE,
   AUTH_LOGOUT,
+  ADVERTS_CREATED_REQUEST,
+  ADVERTS_CREATED_SUCCESS,
+  ADVERTS_CREATED_FAILURE,
+  ADVERTS_DETAIL_REQUEST,
+  ADVERTS_DETAIL_SUCCESS,
+  ADVERTS_DETAIL_FAILURE,
+  ADVERTS_LOADED_REQUEST,
+  ADVERTS_LOADED_SUCCESS,
+  ADVERTS_LOADED_FAILURE,
   UI_RESET_ERROR,
 } from "./types";
 
@@ -45,6 +54,89 @@ export const authLogout = () => {
   return {
     type: AUTH_LOGOUT,
   };
+};
+
+export const advertsLoadedRequest = () => {
+  return {
+    type: ADVERTS_LOADED_REQUEST,
+  };
+};
+
+export const advertsLoadedSuccess = (adverts) => {
+  return {
+    type: ADVERTS_LOADED_SUCCESS,
+    payload: adverts,
+  };
+};
+
+export const advertsLoadedFailure = (error) => {
+  return {
+    type: ADVERTS_LOADED_FAILURE,
+    payload: error,
+    error: true,
+  };
+};
+
+export const advertsLoadAction = (query) => {
+  return async function (dispatch, getState, { api }) {
+    dispatch(advertsLoadedRequest());
+    try {
+      const adverts = await api.adverts.getLatestAdverts(query);
+      dispatch(advertsLoadedSuccess(adverts));
+    } catch (error) {
+      dispatch(advertsLoadedFailure(error));
+    }
+  };
+};
+
+export const advertsCreatedRequest = () => {
+  return {
+    type: ADVERTS_CREATED_REQUEST,
+  };
+};
+
+export const advertsCreatedSuccess = (adverts) => {
+  return {
+    type: ADVERTS_CREATED_SUCCESS,
+    payload: adverts,
+  };
+};
+
+export const advertsCreatedFailure = (error) => {
+  return {
+    type: ADVERTS_CREATED_FAILURE,
+    payload: error,
+    error: true,
+  };
+};
+
+export const advertsCreateAction = () => {
+  return async function (dispatch, getState, { api }) {};
+};
+
+export const advertsDetailRequest = () => {
+  return {
+    type: ADVERTS_DETAIL_REQUEST,
+  };
+};
+
+export const advertsDetailSuccess = (adverts) => {
+  return {
+    type: ADVERTS_DETAIL_SUCCESS,
+    payload: adverts,
+  };
+};
+
+export const advertsDetailFailure = (error) => {
+  return {
+    type: ADVERTS_DETAIL_FAILURE,
+    payload: error,
+    error: true,
+  };
+};
+
+export const advertsDetailAction = () => {
+  return async function (dispatch, getState, { api }) {};
 };
 
 export const resetError = () => {

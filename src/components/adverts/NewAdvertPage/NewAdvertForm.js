@@ -5,7 +5,12 @@ import { BUY, SELL, MAX, MIN } from "../../../utils/utils";
 import { getAdvertsTags } from "../../../api/adverts";
 
 const NewAdvertForm = ({ onSubmit }) => {
-  const [advert, handleChange, handleSubmit] = useForm({});
+  const [advert, handleChange, handleSubmit] = useForm({
+    name: "",
+    price: "",
+    sale: null,
+    tags: [],
+  });
   const [allTags, setAllTags] = React.useState([]);
 
   React.useEffect(() => {
