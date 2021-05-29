@@ -1,4 +1,4 @@
-import { getAdvertsLoaded } from "./selectors";
+import { getAdvertDetail, getAdvertsLoaded } from "./selectors";
 
 import {
   AUTH_LOGIN_REQUEST,
@@ -14,6 +14,9 @@ import {
   ADVERTS_LOADED_REQUEST,
   ADVERTS_LOADED_SUCCESS,
   ADVERTS_LOADED_FAILURE,
+  ADVERTS_DELETE_REQUEST,
+  ADVERTS_DELETE_SUCCESS,
+  ADVERTS_DELETE_FAILURE,
   UI_RESET_ERROR,
 } from "./types";
 
@@ -136,10 +139,10 @@ export const advertsDetailRequest = () => {
   };
 };
 
-export const advertsDetailSuccess = (adverts) => {
+export const advertsDetailSuccess = (advert) => {
   return {
     type: ADVERTS_DETAIL_SUCCESS,
-    payload: adverts,
+    payload: advert,
   };
 };
 
@@ -151,8 +154,54 @@ export const advertsDetailFailure = (error) => {
   };
 };
 
-export const advertsDetailAction = () => {
-  return async function (dispatch, getState, { api }) {};
+export const advertsDetailAction = (advertId) => {
+  return async function (dispatch, getState, { api }) {
+    const advertLoaded = getAdvertDetail(getState(), advertId);
+    if (advertLoaded) {
+      return;
+    }
+
+    dispatch(advertsDetailRequest());
+    try {
+      const advert = await api.adverts.getAdvertDetail(advertId);
+      dispatch(advertsDetailSuccess(advert));
+    } catch (error) {
+      dispatch(advertsDetailFailure(error));
+    }
+  };
+};
+
+export const advertsDeleteRequest = () => {
+  return {
+    type: ADVERTS_DELETE_REQUEST,
+  };
+};
+
+export const advertsDeleteSuccess = (advertId) => {
+  return {
+    type: ADVERTS_DELETE_SUCCESS,
+    payload: { advertId },
+  };
+};
+
+export const advertsDeleteFailure = (error) => {
+  return {
+    type: ADVERTS_DELETE_FAILURE,
+    payload: error,
+    error: true,
+  };
+};
+
+export const advertsDeleteAction = (advertId) => {
+  return async function (dispatch, getState, { api }) {
+    dispatch(advertsDeleteRequest());
+    try {
+      await api.adverts.deleteAdvert(advertId);
+      dispatch(advertsDeleteSuccess(advertId));
+    } catch (error) {
+      dispatch(advertsDeleteFailure(error));
+    }
+  };
 };
 
 export const resetError = () => {

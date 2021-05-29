@@ -1,35 +1,42 @@
 import React from "react";
 import Layout from "../../layout/Layout";
-import { getAdvertDetail, deleteAdvert } from "../../../api/adverts";
 import { Redirect } from "react-router";
 import { messageSale } from "../../../utils/utils";
 import Photo from "../../shared/Photo";
 import ConfirmButton from "../../shared/ConfirmButton";
+import { getUi, getAdvertDetail } from "../../../store/selectors";
+import {
+  advertsDetailAction,
+  advertsDeleteAction,
+} from "../../../store/actions";
+import { useDispatch, useSelector } from "react-redux";
 
 const AdvertPage = ({ match, ...props }) => {
-  const [advert, setAdverts] = React.useState({});
-  const [error, setError] = React.useState(null);
+  const advert = useSelector((state) =>
+    getAdvertDetail(state, match.params.advertId)
+  );
+  const error = useSelector(getUi);
+  const dispatch = useDispatch();
   const [adHasBeenDeleted, setAdHasBeenDeleted] = React.useState(false);
 
   React.useEffect(() => {
-    getAdvertDetail(match.params.advertId).then(setAdverts).catch(setError);
-  }, [match.params.advertId]);
+    dispatch(advertsDetailAction(match.params.advertId));
+  }, [dispatch, match.params.advertId]);
 
   if (error && error.status === 404) {
     return <Redirect to="/404" />;
   }
 
-  const handleDeleteAdvert = () => {
-    deleteAdvert(match.params.advertId)
-      .then(setAdHasBeenDeleted(true))
-      .catch(setError);
+  const handleDeleteAdvert = async () => {
+    await dispatch(advertsDeleteAction(match.params.advertId));
+    setAdHasBeenDeleted(true);
   };
 
   if (adHasBeenDeleted) {
     return <Redirect to="/adverts" />;
   }
 
-  const { name, price, sale, tags, photo, createdAt } = advert;
+  const { name, price, sale, tags, photo, createdAt } = advert ? advert : {};
   return (
     <Layout title="Advertisement Detail" {...props}>
       <div className="card">

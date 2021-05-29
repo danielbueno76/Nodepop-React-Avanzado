@@ -8,6 +8,8 @@ import {
   ADVERTS_DETAIL_SUCCESS,
   ADVERTS_LOADED_REQUEST,
   ADVERTS_LOADED_SUCCESS,
+  ADVERTS_DELETE_REQUEST,
+  ADVERTS_DELETE_SUCCESS,
   UI_RESET_ERROR,
 } from "./types";
 
@@ -41,6 +43,12 @@ export function adverts(state = initialState.adverts, action) {
     case ADVERTS_CREATED_SUCCESS:
     case ADVERTS_DETAIL_SUCCESS:
       return { ...state, loaded: false, data: [...state.data, action.payload] };
+    case ADVERTS_DELETE_SUCCESS:
+      return {
+        ...state,
+        loaded: false,
+        data: [...state.data.filter((advert) => advert.id !== action.payload)],
+      };
     default:
       return state;
   }
@@ -55,11 +63,13 @@ export function ui(state = initialState.ui, action) {
     case ADVERTS_LOADED_REQUEST:
     case ADVERTS_CREATED_REQUEST:
     case ADVERTS_DETAIL_REQUEST:
+    case ADVERTS_DELETE_REQUEST:
       return { ...state, loading: true, error: null };
     case AUTH_LOGIN_SUCCESS:
     case ADVERTS_LOADED_SUCCESS:
     case ADVERTS_CREATED_SUCCESS:
     case ADVERTS_DETAIL_SUCCESS:
+    case ADVERTS_DELETE_SUCCESS:
       return { ...state, loading: false };
     case UI_RESET_ERROR:
       return {
