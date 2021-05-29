@@ -67,6 +67,7 @@ const NewAdvertForm = ({ onSubmit }) => {
       <Button
         type="submit"
         variant="primary"
+        id="form-submit"
         disabled={!name || !price || !sale || !tags}
       >
         Publish
