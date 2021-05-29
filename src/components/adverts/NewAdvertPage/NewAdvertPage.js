@@ -1,24 +1,26 @@
 import React from "react";
 import Layout from "../../layout/Layout";
 import NewAdvertForm from "./NewAdvertForm";
-import { createAdvert } from "../../../api/adverts";
 import { Redirect } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { advertsCreateAction } from "../../../store/actions.js";
+import { getUi } from "../../../store/selectors";
+import { SELL } from "../../../utils/utils";
 
 const NewAdvertPage = (props) => {
-  const [error, setError] = React.useState(null);
   const [createdAdvert, setCreatedAdvert] = React.useState(null);
-
+  const dispatch = useDispatch();
+  const { error } = useSelector(getUi);
   const handleSubmit = async (newAdvert) => {
-    try {
-      const formDataAdvert = new FormData();
-      for (var key in newAdvert) {
-        formDataAdvert.append(key, newAdvert[key]);
+    const formDataAdvert = new FormData();
+    for (var key in newAdvert) {
+      if (key === "sale") {
+        newAdvert[key] = newAdvert[key] === SELL;
       }
-      const advert = await createAdvert(formDataAdvert);
-      setCreatedAdvert(advert);
-    } catch (newError) {
-      setError(newError);
+      formDataAdvert.append(key, newAdvert[key]);
     }
+    const advert = await dispatch(advertsCreateAction(formDataAdvert));
+    setCreatedAdvert(advert);
   };
 
   if (error && error.status === 401) {

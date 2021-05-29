@@ -102,10 +102,10 @@ export const advertsCreatedRequest = () => {
   };
 };
 
-export const advertsCreatedSuccess = (adverts) => {
+export const advertsCreatedSuccess = (advert) => {
   return {
     type: ADVERTS_CREATED_SUCCESS,
-    payload: adverts,
+    payload: advert,
   };
 };
 
@@ -117,8 +117,17 @@ export const advertsCreatedFailure = (error) => {
   };
 };
 
-export const advertsCreateAction = () => {
-  return async function (dispatch, getState, { api }) {};
+export const advertsCreateAction = (advert) => {
+  return async function (dispatch, getState, { api }) {
+    dispatch(advertsCreatedRequest());
+    try {
+      const newAdvert = await api.adverts.createAdvert(advert);
+      dispatch(advertsCreatedSuccess(newAdvert));
+      return newAdvert;
+    } catch (error) {
+      dispatch(advertsCreatedFailure(error));
+    }
+  };
 };
 
 export const advertsDetailRequest = () => {
