@@ -1,19 +1,22 @@
 import React from "react";
 import { Button, FormField, Radio, Slider, Select } from "../../shared";
 import { BUY, SELL, MIN, MAX } from "../../../utils/utils";
-import { getAdvertsTags } from "../../../api/adverts";
+import { useSelector, useDispatch } from "react-redux";
+import { advertsTagsAction } from "../../../store/actions";
+import { getTags } from "../../../store/selectors";
 
 const AdvertsFormFilter = ({ onSubmit }) => {
+  const dispatch = useDispatch();
   const [advertFilter, setAdvertFilter] = React.useState({
     name: "",
     price: [MIN, MAX],
     tags: [],
   });
-  const [allTags, setAllTags] = React.useState([]);
+  const allTags = useSelector(getTags);
 
   React.useEffect(() => {
-    getAdvertsTags().then(setAllTags);
-  }, []);
+    dispatch(advertsTagsAction());
+  }, [dispatch]);
 
   const handleFormSubmit = (ev) => {
     ev.preventDefault();

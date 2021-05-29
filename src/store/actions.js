@@ -1,4 +1,4 @@
-import { getAdvertDetail, getAdvertsLoaded } from "./selectors";
+import { getAdvertDetail, getAdvertsLoaded, getTagsLoaded } from "./selectors";
 
 import {
   AUTH_LOGIN_REQUEST,
@@ -17,6 +17,9 @@ import {
   ADVERTS_DELETE_REQUEST,
   ADVERTS_DELETE_SUCCESS,
   ADVERTS_DELETE_FAILURE,
+  ADVERTS_TAGS_REQUEST,
+  ADVERTS_TAGS_SUCCESS,
+  ADVERTS_TAGS_FAILURE,
   UI_RESET_ERROR,
 } from "./types";
 
@@ -82,10 +85,10 @@ export const advertsLoadedFailure = (error) => {
   };
 };
 
-export const advertsLoadAction = (query) => {
+export const advertsLoadAction = (query, forceToApi = false) => {
   return async function (dispatch, getState, { api }) {
     const advertsLoaded = getAdvertsLoaded(getState());
-    if (advertsLoaded) {
+    if (!forceToApi && advertsLoaded) {
       return;
     }
 
@@ -180,7 +183,7 @@ export const advertsDeleteRequest = () => {
 export const advertsDeleteSuccess = (advertId) => {
   return {
     type: ADVERTS_DELETE_SUCCESS,
-    payload: { advertId },
+    payload: advertId,
   };
 };
 
@@ -200,6 +203,44 @@ export const advertsDeleteAction = (advertId) => {
       dispatch(advertsDeleteSuccess(advertId));
     } catch (error) {
       dispatch(advertsDeleteFailure(error));
+    }
+  };
+};
+
+export const advertsTagsRequest = () => {
+  return {
+    type: ADVERTS_TAGS_REQUEST,
+  };
+};
+
+export const advertsTagsSuccess = (tags) => {
+  return {
+    type: ADVERTS_TAGS_SUCCESS,
+    payload: tags,
+  };
+};
+
+export const advertsTagsFailure = (error) => {
+  return {
+    type: ADVERTS_TAGS_FAILURE,
+    payload: error,
+    error: true,
+  };
+};
+
+export const advertsTagsAction = () => {
+  return async function (dispatch, getState, { api }) {
+    const tagsLoaded = getTagsLoaded(getState());
+    if (tagsLoaded) {
+      return;
+    }
+
+    dispatch(advertsTagsRequest());
+    try {
+      const tags = await api.adverts.getAdvertsTags();
+      dispatch(advertsTagsSuccess(tags));
+    } catch (error) {
+      dispatch(advertsTagsFailure(error));
     }
   };
 };

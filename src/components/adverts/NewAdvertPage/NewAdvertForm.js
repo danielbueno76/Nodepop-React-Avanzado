@@ -2,20 +2,22 @@ import React from "react";
 import useForm from "../../../hooks/useForm";
 import { Button, FormField, Radio, Select } from "../../shared";
 import { BUY, SELL, MAX, MIN } from "../../../utils/utils";
-import { getAdvertsTags } from "../../../api/adverts";
+import { useSelector, useDispatch } from "react-redux";
+import { advertsTagsAction } from "../../../store/actions";
+import { getTags } from "../../../store/selectors";
 
 const NewAdvertForm = ({ onSubmit }) => {
+  const dispatch = useDispatch();
   const [advert, handleChange, handleSubmit] = useForm({
     name: "",
     price: "",
     sale: null,
     tags: [],
   });
-  const [allTags, setAllTags] = React.useState([]);
-
+  const allTags = useSelector(getTags);
   React.useEffect(() => {
-    getAdvertsTags().then(setAllTags);
-  }, []);
+    dispatch(advertsTagsAction());
+  }, [dispatch]);
 
   const handleFormSubmit = () => {
     onSubmit(advert);

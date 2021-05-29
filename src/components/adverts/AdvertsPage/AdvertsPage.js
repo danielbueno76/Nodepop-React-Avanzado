@@ -45,7 +45,7 @@ const AdvertsPage = ({ className, ...props }) => {
     }
     const query = `?${queryArray.join("&")}`;
     storage.set("filter", query);
-    dispatch(advertsLoadAction(query));
+    dispatch(advertsLoadAction(query, true));
   };
 
   return (
