@@ -1,26 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`NewAdvertForm snapshot testing 1`] = `
-<form
-  onSubmit={[Function]}
+<Form
+  initialValue={
+    Object {
+      "name": "",
+      "price": "",
+      "sale": null,
+      "tags": Array [],
+    }
+  }
+  onSubmit={[MockFunction]}
 >
   <FormField
     autofocus={true}
-    label="Name"
     name="name"
-    onChange={[Function]}
-    placeholder="Name"
     type="text"
-    value=""
   />
   <FormField
-    label="Price"
-    max={1000000}
-    min={0}
     name="price"
-    onChange={[Function]}
     type="number"
-    value=""
   />
   <Radio
     arrayValues={
@@ -30,28 +29,21 @@ exports[`NewAdvertForm snapshot testing 1`] = `
       ]
     }
     name="sale"
-    onChange={[Function]}
-    value={null}
   />
   <Select
     name="tags"
-    onChange={[Function]}
-    value={Array []}
   />
   <FormField
     accept="image/*"
-    label="Photo"
     name="photo"
-    onChange={[Function]}
     type="file"
   />
-  <styled.button
-    disabled={true}
+  <FormButton
     id="form-submit"
     type="submit"
     variant="primary"
   >
     Publish
-  </styled.button>
-</form>
+  </FormButton>
+</Form>
 `;

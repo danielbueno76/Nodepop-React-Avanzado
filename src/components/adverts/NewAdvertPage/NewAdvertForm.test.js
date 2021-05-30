@@ -1,7 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
 import NewAdvertForm from "./NewAdvertForm";
-import { SELL } from "../../../utils/utils";
 
 jest.mock("react-redux");
 
@@ -11,46 +10,23 @@ describe("NewAdvertForm", () => {
   };
 
   const render = () => shallow(<NewAdvertForm {...props} />);
+  const wrapper = render();
 
   test("should render", () => {
-    const wrapper = render();
     expect(wrapper.exists()).toBe(true);
   });
 
   test("snapshot testing", () => {
-    const wrapper = render();
     expect(wrapper).toMatchSnapshot();
   });
+  test("should find 3 FormField", () => {
+    expect(wrapper.find("FormField")).toHaveLength(3);
+  });
 
-  test("should submit advert", () => {
-    const data = {
-      name: "Car",
-      price: "1000",
-      sale: SELL,
-      tags: ["lifestyle"],
-    };
-    const wrapper = render();
-
-    const nameField = wrapper.find("FormField").at(0);
-    nameField.props().onChange({
-      target: { name: "name", value: data.name },
-    });
-    const priceField = wrapper.find("FormField").at(1);
-    priceField.props().onChange({
-      target: { name: "price", value: data.price },
-    });
-    const saleField = wrapper.find("Radio").at(0);
-    saleField.props().onChange({
-      target: { name: "sale", value: data.sale },
-    });
-    const tagsField = wrapper.find("Select").at(0);
-    tagsField.props().onChange({
-      target: { name: "tags", value: data.tags },
-    });
-    const form = wrapper.find("form");
+  test("should call event onSubmit", () => {
+    const form = wrapper.find("Form");
     form.simulate("submit", { preventDefault: jest.fn });
 
-    expect(wrapper.find("#form-submit").props().disabled).toBe(false);
-    expect(props.onSubmit).toHaveBeenCalledWith(data);
+    expect(props.onSubmit).toBeCalled();
   });
 });

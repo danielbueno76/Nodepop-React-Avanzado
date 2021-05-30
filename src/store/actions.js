@@ -43,11 +43,11 @@ export const authLoginFailure = (error) => {
   };
 };
 
-export const loginAction = (credentials, storeCredentials = false) => {
+export const loginAction = (credentials) => {
   return async function (dispatch, getState, { api, history }) {
     dispatch(authLoginRequest());
     try {
-      await api.auth.login(credentials, storeCredentials);
+      await api.auth.login(credentials);
       dispatch(authLoginSuccess());
       // Redirect
       const { from } = history.location.state || { from: { pathname: "/" } };

@@ -1,12 +1,20 @@
 import React from "react";
+import { FormContext } from "./Form";
 
-const Select = ({ label, allTags, ...props }) => {
+const Select = ({ allTags, ...props }) => {
+  const { handleChange } = React.useContext(FormContext);
+
   return (
     <label className="label">
-      <span>{label}</span>
+      <span>{props.name}</span>
       <br />
       <div className="select is-multiple">
-        <select multiple size={allTags.length} {...props}>
+        <select
+          multiple
+          size={allTags.length}
+          onChange={handleChange}
+          {...props}
+        >
           {allTags.length &&
             allTags.map((tag) => {
               return (

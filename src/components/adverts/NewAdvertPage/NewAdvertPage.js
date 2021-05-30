@@ -32,7 +32,7 @@ const NewAdvertPage = (props) => {
   }
 
   return (
-    <Layout title="What do you want to sell?" {...props}>
+    <Layout title="What do you want to bur or sell?" {...props}>
       <div className="container">
         <div className="columns">
           <div className="column is-two-thirds">

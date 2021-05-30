@@ -26,8 +26,7 @@ describe("advertsLoadedSuccess", () => {
 describe("loginAction", () => {
   describe("when login api resolves", () => {
     const credentials = "credentials";
-    const storeCredentials = true;
-    const action = loginAction(credentials, storeCredentials);
+    const action = loginAction(credentials);
     const dispatch = jest.fn();
     const getState = () => {};
     const history = {
@@ -45,10 +44,7 @@ describe("loginAction", () => {
 
     test("should call api.auth.login", () => {
       action(dispatch, getState, { api, history });
-      expect(api.auth.login).toHaveBeenCalledWith(
-        credentials,
-        storeCredentials
-      );
+      expect(api.auth.login).toHaveBeenCalledWith(credentials);
     });
 
     test("should dispatch an AUTH_LOGIN_SUCCESS action", async () => {

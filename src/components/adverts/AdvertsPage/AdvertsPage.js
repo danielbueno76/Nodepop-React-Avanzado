@@ -51,7 +51,10 @@ const AdvertsPage = ({ className, ...props }) => {
   return (
     <Layout title="List of advertisements" {...props}>
       <div className={className}>
-        <AdvertsFormFilter onSubmit={handleSubmit} />
+        <AdvertsFormFilter
+          onSubmit={handleSubmit}
+          prices={adverts.map(({ price }) => price)}
+        />
         {adverts.length ? <AdvertsList adverts={adverts} /> : <EmptyList />}
       </div>
     </Layout>

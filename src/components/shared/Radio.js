@@ -1,4 +1,9 @@
-const Radio = ({ arrayValues, value, ...props }) => {
+import React from "react";
+import { FormContext } from "./Form";
+
+const Radio = ({ arrayValues, ...props }) => {
+  const { formValue, handleChange } = React.useContext(FormContext);
+
   return (
     <div className="control">
       {arrayValues.map((optionValue) => {
@@ -6,9 +11,10 @@ const Radio = ({ arrayValues, value, ...props }) => {
           <label key={optionValue} className="radio">
             <input
               type="radio"
-              name="sale"
+              name={props.name}
               value={optionValue}
-              checked={optionValue === value}
+              checked={optionValue === formValue[props.name]}
+              onChange={handleChange}
               {...props}
             />
             {optionValue}

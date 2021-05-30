@@ -9,8 +9,8 @@ function LoginPage() {
   const dispatch = useDispatch();
   const { isLoading, error } = useSelector(getUi);
 
-  const handleSubmit = (credentials, storeCredentials = false) => {
-    dispatch(loginAction(credentials, storeCredentials));
+  const handleSubmit = (credentials) => {
+    dispatch(loginAction(credentials));
   };
 
   return (

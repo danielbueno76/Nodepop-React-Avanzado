@@ -1,34 +1,52 @@
 import React from "react";
 
-const useForm = (initialValue) => {
-  const [value, setValue] = React.useState(initialValue);
+const getValueByType = {
+  checkbox: ({ checked }) => checked,
 
-  const handleChange = (event) => {
-    let valueEvent = event.target.value;
-    if (event.target.selectedOptions) {
-      // select component
-      valueEvent = Array.from(
-        event.target.selectedOptions,
-        (option) => option.value
-      );
-    } else if (event.target.files) {
-      //input type file
-      valueEvent = event.target.files[0];
-    }
-    setValue((oldValue) => ({
-      ...oldValue,
-      [event.target.name]: valueEvent,
+  number: ({ value }) => Number(value),
+
+  "select-multiple": ({ selectedOptions }) =>
+    [...selectedOptions].map(({ value }) => value),
+
+  file: ({ files }) => files[0] || null,
+};
+
+const defaultGetValue = ({ value }) => value;
+
+function useForm(initialFormValue) {
+  const [formValue, setFormValue] = React.useState(initialFormValue);
+  const updateFormValue = (name, value) => {
+    setFormValue((currentFormValue) => ({
+      ...currentFormValue,
+      [name]: value,
     }));
   };
 
-  const handleSubmit = (afterPreventDefault) => {
-    return (ev) => {
-      ev.preventDefault();
-      afterPreventDefault(ev);
-    };
+  const handleChange = (ev) => {
+    const valueGetter = getValueByType[ev.target.type] || defaultGetValue;
+    updateFormValue(ev.target.name, valueGetter(ev.target));
   };
 
-  return [value, handleChange, handleSubmit];
-};
+  const handleSubmit = (onSubmit) => (ev) => {
+    ev.preventDefault();
+    onSubmit(formValue);
+  };
+
+  const validate = ([...validations]) => {
+    return validations
+      .map((validation) => {
+        return validation(formValue);
+      })
+      .every((valid) => valid);
+  };
+
+  return {
+    formValue,
+    setFormValue,
+    handleChange,
+    handleSubmit,
+    validate,
+  };
+}
 
 export default useForm;

@@ -1,116 +1,53 @@
 import React from "react";
-import { Button, FormField, Radio, Slider, Select } from "../../shared";
-import { BUY, SELL, MIN, MAX } from "../../../utils/utils";
+import {
+  FormField,
+  Radio,
+  Slider,
+  Select,
+  Form,
+  FormButton,
+  ClearButton,
+} from "../../shared";
+import { BUY, SELL } from "../../../utils/utils";
 import { useSelector, useDispatch } from "react-redux";
 import { advertsTagsAction } from "../../../store/actions";
 import { getTags } from "../../../store/selectors";
 
-const AdvertsFormFilter = ({ onSubmit }) => {
+const AdvertsFormFilter = ({ onSubmit, prices }) => {
   const dispatch = useDispatch();
-  const [advertFilter, setAdvertFilter] = React.useState({
-    name: "",
-    price: [MIN, MAX],
-    tags: [],
-  });
   const allTags = useSelector(getTags);
 
   React.useEffect(() => {
     dispatch(advertsTagsAction());
   }, [dispatch]);
 
-  const handleFormSubmit = (ev) => {
-    ev.preventDefault();
-    onSubmit(advertFilter);
-  };
+  const min = prices.length ? Math.min(...prices) : 0;
+  const max = prices.length ? Math.max(...prices) : 0;
 
-  const handleChange = (ev) => {
-    let valueEvent = ev.target.value;
-
-    if (ev.target.selectedOptions) {
-      // select component
-      valueEvent = Array.from(
-        ev.target.selectedOptions,
-        (option) => option.value
-      );
-    }
-    setAdvertFilter((oldValue) => ({
-      ...oldValue,
-      [ev.target.name]: valueEvent,
-    }));
-  };
-
-  const handleSlider = (ev) => {
-    setAdvertFilter((oldValue) => ({
-      ...oldValue,
-      price: ev,
-    }));
-  };
-
-  const handleSliderMin = (ev) => {
-    setAdvertFilter((oldValue) => ({
-      ...oldValue,
-      [ev.target.name]: [+ev.target.value, oldValue[ev.target.name][1]],
-    }));
-  };
-
-  const handleSliderMax = (ev) => {
-    setAdvertFilter((oldValue) => ({
-      ...oldValue,
-      [ev.target.name]: [oldValue[ev.target.name][0], +ev.target.value],
-    }));
-  };
-
-  const handleClearFilter = () => {
-    setAdvertFilter({
-      name: "",
-      price: [MIN, MAX],
-      tags: [],
-    });
-  };
-
-  const { name, price, sale, tags } = advertFilter;
   return (
     <div className="box">
-      <form onSubmit={handleFormSubmit}>
-        <FormField
-          type="text"
-          name="name"
-          label="Name"
-          value={name}
-          placeholder="Name"
-          onChange={handleChange}
-          autofocus
-        />
+      <Form
+        initialValue={{
+          name: "",
+          price: [min, max],
+          tags: [],
+        }}
+        onSubmit={onSubmit}
+      >
+        <FormField type="text" name="name" autofocus />
         <Slider
-          label="Price"
           name="price"
-          min={MIN}
-          max={MAX}
-          value={price}
-          onChange={handleSlider}
-          onChangeMin={handleSliderMin}
-          onChangeMax={handleSliderMax}
+          min={min}
+          max={max}
+          marks={{ [min]: min, [max]: max }}
         />
-        <Radio
-          name="sale"
-          value={sale}
-          arrayValues={[BUY, SELL]}
-          onChange={handleChange}
-        />
-        <Select
-          label="Tags"
-          name="tags"
-          value={tags}
-          allTags={allTags}
-          onChange={handleChange}
-        />
-        <Button type="submit" variant="primary">
+        <Radio name="sale" arrayValues={[BUY, SELL]} />
+        <Select name="tags" allTags={allTags} />
+        <FormButton type="submit" variant="primary" notDisabled>
           Apply filter
-        </Button>
-        <Button type="submit" onClick={handleClearFilter}>
-          Clear filter
-        </Button>
-      </form>
+        </FormButton>
+        <ClearButton type="submit">Clear filter</ClearButton>
+      </Form>
     </div>
   );
 };
