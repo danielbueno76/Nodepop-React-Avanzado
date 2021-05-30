@@ -17,6 +17,9 @@ Vamos a crear una aplicación de tipo dashboard que será la interfaz gráfica d
    - Un selector.
    - Un componente con snapshot testing.
    - Comprobar el funcionamiento de un componente que ejecuta una acción del store, mockeando la acción.
+6. Formularios. La aplicación contiene varios formularios (Login, Creación de anuncios).
+   Se extrae la lógica común a todos ellos y se reutilizan en los disintos formularios, creando un componente <Form /> que mantenga los valores del formulario y un <FormField
+   /> que reciba el valor que le corresponde así como la función necesaria para poder modificar ese valor en el evento onChange. De ese modo, toda la lógica del onChange estará “escondida” en los components Form e Input.
 
 ## Backend
 
