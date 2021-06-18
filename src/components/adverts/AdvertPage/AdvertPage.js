@@ -17,7 +17,6 @@ const AdvertPage = ({ match, ...props }) => {
   );
   const error = useSelector(getUi);
   const dispatch = useDispatch();
-  const [adHasBeenDeleted, setAdHasBeenDeleted] = React.useState(false);
 
   React.useEffect(() => {
     dispatch(advertsDetailAction(match.params.advertId));
@@ -29,12 +28,7 @@ const AdvertPage = ({ match, ...props }) => {
 
   const handleDeleteAdvert = async () => {
     await dispatch(advertsDeleteAction(match.params.advertId));
-    setAdHasBeenDeleted(true);
   };
-
-  if (adHasBeenDeleted) {
-    return <Redirect to="/adverts" />;
-  }
 
   const { name, price, sale, tags, photo, createdAt } = advert ? advert : {};
   return (

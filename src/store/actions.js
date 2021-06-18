@@ -155,12 +155,12 @@ export const advertsCreatedFailure = (error) => {
 };
 
 export const advertsCreateAction = (advert) => {
-  return async function (dispatch, getState, { api }) {
+  return async function (dispatch, getState, { api, history }) {
     dispatch(advertsCreatedRequest());
     try {
       const newAdvert = await api.adverts.createAdvert(advert);
       dispatch(advertsCreatedSuccess(newAdvert));
-      return newAdvert;
+      history.push(`/adverts/${newAdvert.id}`);
     } catch (error) {
       dispatch(advertsCreatedFailure(error));
     }
@@ -227,11 +227,12 @@ export const advertsDeleteFailure = (error) => {
 };
 
 export const advertsDeleteAction = (advertId) => {
-  return async function (dispatch, getState, { api }) {
+  return async function (dispatch, getState, { api, history }) {
     dispatch(advertsDeleteRequest());
     try {
       await api.adverts.deleteAdvert(advertId);
       dispatch(advertsDeleteSuccess(advertId));
+      history.push("/adverts");
     } catch (error) {
       dispatch(advertsDeleteFailure(error));
     }

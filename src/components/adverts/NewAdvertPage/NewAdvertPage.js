@@ -8,7 +8,6 @@ import { getUi } from "../../../store/selectors";
 import { SELL } from "../../../utils/utils";
 
 const NewAdvertPage = (props) => {
-  const [createdAdvert, setCreatedAdvert] = React.useState(null);
   const dispatch = useDispatch();
   const { error } = useSelector(getUi);
   const handleSubmit = async (newAdvert) => {
@@ -19,16 +18,11 @@ const NewAdvertPage = (props) => {
       }
       formDataAdvert.append(key, newAdvert[key]);
     }
-    const advert = await dispatch(advertsCreateAction(formDataAdvert));
-    setCreatedAdvert(advert);
+    return await dispatch(advertsCreateAction(formDataAdvert));
   };
 
   if (error && error.status === 401) {
     return <Redirect to="/login" />;
-  }
-
-  if (createdAdvert) {
-    return <Redirect to={`/advert/${createdAdvert.id}`} />;
   }
 
   return (
