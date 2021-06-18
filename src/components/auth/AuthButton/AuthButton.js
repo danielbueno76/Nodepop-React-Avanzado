@@ -1,14 +1,16 @@
 import T from "prop-types";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
 import { ConfirmButton } from "../../shared";
-import { logout } from "../../../api/auth";
 import { getIsLogged } from "../../../store/selectors";
-import { authLogout } from "../../../store/actions";
+import { logoutAction } from "../../../store/actions";
+import { useDispatch, useSelector } from "react-redux";
 
-const AuthButton = ({ className, isLogged, onLogout }) => {
+const AuthButton = ({ className }) => {
+  const dispatch = useDispatch();
+  const isLogged = useSelector(getIsLogged);
+
   const handleLogoutClick = () => {
-    logout().then(onLogout);
+    dispatch(logoutAction());
   };
 
   const props = isLogged
@@ -31,17 +33,6 @@ const AuthButton = ({ className, isLogged, onLogout }) => {
 
 AuthButton.propTypes = {
   className: T.string,
-  isLogged: T.bool,
-  onLogout: T.func.isRequired,
 };
 
-AuthButton.defaultProps = {
-  isLogged: false,
-};
-
-const mapStateToProps = (state, ownProps) => ({ isLogged: getIsLogged(state) });
-const mapDispatchToProps = {
-  onLogout: authLogout,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(AuthButton);
+export default AuthButton;

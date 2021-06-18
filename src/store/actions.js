@@ -4,7 +4,9 @@ import {
   AUTH_LOGIN_REQUEST,
   AUTH_LOGIN_SUCCESS,
   AUTH_LOGIN_FAILURE,
-  AUTH_LOGOUT,
+  AUTH_LOGOUT_REQUEST,
+  AUTH_LOGOUT_FAILURE,
+  AUTH_LOGOUT_SUCCESS,
   ADVERTS_CREATED_REQUEST,
   ADVERTS_CREATED_SUCCESS,
   ADVERTS_CREATED_FAILURE,
@@ -58,9 +60,38 @@ export const loginAction = (credentials) => {
   };
 };
 
-export const authLogout = () => {
+export const authLogoutRequest = () => {
   return {
-    type: AUTH_LOGOUT,
+    type: AUTH_LOGOUT_REQUEST,
+  };
+};
+
+export const authLogoutSuccess = () => {
+  return {
+    type: AUTH_LOGOUT_SUCCESS,
+  };
+};
+
+export const authLogoutFailure = (error) => {
+  return {
+    type: AUTH_LOGOUT_FAILURE,
+    payload: error,
+    error: true,
+  };
+};
+
+export const logoutAction = (credentials) => {
+  return async function (dispatch, getState, { api, history }) {
+    dispatch(authLogoutRequest());
+    try {
+      await api.auth.logout();
+      dispatch(authLogoutSuccess());
+      // Redirect
+      const { from } = history.location.state || { from: { pathname: "/" } };
+      history.replace(from);
+    } catch (error) {
+      dispatch(authLogoutFailure(error));
+    }
   };
 };
 
