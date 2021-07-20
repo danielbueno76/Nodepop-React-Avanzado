@@ -1,9 +1,18 @@
-import { Button } from "../shared";
+import { Link } from "react-router-dom";
 
-const ConfirmButton = ({ children, messageConfirm, handleToDo, ...props }) => {
-  return (
-    <Button
-      className="button is-danger"
+const ConfirmButton = ({
+  children,
+  signup,
+  classname,
+  messageConfirm,
+  handleToDo,
+  toLogin,
+  toSignup,
+  ...props
+}) => {
+  return handleToDo ? (
+    <button
+      className={classname}
       onClick={() => {
         const deleteConfirmed = window.confirm(messageConfirm);
         if (deleteConfirmed) {
@@ -13,7 +22,16 @@ const ConfirmButton = ({ children, messageConfirm, handleToDo, ...props }) => {
       {...props}
     >
       {children}
-    </Button>
+    </button>
+  ) : (
+    <>
+      <Link className={classname} to={toSignup} {...props}>
+        {signup}
+      </Link>
+      <Link className={classname} to={toLogin} {...props}>
+        {children}
+      </Link>
+    </>
   );
 };
 export default ConfirmButton;

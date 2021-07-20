@@ -1,32 +1,33 @@
 import React from "react";
-import classNames from "classnames";
 import { Link, NavLink } from "react-router-dom";
-import { ReactComponent as Icon } from "../../images/Logo.svg";
 import AuthButton from "../auth/AuthButton";
-import Button from "../shared/Button";
 import "./Header.css";
 
-const Header = ({ className, ...props }) => {
+const Header = ({ ...props }) => {
   return (
-    <header className={classNames("header", className)} {...props}>
-      <Link to="/">
-        <div className="header-logo">
-          <Icon width="50%" height="50%" />
+    <nav className="navbar" role="navigation" aria-label="main navigation">
+      <div className="navbar-brand">
+        <NavLink to="/">
+          <img
+            src={process.env.REACT_APP_API_BASE_URL + "/images/wallaclone.png"}
+            alt="logo"
+            width="300"
+            height="300"
+          />
+        </NavLink>
+      </div>
+
+      <div className="navbar-end">
+        <div className="navbar-item">
+          <div className="buttons">
+            <Link to="/advert/new" className="button is-danger is-rounded">
+              Create ad
+            </Link>
+            <AuthButton />
+          </div>
         </div>
-      </Link>
-      <nav className="header-nav">
-        <Button
-          as={NavLink}
-          activeClassName="active"
-          to="/advert/new"
-          variant="primary"
-          className="header-button"
-        >
-          Create ad
-        </Button>
-        <AuthButton className="header-button" />
-      </nav>
-    </header>
+      </div>
+    </nav>
   );
 };
 

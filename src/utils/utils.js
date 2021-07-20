@@ -7,6 +7,7 @@ export const messageSale = (sale) => {
   }
   return message;
 };
+export const LIMIT_NUMBER_ADS = 5;
 
 const validUsername = ({ username }) => username;
 const validEmail = ({ email }) => email;

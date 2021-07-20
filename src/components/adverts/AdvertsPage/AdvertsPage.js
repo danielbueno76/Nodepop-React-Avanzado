@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAdverts } from "../../../store/selectors";
 import { advertsLoadAction } from "../../../store/actions";
 import storage from "../../../utils/storage";
-import { SELL } from "../../../utils/utils";
+import { SELL, LIMIT_NUMBER_ADS } from "../../../utils/utils";
 
 const EmptyList = () => (
   <div style={{ textAlign: "center" }}>
@@ -19,14 +19,15 @@ const EmptyList = () => (
   </div>
 );
 
+let query = `?limit=${LIMIT_NUMBER_ADS}&`;
+
 const AdvertsPage = ({ className, ...props }) => {
   const adverts = useSelector(getAdverts);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
     const filter = storage.get("filter");
-    const query = filter ? filter : "";
-    dispatch(advertsLoadAction(query));
+    dispatch(advertsLoadAction(filter ? filter : query));
   });
 
   const handleSubmit = (advertFilter) => {
@@ -43,7 +44,7 @@ const AdvertsPage = ({ className, ...props }) => {
         queryArray.push(`${key}=${advertFilter[key]}`);
       }
     }
-    const query = `?${queryArray.join("&")}`;
+    query = `${queryArray.join("&")}`;
     storage.set("filter", query);
     dispatch(advertsLoadAction(query, true));
   };

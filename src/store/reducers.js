@@ -31,6 +31,7 @@ export const initialState = {
   ui: {
     loading: false,
     error: null,
+    messageSuccess: null,
   },
 };
 
@@ -74,7 +75,12 @@ export function tags(state = initialState.tags, action) {
 
 export function ui(state = initialState.ui, action) {
   if (action.error) {
-    return { ...state, loading: false, error: action.payload };
+    return {
+      ...state,
+      loading: false,
+      error: action.payload,
+      messageSuccess: null,
+    };
   }
   switch (action.type) {
     case AUTH_LOGIN_REQUEST:
@@ -85,20 +91,26 @@ export function ui(state = initialState.ui, action) {
     case ADVERTS_DETAIL_REQUEST:
     case ADVERTS_DELETE_REQUEST:
     case ADVERTS_TAGS_REQUEST:
-      return { ...state, loading: true, error: null };
+      return { ...state, loading: true, error: null, messageSuccess: null };
     case AUTH_LOGIN_SUCCESS:
     case AUTH_SIGNUP_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        messageSuccess: "You have just registered correctly!",
+      };
     case AUTH_LOGOUT_SUCCESS:
     case ADVERTS_LOADED_SUCCESS:
     case ADVERTS_CREATED_SUCCESS:
     case ADVERTS_DETAIL_SUCCESS:
     case ADVERTS_DELETE_SUCCESS:
     case ADVERTS_TAGS_SUCCESS:
-      return { ...state, loading: false };
+      return { ...state, loading: false, messageSuccess: "" };
     case UI_RESET_ERROR:
       return {
         ...state,
         error: null,
+        messageSuccess: null,
       };
     default:
       return state;

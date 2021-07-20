@@ -1,11 +1,10 @@
 import T from "prop-types";
-import { Link } from "react-router-dom";
 import { ConfirmButton } from "../../shared";
 import { getIsLogged } from "../../../store/selectors";
 import { logoutAction } from "../../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 
-const AuthButton = ({ className }) => {
+const AuthButton = () => {
   const dispatch = useDispatch();
   const isLogged = useSelector(getIsLogged);
 
@@ -14,18 +13,18 @@ const AuthButton = ({ className }) => {
   };
 
   const props = isLogged
-    ? { onClick: handleLogoutClick, children: "Log out" }
+    ? { handleToDo: handleLogoutClick, children: "Log out" }
     : {
-        as: Link,
-        to: "/login",
+        toLogin: "/login",
         children: "Log in",
+        toSignup: "/signup",
+        signup: "Sign up",
       };
 
   return (
     <ConfirmButton
-      className={className}
+      classname="button is-danger is-rounded"
       messageConfirm={"Are you sure you want to log out?"}
-      handleToDo={handleLogoutClick}
       {...props}
     />
   );
