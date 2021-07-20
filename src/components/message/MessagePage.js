@@ -2,23 +2,27 @@ import { getUi } from "../../store/selectors";
 import { resetError } from "../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 
-const ErrorPage = () => {
-  const { messageSuccess } = useSelector(getUi);
+const MessagePage = () => {
+  const { error, messageSuccess } = useSelector(getUi);
   const dispatch = useDispatch();
-
+  console.log(error, messageSuccess);
   const handleResetError = () => {
     dispatch(resetError());
   };
   return (
-    messageSuccess && (
+    (error || messageSuccess) && (
       <div className="container mt-4">
-        <div className="notification is-primary">
+        <div
+          className={
+            error ? "notification is-danger" : "notification is-primary"
+          }
+        >
           <button className="delete" onClick={handleResetError}></button>
-          {messageSuccess}
+          {error ? error.errorCause : messageSuccess}
         </div>
       </div>
     )
   );
 };
 
-export default ErrorPage;
+export default MessagePage;

@@ -9,7 +9,7 @@ import {
   advertsDetailAction,
   advertsDeleteAction,
 } from "../../../store/actions";
-import ErrorPage from "../../error";
+import MessagePage from "../../message";
 import { useDispatch, useSelector } from "react-redux";
 
 const AdvertPage = ({ match, ...props }) => {
@@ -52,7 +52,7 @@ const AdvertPage = ({ match, ...props }) => {
           Delete
         </ConfirmButton>
       </div>
-      <ErrorPage />
+      <MessagePage />
     </Layout>
   );
 };

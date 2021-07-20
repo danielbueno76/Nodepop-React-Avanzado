@@ -1,7 +1,6 @@
 import React from "react";
 import LoginForm from "./LoginForm";
-import ErrorPage from "../../error";
-import SuccessPage from "../../success";
+import MessagePage from "../../message";
 import { loginAction } from "../../../store/actions";
 import { useDispatch } from "react-redux";
 import "./LoginPage.css";
@@ -15,10 +14,11 @@ function LoginPage() {
 
   return (
     <div className="loginPage">
-      <h1 className="loginPage-title">Log in to Nodepop</h1>
+      <h1 className="loginPage-title title">
+        Log in to Nodepop to access further features!
+      </h1>
       <LoginForm onSubmit={handleSubmit} />
-      <ErrorPage />
-      <SuccessPage />
+      <MessagePage />
     </div>
   );
 }

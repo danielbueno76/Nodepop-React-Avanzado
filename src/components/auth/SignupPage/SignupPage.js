@@ -1,6 +1,6 @@
 import React from "react";
 import SignupForm from "./SignupForm";
-import ErrorPage from "../../error";
+import MessagePage from "../../message";
 import { signupAction } from "../../../store/actions";
 import { useDispatch } from "react-redux";
 import "./SignupPage.css";
@@ -16,7 +16,7 @@ function SignupPage() {
     <div className="signupPage">
       <h1 className="signupPage-title">Sign up in to Nodepop</h1>
       <SignupForm onSubmit={handleSubmit} />
-      <ErrorPage />
+      <MessagePage />
     </div>
   );
 }

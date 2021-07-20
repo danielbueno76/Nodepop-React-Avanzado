@@ -5,7 +5,7 @@ import { Redirect } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { advertsCreateAction } from "../../../store/actions.js";
 import { getUi } from "../../../store/selectors";
-import ErrorPage from "../../error";
+import ErrorPage from "../../message";
 import { SELL } from "../../../utils/utils";
 
 const NewAdvertPage = (props) => {
@@ -27,7 +27,7 @@ const NewAdvertPage = (props) => {
   }
 
   return (
-    <Layout title="What do you want to bur or sell?" {...props}>
+    <Layout title="What do you want to buy or sell?" {...props}>
       <div className="container">
         <div className="columns">
           <div className="column is-two-thirds">
