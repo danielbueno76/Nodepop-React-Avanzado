@@ -8,7 +8,7 @@ const AdvertsList = ({ adverts }) => {
     <>
       {adverts.map((advert) => (
         <Link key={advert.id} to={`/advert/${advert.id}`}>
-          <Advert {...advert} />
+          <Advert key={advert.id} {...advert} />
         </Link>
       ))}
     </>

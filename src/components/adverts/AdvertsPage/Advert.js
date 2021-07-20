@@ -29,7 +29,6 @@ const Advert = ({ name, username, description, photo, sale, price }) => {
 };
 
 export const AdvertType = {
-  id: T.string.isRequired,
   createdAt: T.string.isRequired,
   name: T.string.isRequired,
   sale: T.bool.isRequired,

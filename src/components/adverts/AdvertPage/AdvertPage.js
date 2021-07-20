@@ -13,9 +13,9 @@ import MessagePage from "../../message";
 import { useDispatch, useSelector } from "react-redux";
 
 const AdvertPage = ({ match, ...props }) => {
-  const advert = useSelector((state) =>
-    getAdvertDetail(state, match.params.advertId)
-  );
+  const advert = useSelector((state) => {
+    return getAdvertDetail(state, match.params.advertId);
+  });
   const error = useSelector(getUi);
   const dispatch = useDispatch();
 
@@ -30,8 +30,9 @@ const AdvertPage = ({ match, ...props }) => {
   const handleDeleteAdvert = async () => {
     await dispatch(advertsDeleteAction(match.params.advertId));
   };
-
-  const { name, price, sale, tags, photo, createdAt } = { ...advert };
+  const { name, price, description, username, sale, tags, photo, createdAt } = {
+    ...advert,
+  };
   return (
     <Layout title="Advertisement Detail" {...props}>
       <div className="card">
@@ -39,13 +40,16 @@ const AdvertPage = ({ match, ...props }) => {
           <div className="content">
             <p>Title: {name}</p>
             <p>Price: {price}</p>
+            <p>Description: {description}</p>
             <p>{messageSale(sale)}</p>
+            <p>Owner: {username}</p>
             <p>Tags: {tags && tags.map((tag) => tag + ", ")}</p>
             <time dateTime={createdAt}>{createdAt}</time>
           </div>
         </div>
         <Photo src={photo} alt={name} />
         <ConfirmButton
+          classname="button is-danger is-rounded mt-2"
           messageConfirm={"Are you sure you want to delete the ad?"}
           handleToDo={handleDeleteAdvert}
         >

@@ -91,8 +91,8 @@ export function ui(state = initialState.ui, action) {
     case ADVERTS_DETAIL_REQUEST:
     case ADVERTS_DELETE_REQUEST:
     case ADVERTS_TAGS_REQUEST:
-      return { ...state, loading: true, error: null, messageSuccess: null };
     case AUTH_LOGIN_SUCCESS:
+      return { ...state, loading: true, error: null, messageSuccess: null };
     case AUTH_SIGNUP_SUCCESS:
       return {
         ...state,

@@ -17,9 +17,9 @@ function App() {
         <PrivateRoute exact path="/advert/new">
           <NewAdvertPage />
         </PrivateRoute>
-        <PrivateRoute path="/advert/:advertId">
+        <Route path="/advert/:advertId">
           {(routeProps) => <AdvertPage {...routeProps} />}
-        </PrivateRoute>
+        </Route>
         <Route path="/adverts">
           <AdvertsPage />
         </Route>

@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 const MessagePage = () => {
   const { error, messageSuccess } = useSelector(getUi);
   const dispatch = useDispatch();
-  console.log(error, messageSuccess);
   const handleResetError = () => {
     dispatch(resetError());
   };
