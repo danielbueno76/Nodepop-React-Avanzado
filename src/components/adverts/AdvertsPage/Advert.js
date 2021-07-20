@@ -1,6 +1,7 @@
 import React from "react";
 import T from "prop-types";
 import { messageSale } from "../../../utils/utils";
+import Photo from "../../shared/Photo";
 
 const styleArticle = {
   borderStyle: "solid",
@@ -10,18 +11,19 @@ const styleArticle = {
   marginTop: 20,
 };
 
-const Advert = ({ createdAt, name, sale, price, tags }) => {
+const Advert = ({ name, username, description, photo, sale, price }) => {
   return (
     <div style={styleArticle} className="card">
       <div className="card-content">
         <div className="content">
           <p>Title: {name}</p>
           <p>Price: {price}</p>
+          <p>Description: {description}</p>
           <p>{messageSale(sale)}</p>
-          <p>Tags: {tags.map((tag) => tag + ", ")}</p>
-          <time dateTime={createdAt}>{createdAt}</time>
+          <p>Owner: {username}</p>
         </div>
       </div>
+      <Photo src={photo} alt={name} />
     </div>
   );
 };
