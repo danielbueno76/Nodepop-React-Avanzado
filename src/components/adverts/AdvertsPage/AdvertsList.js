@@ -7,7 +7,7 @@ const AdvertsList = ({ adverts }) => {
   return (
     <>
       {adverts.map((advert) => (
-        <Link key={advert.id} to={`/advert/${advert.id}`}>
+        <Link key={advert.id} to={`/advert/${advert.id}#${advert.name}`}>
           <Advert key={advert.id} {...advert} />
         </Link>
       ))}
