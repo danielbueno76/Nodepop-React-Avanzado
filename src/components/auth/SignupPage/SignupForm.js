@@ -5,17 +5,25 @@ import FormButton from "../../shared/FormButton";
 import FormField from "../../shared/FormField";
 import Form from "../../shared/Form";
 
-function LoginForm({ onSubmit }) {
+function SignupForm({ onSubmit }) {
   return (
     <Form
-      className="loginForm"
+      className="signupForm"
       initialValue={{
         username: "",
+        email: "",
         password: "",
         remember: false,
       }}
       onSubmit={onSubmit}
     >
+      <FormField
+        className="label"
+        type="email"
+        name="email"
+        autofocus
+        autocomplete
+      />
       <FormField
         className="label"
         type="text"
@@ -24,21 +32,20 @@ function LoginForm({ onSubmit }) {
         autocomplete
       />
       <FormField className="label" type="password" name="password" />
-      <FormField className="checkbox" type="checkbox" name="remember" />
       <FormButton type="submit" variant="primary">
-        Log in
+        Sign up
       </FormButton>
     </Form>
   );
 }
 
-LoginForm.propTypes = {
+SignupForm.propTypes = {
   onSubmit: T.func.isRequired,
   isLoading: T.bool,
 };
 
-LoginForm.defaultProps = {
+SignupForm.defaultProps = {
   isLoading: false,
 };
 
-export default LoginForm;
+export default SignupForm;

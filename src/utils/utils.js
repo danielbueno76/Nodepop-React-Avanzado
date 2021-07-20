@@ -8,6 +8,7 @@ export const messageSale = (sale) => {
   return message;
 };
 
+const validUsername = ({ username }) => username;
 const validEmail = ({ email }) => email;
 const validPassword = ({ password }) => password;
 const validName = ({ name }) => name;
@@ -19,6 +20,9 @@ export const keyToObjectValidate = (formValue) => {
   const formFunction = [];
   for (let key in formValue) {
     switch (key) {
+      case "username":
+        formFunction.push(validUsername);
+        break;
       case "email":
         formFunction.push(validEmail);
         break;

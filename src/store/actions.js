@@ -4,6 +4,9 @@ import {
   AUTH_LOGIN_REQUEST,
   AUTH_LOGIN_SUCCESS,
   AUTH_LOGIN_FAILURE,
+  AUTH_SIGNUP_REQUEST,
+  AUTH_SIGNUP_SUCCESS,
+  AUTH_SIGNUP_FAILURE,
   AUTH_LOGOUT_REQUEST,
   AUTH_LOGOUT_FAILURE,
   AUTH_LOGOUT_SUCCESS,
@@ -56,6 +59,43 @@ export const loginAction = (credentials) => {
       history.replace(from);
     } catch (error) {
       dispatch(authLoginFailure(error));
+    }
+  };
+};
+
+export const authSignupRequest = () => {
+  return {
+    type: AUTH_SIGNUP_REQUEST,
+  };
+};
+
+export const authSignupSuccess = () => {
+  return {
+    type: AUTH_SIGNUP_SUCCESS,
+  };
+};
+
+export const authSignupFailure = (error) => {
+  return {
+    type: AUTH_SIGNUP_FAILURE,
+    payload: error,
+    error: true,
+  };
+};
+
+export const signupAction = (credentials) => {
+  return async function (dispatch, getState, { api, history }) {
+    dispatch(authSignupRequest());
+    try {
+      await api.auth.signup(credentials);
+      dispatch(authSignupSuccess());
+      // Redirect
+      const { from } = history.location.state || {
+        from: { pathname: "/login" },
+      };
+      history.replace(from);
+    } catch (error) {
+      dispatch(authSignupFailure(error));
     }
   };
 };

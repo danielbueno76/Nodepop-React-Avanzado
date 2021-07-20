@@ -5,6 +5,7 @@ import { Redirect } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { advertsCreateAction } from "../../../store/actions.js";
 import { getUi } from "../../../store/selectors";
+import ErrorPage from "../../error";
 import { SELL } from "../../../utils/utils";
 
 const NewAdvertPage = (props) => {
@@ -34,6 +35,7 @@ const NewAdvertPage = (props) => {
           </div>
         </div>
       </div>
+      <ErrorPage />
     </Layout>
   );
 };

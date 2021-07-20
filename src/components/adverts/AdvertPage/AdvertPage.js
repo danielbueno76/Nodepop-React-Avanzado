@@ -9,6 +9,7 @@ import {
   advertsDetailAction,
   advertsDeleteAction,
 } from "../../../store/actions";
+import ErrorPage from "../../error";
 import { useDispatch, useSelector } from "react-redux";
 
 const AdvertPage = ({ match, ...props }) => {
@@ -30,7 +31,7 @@ const AdvertPage = ({ match, ...props }) => {
     await dispatch(advertsDeleteAction(match.params.advertId));
   };
 
-  const { name, price, sale, tags, photo, createdAt } = advert ? advert : {};
+  const { name, price, sale, tags, photo, createdAt } = { ...advert };
   return (
     <Layout title="Advertisement Detail" {...props}>
       <div className="card">
@@ -51,6 +52,7 @@ const AdvertPage = ({ match, ...props }) => {
           Delete
         </ConfirmButton>
       </div>
+      <ErrorPage />
     </Layout>
   );
 };

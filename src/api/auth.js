@@ -10,6 +10,10 @@ export const login = ({ remember, ...credentials }) => {
   });
 };
 
+export const signup = (credentials) => {
+  return client.post("/api/auth/signup", credentials);
+};
+
 export const logout = () => {
   return Promise.resolve().then(() => {
     resetClient();
