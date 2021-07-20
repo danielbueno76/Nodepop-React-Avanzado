@@ -19,9 +19,8 @@ const EmptyList = () => (
   </div>
 );
 
-let query = `?limit=${LIMIT_NUMBER_ADS}&`;
-
 const AdvertsPage = ({ className, ...props }) => {
+  let query = `?limit=${LIMIT_NUMBER_ADS}&sort=createdAt&sort=desc&`;
   const adverts = useSelector(getAdverts);
   const dispatch = useDispatch();
 
@@ -44,7 +43,7 @@ const AdvertsPage = ({ className, ...props }) => {
         queryArray.push(`${key}=${advertFilter[key]}`);
       }
     }
-    query = `${queryArray.join("&")}`;
+    query += `${queryArray.join("&")}`;
     storage.set("filter", query);
     dispatch(advertsLoadAction(query, true));
   };

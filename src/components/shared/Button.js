@@ -1,6 +1,8 @@
-const Button = ({ children }) => {
+const Button = ({ children, ...props }) => {
   return (
-    <button className="button is-danger is-rounded m-4 p-4">{children}</button>
+    <button className="button is-danger is-rounded m-4 p-4" {...props}>
+      {children}
+    </button>
   );
 };
 
