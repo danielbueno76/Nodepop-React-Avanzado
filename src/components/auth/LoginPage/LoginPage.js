@@ -1,9 +1,9 @@
 import React from "react";
 import LoginForm from "./LoginForm";
-import MessagePage from "../../message";
+import ErrorPage from "../../message/ErrorPage";
 import { loginAction } from "../../../store/actions";
 import { useDispatch } from "react-redux";
-import "./LoginPage.css";
+import "../../../styles/GeneralPage.css";
 
 function LoginPage() {
   const dispatch = useDispatch();
@@ -13,12 +13,12 @@ function LoginPage() {
   };
 
   return (
-    <div className="loginPage">
-      <h1 className="loginPage-title title">
+    <div className="generalPage">
+      <h1 className="generalPage-title title">
         Log in to Nodepop to access further features!
       </h1>
       <LoginForm onSubmit={handleSubmit} />
-      <MessagePage />
+      <ErrorPage />
     </div>
   );
 }

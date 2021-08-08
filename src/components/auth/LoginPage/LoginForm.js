@@ -1,9 +1,8 @@
 import React from "react";
 import T from "prop-types";
+import { Link } from "react-router-dom";
 
-import FormButton from "../../shared/FormButton";
-import FormField from "../../shared/FormField";
-import Form from "../../shared/Form";
+import { FormButton, FormField, Form } from "../../shared";
 
 function LoginForm({ onSubmit }) {
   return (
@@ -25,9 +24,13 @@ function LoginForm({ onSubmit }) {
       />
       <FormField className="label" type="password" name="password" />
       <FormField className="checkbox" type="checkbox" name="remember" />
+
       <FormButton type="submit" variant="primary">
         Log in
       </FormButton>
+      <Link to="/resetPasswordSendEmail" variant="primary">
+        Reset Password
+      </Link>
     </Form>
   );
 }

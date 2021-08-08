@@ -3,6 +3,8 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import { LoginPage, SignupPage, PrivateRoute } from "./components/auth";
 import { AdvertsPage, AdvertPage, NewAdvertPage } from "./components/adverts";
 import { NotFoundPage } from "./components/notFound";
+import { ResetPasswordPage } from "./components/resetPassword";
+import { ResetPasswordEmailPage } from "./components/resetPasswordEmail";
 
 function App() {
   return (
@@ -13,6 +15,12 @@ function App() {
         </Route>
         <Route path="/signup">
           <SignupPage />
+        </Route>
+        <Route path="/resetPasswordSendEmail">
+          <ResetPasswordEmailPage />
+        </Route>
+        <Route path="/resetPassword">
+          <ResetPasswordPage />
         </Route>
         <PrivateRoute exact path="/advert/new">
           <NewAdvertPage />

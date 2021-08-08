@@ -5,6 +5,10 @@ import {
   AUTH_SIGNUP_SUCCESS,
   AUTH_LOGOUT_REQUEST,
   AUTH_LOGOUT_SUCCESS,
+  RESET_PASSWORD_REQUEST,
+  RESET_PASSWORD_SUCCESS,
+  SEND_EMAIL_REQUEST,
+  SEND_EMAIL_SUCCESS,
   ADVERTS_CREATED_REQUEST,
   ADVERTS_CREATED_SUCCESS,
   ADVERTS_DETAIL_REQUEST,
@@ -91,21 +95,55 @@ export function ui(state = initialState.ui, action) {
     case ADVERTS_DETAIL_REQUEST:
     case ADVERTS_DELETE_REQUEST:
     case ADVERTS_TAGS_REQUEST:
-    case AUTH_LOGIN_SUCCESS:
+    case RESET_PASSWORD_REQUEST:
+    case SEND_EMAIL_REQUEST:
       return { ...state, loading: true, error: null, messageSuccess: null };
+    case AUTH_LOGOUT_SUCCESS:
+    case ADVERTS_DETAIL_SUCCESS:
+    case ADVERTS_LOADED_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        messageSuccess: "",
+      };
     case AUTH_SIGNUP_SUCCESS:
       return {
         ...state,
         loading: false,
         messageSuccess: "You have just registered correctly!",
       };
-    case AUTH_LOGOUT_SUCCESS:
-    case ADVERTS_LOADED_SUCCESS:
+    case RESET_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        messageSuccess: "You have just reset your password correctly!",
+      };
+    case SEND_EMAIL_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        messageSuccess: "Email sent it correctly! Check your email, please",
+      };
+    case AUTH_LOGIN_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        messageSuccess: "Login successfully!",
+      };
     case ADVERTS_CREATED_SUCCESS:
-    case ADVERTS_DETAIL_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        messageSuccess: "Advert created successfully!",
+      };
     case ADVERTS_DELETE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        messageSuccess: "Advert deleted successfully!",
+      };
     case ADVERTS_TAGS_SUCCESS:
-      return { ...state, loading: false, messageSuccess: "" };
+      return { ...state, loading: false };
     case UI_RESET_ERROR:
       return {
         ...state,

@@ -5,7 +5,7 @@ import { configureClient } from "./api/client";
 import Root from "./Root";
 import { createBrowserHistory } from "history";
 import configureStore from "./store";
-import "./index.css";
+import "./styles/index.css";
 import "bulma/css/bulma.min.css";
 
 const accessToken = storage.get("auth");

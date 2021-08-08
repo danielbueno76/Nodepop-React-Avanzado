@@ -9,6 +9,7 @@ import { getAdverts } from "../../../store/selectors";
 import { advertsLoadAction } from "../../../store/actions";
 import storage from "../../../utils/storage";
 import { SELL, LIMIT_NUMBER_ADS } from "../../../utils/utils";
+import MessagePage from "../../message";
 
 const EmptyList = () => (
   <div style={{ textAlign: "center" }}>
@@ -50,6 +51,7 @@ const AdvertsPage = ({ className, ...props }) => {
 
   return (
     <Layout title="List of advertisements" {...props}>
+      <MessagePage />
       <div className={className}>
         <AdvertsFormFilter
           onSubmit={handleSubmit}

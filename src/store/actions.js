@@ -10,6 +10,12 @@ import {
   AUTH_LOGOUT_REQUEST,
   AUTH_LOGOUT_FAILURE,
   AUTH_LOGOUT_SUCCESS,
+  SEND_EMAIL_REQUEST,
+  SEND_EMAIL_SUCCESS,
+  SEND_EMAIL_FAILURE,
+  RESET_PASSWORD_REQUEST,
+  RESET_PASSWORD_SUCCESS,
+  RESET_PASSWORD_FAILURE,
   ADVERTS_CREATED_REQUEST,
   ADVERTS_CREATED_SUCCESS,
   ADVERTS_CREATED_FAILURE,
@@ -91,7 +97,7 @@ export const signupAction = (credentials) => {
       dispatch(authSignupSuccess());
       // Redirect
       const { from } = history.location.state || {
-        from: { pathname: "/login" },
+        from: { pathname: "/" },
       };
       history.replace(from);
     } catch (error) {
@@ -131,6 +137,76 @@ export const logoutAction = (credentials) => {
       history.replace(from);
     } catch (error) {
       dispatch(authLogoutFailure(error));
+    }
+  };
+};
+
+export const sendEmailRequest = () => {
+  return {
+    type: SEND_EMAIL_REQUEST,
+  };
+};
+
+export const sendEmailSuccess = () => {
+  return {
+    type: SEND_EMAIL_SUCCESS,
+  };
+};
+
+export const sendEmailFailure = (error) => {
+  return {
+    type: SEND_EMAIL_FAILURE,
+    payload: error,
+    error: true,
+  };
+};
+
+export const sendEmailAction = (email) => {
+  return async function (dispatch, getState, { api, history }) {
+    dispatch(sendEmailRequest());
+    try {
+      await api.others.resetPasswordSendEmail(email);
+      dispatch(sendEmailSuccess());
+      // Redirect
+      const { from } = history.location.state || { from: { pathname: "/" } };
+      history.replace(from);
+    } catch (error) {
+      dispatch(sendEmailFailure(error));
+    }
+  };
+};
+
+export const resetPasswordRequest = () => {
+  return {
+    type: RESET_PASSWORD_REQUEST,
+  };
+};
+
+export const resetPasswordSuccess = () => {
+  return {
+    type: RESET_PASSWORD_SUCCESS,
+  };
+};
+
+export const resetPasswordFailure = (error) => {
+  return {
+    type: RESET_PASSWORD_FAILURE,
+    payload: error,
+    error: true,
+  };
+};
+
+export const resetPasswordAction = (token, password) => {
+  return async function (dispatch, getState, { api, history }) {
+    dispatch(resetPasswordRequest());
+    try {
+      await api.auth.modifyUserPassword(token, password);
+      dispatch(resetPasswordSuccess());
+      // Redirect
+      const { from } = history.location.state || { from: { pathname: "/" } };
+      history.replace(from);
+    } catch (error) {
+      dispatch(resetPasswordFailure(error));
     }
   };
 };
