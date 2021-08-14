@@ -9,12 +9,14 @@ const NewAdvertForm = ({ onSubmit }) => {
       initialValue={{
         name: "",
         price: "",
+        description: "",
         sale: null,
         tags: [],
       }}
       onSubmit={onSubmit}
     >
       <FormField type="text" name="name" autofocus />
+      <FormField type="textarea" name="description" />
       <FormField type="number" name="price" />
       <Radio name="sale" arrayValues={[BUY, SELL]} />
       <SelectTags />

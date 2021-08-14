@@ -7,9 +7,32 @@ export const messageSale = (sale) => {
   }
   return message;
 };
+
+export const stepByDecimals = (num) => {
+  switch (num) {
+    case 1:
+      return 0.1;
+    case 2:
+      return 0.01;
+    case 3:
+      return 0.001;
+    case 4:
+      return 0.0001;
+    case 5:
+      return 0.00001;
+    case 6:
+      return 0.000001;
+    case 7:
+      return 0.0000001;
+    default:
+      return 1;
+  }
+};
+
 export const LIMIT_NUMBER_ADS = 5;
 
 const validUsername = ({ username }) => username;
+const validDescription = ({ description }) => description;
 const validEmail = ({ email }) => email;
 const validPassword = ({ password }) => password;
 const validName = ({ name }) => name;
@@ -23,6 +46,9 @@ export const keyToObjectValidate = (formValue) => {
     switch (key) {
       case "username":
         formFunction.push(validUsername);
+        break;
+      case "description":
+        formFunction.push(validDescription);
         break;
       case "email":
         formFunction.push(validEmail);

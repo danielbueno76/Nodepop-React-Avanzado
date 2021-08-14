@@ -3,7 +3,8 @@ import { Link, NavLink } from "react-router-dom";
 import AuthButton from "../auth/AuthButton";
 import "../../styles/Header.css";
 
-const Header = ({ ...props }) => {
+const Header = ({ notButtons, ...props }) => {
+  console.log(notButtons);
   return (
     <nav className="navbar" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
@@ -20,10 +21,16 @@ const Header = ({ ...props }) => {
       <div className="navbar-end">
         <div className="navbar-item">
           <div className="buttons">
-            <Link to="/advert/new" className="button is-danger is-rounded">
-              Create ad
-            </Link>
-            <AuthButton />
+            {notButtons ? (
+              <React.Fragment />
+            ) : (
+              <React.Fragment>
+                <Link to="/advert/new" className="button is-danger is-rounded">
+                  Create ad
+                </Link>
+                <AuthButton />
+              </React.Fragment>
+            )}
           </div>
         </div>
       </div>
