@@ -61,7 +61,6 @@ export const loginAction = (credentials) => {
       await api.auth.login(credentials);
       dispatch(authLoginSuccess());
       // Redirect
-      console.log(history.location);
       const { from } = history.location.state || { from: { pathname: "/" } };
       history.replace(from);
     } catch (error) {

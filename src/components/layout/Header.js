@@ -4,7 +4,6 @@ import AuthButton from "../auth/AuthButton";
 import "../../styles/Header.css";
 
 const Header = ({ notButtons, ...props }) => {
-  console.log(notButtons);
   return (
     <nav className="navbar" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
