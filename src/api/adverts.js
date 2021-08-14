@@ -7,6 +7,11 @@ export const getLatestAdverts = (query = "") => {
   return client.get(url);
 };
 
+export const getNumberAdverts = () => {
+  const url = `${advertsBaseUrl}/adverts/number`;
+  return client.get(url);
+};
+
 export const getAdvertsTags = () => {
   const url = `${advertsBaseUrl}/adverts/tags`;
   return client.get(url);

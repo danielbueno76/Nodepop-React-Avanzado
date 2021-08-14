@@ -19,6 +19,10 @@ import {
   ADVERTS_DELETE_SUCCESS,
   ADVERTS_TAGS_REQUEST,
   ADVERTS_TAGS_SUCCESS,
+  ADVERTS_NUMBER_REQUEST,
+  ADVERTS_NUMBER_SUCCESS,
+  CHANGE_PAGE_REQUEST,
+  CHANGE_PAGE_SUCCESS,
   UI_RESET_ERROR,
 } from "./types";
 
@@ -27,10 +31,15 @@ export const initialState = {
   adverts: {
     loaded: false,
     data: [],
+    numberTotalAds: 0,
   },
   tags: {
     loaded: false,
     data: [],
+  },
+  page: {
+    loaded: false,
+    data: 1,
   },
   ui: {
     loading: false,
@@ -63,6 +72,8 @@ export function adverts(state = initialState.adverts, action) {
         loaded: false,
         data: [...state.data.filter((advert) => advert.id !== action.payload)],
       };
+    case ADVERTS_NUMBER_SUCCESS:
+      return { ...state, loaded: true, numberTotalAds: action.payload };
     default:
       return state;
   }
@@ -71,6 +82,15 @@ export function adverts(state = initialState.adverts, action) {
 export function tags(state = initialState.tags, action) {
   switch (action.type) {
     case ADVERTS_TAGS_SUCCESS:
+      return { ...state, loaded: true, data: action.payload };
+    default:
+      return state;
+  }
+}
+
+export function page(state = initialState.page, action) {
+  switch (action.type) {
+    case CHANGE_PAGE_SUCCESS:
       return { ...state, loaded: true, data: action.payload };
     default:
       return state;
@@ -95,8 +115,10 @@ export function ui(state = initialState.ui, action) {
     case ADVERTS_DETAIL_REQUEST:
     case ADVERTS_DELETE_REQUEST:
     case ADVERTS_TAGS_REQUEST:
+    case ADVERTS_NUMBER_REQUEST:
     case RESET_PASSWORD_REQUEST:
     case SEND_EMAIL_REQUEST:
+    case CHANGE_PAGE_REQUEST:
       return { ...state, loading: true, error: null, messageSuccess: null };
     case AUTH_LOGOUT_SUCCESS:
     case ADVERTS_DETAIL_SUCCESS:
@@ -143,6 +165,8 @@ export function ui(state = initialState.ui, action) {
         messageSuccess: "Advert deleted successfully!",
       };
     case ADVERTS_TAGS_SUCCESS:
+    case ADVERTS_NUMBER_SUCCESS:
+    case CHANGE_PAGE_SUCCESS:
       return { ...state, loading: false };
     case UI_RESET_ERROR:
       return {

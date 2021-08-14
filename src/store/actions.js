@@ -1,4 +1,9 @@
-import { getAdvertDetail, getAdvertsLoaded, getTagsLoaded } from "./selectors";
+import {
+  getAdvertDetail,
+  getAdvertsLoaded,
+  getTagsLoaded,
+  getNumberTotalAdverts,
+} from "./selectors";
 
 import {
   AUTH_LOGIN_REQUEST,
@@ -31,6 +36,12 @@ import {
   ADVERTS_TAGS_REQUEST,
   ADVERTS_TAGS_SUCCESS,
   ADVERTS_TAGS_FAILURE,
+  ADVERTS_NUMBER_FAILURE,
+  ADVERTS_NUMBER_REQUEST,
+  ADVERTS_NUMBER_SUCCESS,
+  CHANGE_PAGE_REQUEST,
+  CHANGE_PAGE_SUCCESS,
+  CHANGE_PAGE_FAILURE,
   UI_RESET_ERROR,
 } from "./types";
 
@@ -389,6 +400,71 @@ export const advertsTagsAction = () => {
       dispatch(advertsTagsSuccess(tags));
     } catch (error) {
       dispatch(advertsTagsFailure(error));
+    }
+  };
+};
+
+export const advertsNumberRequest = () => {
+  return {
+    type: ADVERTS_NUMBER_REQUEST,
+  };
+};
+
+export const advertsNumberSuccess = (numberAds) => {
+  return {
+    type: ADVERTS_NUMBER_SUCCESS,
+    payload: numberAds,
+  };
+};
+
+export const advertsNumberFailure = (error) => {
+  return {
+    type: ADVERTS_NUMBER_FAILURE,
+    payload: error,
+    error: true,
+  };
+};
+
+export const advertsNumberAction = () => {
+  return async function (dispatch, getState, { api }) {
+    dispatch(advertsNumberRequest());
+    try {
+      const { number } = await api.adverts.getNumberAdverts();
+      dispatch(advertsNumberSuccess(number));
+    } catch (error) {
+      dispatch(advertsNumberFailure(error));
+    }
+  };
+};
+
+export const changePageRequest = () => {
+  return {
+    type: CHANGE_PAGE_REQUEST,
+  };
+};
+
+export const changePageSuccess = (page) => {
+  return {
+    type: CHANGE_PAGE_SUCCESS,
+    payload: page,
+  };
+};
+
+export const changePageFailure = (error) => {
+  return {
+    type: CHANGE_PAGE_FAILURE,
+    payload: error,
+    error: true,
+  };
+};
+
+export const changePageAction = (page) => {
+  return async function (dispatch, getState, { api }) {
+    dispatch(changePageRequest());
+    try {
+      dispatch(changePageSuccess(page));
+    } catch (error) {
+      dispatch(changePageFailure(error));
     }
   };
 };

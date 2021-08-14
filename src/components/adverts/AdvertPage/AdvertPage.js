@@ -8,6 +8,7 @@ import { getUi, getAdvertDetail } from "../../../store/selectors";
 import {
   advertsDetailAction,
   advertsDeleteAction,
+  advertsNumberAction,
 } from "../../../store/actions";
 import MessagePage from "../../message";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,7 +17,7 @@ const AdvertPage = ({ match, ...props }) => {
   const advert = useSelector((state) => {
     return getAdvertDetail(state, match.params.advertId);
   });
-  const error = useSelector(getUi);
+  const { error } = useSelector(getUi);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -27,8 +28,8 @@ const AdvertPage = ({ match, ...props }) => {
     return <Redirect to="/404" />;
   }
 
-  const handleDeleteAdvert = async () => {
-    await dispatch(advertsDeleteAction(match.params.advertId));
+  const handleDeleteAdvert = () => {
+    dispatch(advertsDeleteAction(match.params.advertId));
   };
   const { name, price, description, username, sale, tags, photo, createdAt } = {
     ...advert,
