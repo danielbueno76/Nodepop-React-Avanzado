@@ -8,7 +8,6 @@ import { getUi, getAdvertDetail } from "../../../store/selectors";
 import {
   advertsDetailAction,
   advertsDeleteAction,
-  advertsNumberAction,
 } from "../../../store/actions";
 import MessagePage from "../../message";
 import { useDispatch, useSelector } from "react-redux";

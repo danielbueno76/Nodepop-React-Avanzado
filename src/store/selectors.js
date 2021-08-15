@@ -1,8 +1,16 @@
 export const getIsLogged = (state) => state.auth;
 
-export const getAdverts = (state) => state.adverts.data;
+export const getAdverts = (state, { limit }) => {
+  const adverts = state.adverts.data;
+  if (limit) {
+    const page = (state.page.data - 1) * limit;
+    return adverts.slice(page, page + limit);
+  }
 
-export const getNumberTotalAdverts = (state) => state.adverts.numberTotalAds;
+  return adverts;
+};
+
+export const getNumberTotalAdverts = (state) => state.adverts.data.length;
 
 export const getAdvertsLoaded = (state) => state.adverts.loaded;
 

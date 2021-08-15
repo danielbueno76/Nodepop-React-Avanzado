@@ -10,11 +10,7 @@ import {
   getNumberTotalAdverts,
   getPage,
 } from "../../../store/selectors";
-import {
-  advertsLoadAction,
-  advertsNumberAction,
-  changePageAction,
-} from "../../../store/actions";
+import { advertsLoadAction, changePageAction } from "../../../store/actions";
 import storage from "../../../utils/storage";
 import { SELL, LIMIT_NUMBER_ADS } from "../../../utils/utils";
 import MessagePage from "../../message";
@@ -30,8 +26,13 @@ const EmptyList = () => (
 );
 
 const AdvertsPage = ({ className, ...props }) => {
-  let query = `?limit=${LIMIT_NUMBER_ADS}&sort=createdAt&sort=desc&`;
-  const adverts = useSelector(getAdverts);
+  let query = `?sort=createdAt&sort=desc&`;
+  const adverts = useSelector((state) =>
+    getAdverts(state, { limit: LIMIT_NUMBER_ADS })
+  );
+  const totalAdverts = useSelector((state) =>
+    getAdverts(state, { limit: null })
+  );
   const numberTotalAdverts = useSelector(getNumberTotalAdverts);
   const page = useSelector(getPage);
   const dispatch = useDispatch();
@@ -44,12 +45,10 @@ const AdvertsPage = ({ className, ...props }) => {
   React.useEffect(() => {
     const filter = storage.get("filter");
     dispatch(advertsLoadAction(filter ? filter : query));
-    dispatch(advertsNumberAction());
   });
 
   const handleSubmit = (advertFilter) => {
     const queryArray = [];
-
     if (advertFilter["sale"]) {
       advertFilter["sale"] = advertFilter["sale"] === SELL; // convert to boolean
     }
@@ -57,7 +56,7 @@ const AdvertsPage = ({ className, ...props }) => {
     for (const key in advertFilter) {
       if (Array.isArray(advertFilter[key])) {
         advertFilter[key].forEach((elem) => queryArray.push(`${key}=${elem}`));
-      } else {
+      } else if (advertFilter[key]) {
         queryArray.push(`${key}=${advertFilter[key]}`);
       }
     }
@@ -72,7 +71,7 @@ const AdvertsPage = ({ className, ...props }) => {
       <div className={className}>
         <AdvertsFormFilter
           onSubmit={handleSubmit}
-          prices={adverts.map(({ price }) => price)}
+          prices={totalAdverts.map(({ price }) => price)}
         />
         {adverts.length ? <AdvertsList adverts={adverts} /> : <EmptyList />}
       </div>

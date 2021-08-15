@@ -19,8 +19,6 @@ import {
   ADVERTS_DELETE_SUCCESS,
   ADVERTS_TAGS_REQUEST,
   ADVERTS_TAGS_SUCCESS,
-  ADVERTS_NUMBER_REQUEST,
-  ADVERTS_NUMBER_SUCCESS,
   CHANGE_PAGE_REQUEST,
   CHANGE_PAGE_SUCCESS,
   UI_RESET_ERROR,
@@ -31,7 +29,6 @@ export const initialState = {
   adverts: {
     loaded: false,
     data: [],
-    numberTotalAds: 0,
   },
   tags: {
     loaded: false,
@@ -72,8 +69,6 @@ export function adverts(state = initialState.adverts, action) {
         loaded: false,
         data: [...state.data.filter((advert) => advert.id !== action.payload)],
       };
-    case ADVERTS_NUMBER_SUCCESS:
-      return { ...state, loaded: true, numberTotalAds: action.payload };
     default:
       return state;
   }
@@ -115,7 +110,6 @@ export function ui(state = initialState.ui, action) {
     case ADVERTS_DETAIL_REQUEST:
     case ADVERTS_DELETE_REQUEST:
     case ADVERTS_TAGS_REQUEST:
-    case ADVERTS_NUMBER_REQUEST:
     case RESET_PASSWORD_REQUEST:
     case SEND_EMAIL_REQUEST:
     case CHANGE_PAGE_REQUEST:
@@ -165,7 +159,6 @@ export function ui(state = initialState.ui, action) {
         messageSuccess: "Advert deleted successfully!",
       };
     case ADVERTS_TAGS_SUCCESS:
-    case ADVERTS_NUMBER_SUCCESS:
     case CHANGE_PAGE_SUCCESS:
       return { ...state, loading: false };
     case UI_RESET_ERROR:

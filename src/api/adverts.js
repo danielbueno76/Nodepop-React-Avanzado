@@ -7,8 +7,8 @@ export const getLatestAdverts = (query = "") => {
   return client.get(url);
 };
 
-export const getNumberAdverts = () => {
-  const url = `${advertsBaseUrl}/adverts/number`;
+export const getNumberAdverts = (query = "") => {
+  const url = `${advertsBaseUrl}/adverts/number${query}`;
   return client.get(url);
 };
 

@@ -21,7 +21,6 @@ Number.prototype.countDecimals = function () {
 const AdvertsFormFilter = ({ onSubmit, prices }) => {
   const min = prices.length ? Math.min(...prices) : 0;
   const max = prices.length ? Math.max(...prices) : 0;
-
   return (
     <div className="box">
       <Form
