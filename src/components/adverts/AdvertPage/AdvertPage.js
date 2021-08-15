@@ -11,6 +11,12 @@ import {
 } from "../../../store/actions";
 import MessagePage from "../../message";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  TwitterShareButton,
+  TwitterIcon,
+} from "react-share";
 
 const AdvertPage = ({ match, ...props }) => {
   const advert = useSelector((state) => {
@@ -33,6 +39,7 @@ const AdvertPage = ({ match, ...props }) => {
   const { name, price, description, username, sale, tags, photo, createdAt } = {
     ...advert,
   };
+
   return (
     <Layout title="Advertisement Detail" {...props}>
       <div className="card">
@@ -46,6 +53,24 @@ const AdvertPage = ({ match, ...props }) => {
             <p>Tags: {tags && tags.map((tag) => tag + ", ")}</p>
             <time dateTime={createdAt}>{createdAt}</time>
           </div>
+        </div>
+        <div className="box content">
+          <TwitterShareButton
+            url={window.location.href}
+            title={`I have found this ${name} in `}
+          >
+            <TwitterIcon size={40} round className="pl-2" />
+            Share on Twitter
+          </TwitterShareButton>
+        </div>
+        <div className="box content">
+          <FacebookShareButton
+            url={window.location.href}
+            title={`I have found this ${name} in `}
+          >
+            <FacebookIcon size={40} round className="pl-2" />
+            Share on Facebook
+          </FacebookShareButton>
         </div>
         <Photo src={photo} alt={name} />
         <ConfirmButton
