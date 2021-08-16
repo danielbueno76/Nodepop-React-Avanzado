@@ -244,6 +244,7 @@ export const advertsLoadAction = (query, forceToApi = false) => {
     if (!forceToApi && advertsLoaded) {
       return;
     }
+
     dispatch(advertsLoadedRequest());
     try {
       const adverts = await api.adverts.getLatestAdverts(query);

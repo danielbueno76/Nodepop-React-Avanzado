@@ -37,7 +37,11 @@ const AdvertsPage = ({ className, ...props }) => {
   const totalAdverts = useSelector((state) =>
     getAdverts(state, { limit: null })
   );
-  const numberTotalAdverts = useSelector(getNumberTotalAdverts);
+  const numberTotalAdverts = useSelector((state) =>
+    getNumberTotalAdverts(state, {
+      username: null,
+    })
+  );
   const page = useSelector(getPage);
   const dispatch = useDispatch();
 
@@ -90,11 +94,15 @@ const AdvertsPage = ({ className, ...props }) => {
           onSubmit={handleSubmit}
           prices={totalAdverts.map(({ price }) => price)}
         />
-        <Switch
-          firstChildren={DESC}
-          secondChildren={ASC}
-          handleChange={handleSwitchOrder}
-        />
+        {adverts.length ? (
+          <Switch
+            firstChildren={DESC}
+            secondChildren={ASC}
+            handleChange={handleSwitchOrder}
+          />
+        ) : (
+          <React.Fragment />
+        )}
         {adverts.length ? <AdvertsList adverts={adverts} /> : <EmptyList />}
       </div>
 

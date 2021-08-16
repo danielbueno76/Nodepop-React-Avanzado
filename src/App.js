@@ -5,6 +5,7 @@ import { AdvertsPage, AdvertPage, NewAdvertPage } from "./components/adverts";
 import { NotFoundPage } from "./components/notFound";
 import { ResetPasswordPage } from "./components/resetPassword";
 import { ResetPasswordEmailPage } from "./components/resetPasswordEmail";
+import { UserPage } from "./components/users/";
 
 function App() {
   return (
@@ -30,6 +31,9 @@ function App() {
         </Route>
         <Route path="/adverts">
           <AdvertsPage />
+        </Route>
+        <Route path="/user/:username">
+          {(routeProps) => <UserPage {...routeProps} />}
         </Route>
         <Route exact path="/">
           <Redirect to="/adverts" />

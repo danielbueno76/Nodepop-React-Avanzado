@@ -1,7 +1,12 @@
 export const getIsLogged = (state) => state.auth;
 
-export const getAdverts = (state, { limit }) => {
-  const adverts = state.adverts.data;
+export const getAdverts = (state, { limit, username }) => {
+  let adverts = state.adverts.data;
+
+  if (username) {
+    adverts = adverts.filter((ad) => ad.username === username);
+  }
+
   if (limit) {
     const page = (state.page.data - 1) * limit;
     return adverts.slice(page, page + limit);
@@ -10,7 +15,15 @@ export const getAdverts = (state, { limit }) => {
   return adverts;
 };
 
-export const getNumberTotalAdverts = (state) => state.adverts.data.length;
+export const getNumberTotalAdverts = (state, { username }) => {
+  let adverts = state.adverts.data;
+
+  if (username) {
+    adverts = adverts.filter((ad) => ad.username === username);
+  }
+
+  return adverts.length;
+};
 
 export const getAdvertsLoaded = (state) => state.adverts.loaded;
 

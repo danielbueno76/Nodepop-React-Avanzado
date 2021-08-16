@@ -17,6 +17,7 @@ import {
   TwitterShareButton,
   TwitterIcon,
 } from "react-share";
+import { Link } from "react-router-dom";
 
 const AdvertPage = ({ match, ...props }) => {
   const advert = useSelector((state) => {
@@ -49,7 +50,9 @@ const AdvertPage = ({ match, ...props }) => {
             <p>Price: {price}</p>
             <p>Description: {description}</p>
             <p>{messageSale(sale)}</p>
-            <p>Owner: {username}</p>
+            <Link to={`/user/${username}`} className="button is-link">
+              {`Owner: ${username} -> Click and visit more ads of this user!`}
+            </Link>
             <p>Tags: {tags && tags.map((tag) => tag + ", ")}</p>
             <time dateTime={createdAt}>{createdAt}</time>
           </div>
