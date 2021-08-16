@@ -34,6 +34,9 @@ import {
   CHANGE_PAGE_REQUEST,
   CHANGE_PAGE_SUCCESS,
   CHANGE_PAGE_FAILURE,
+  ADVERTS_ORDER_FAILURE,
+  ADVERTS_ORDER_REQUEST,
+  ADVERTS_ORDER_SUCCESS,
   UI_RESET_ERROR,
 } from "./types";
 
@@ -247,6 +250,38 @@ export const advertsLoadAction = (query, forceToApi = false) => {
       dispatch(advertsLoadedSuccess(adverts));
     } catch (error) {
       dispatch(advertsLoadedFailure(error));
+    }
+  };
+};
+
+export const advertsOrderRequest = () => {
+  return {
+    type: ADVERTS_ORDER_REQUEST,
+  };
+};
+
+export const advertsOrderSuccess = (order) => {
+  return {
+    type: ADVERTS_ORDER_SUCCESS,
+    payload: order,
+  };
+};
+
+export const advertsOrderFailure = (error) => {
+  return {
+    type: ADVERTS_ORDER_FAILURE,
+    payload: error,
+    error: true,
+  };
+};
+
+export const advertsOrderAction = (order) => {
+  return async function (dispatch, getState, { api }) {
+    dispatch(advertsOrderRequest());
+    try {
+      dispatch(advertsOrderSuccess(order));
+    } catch (error) {
+      dispatch(advertsOrderFailure(error));
     }
   };
 };

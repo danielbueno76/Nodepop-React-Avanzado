@@ -1,3 +1,4 @@
+import { DESC } from "../utils/utils";
 import {
   AUTH_LOGIN_REQUEST,
   AUTH_LOGIN_SUCCESS,
@@ -15,6 +16,8 @@ import {
   ADVERTS_DETAIL_SUCCESS,
   ADVERTS_LOADED_REQUEST,
   ADVERTS_LOADED_SUCCESS,
+  ADVERTS_ORDER_REQUEST,
+  ADVERTS_ORDER_SUCCESS,
   ADVERTS_DELETE_REQUEST,
   ADVERTS_DELETE_SUCCESS,
   ADVERTS_TAGS_REQUEST,
@@ -28,6 +31,7 @@ export const initialState = {
   auth: false,
   adverts: {
     loaded: false,
+    order: DESC,
     data: [],
   },
   tags: {
@@ -60,6 +64,8 @@ export function adverts(state = initialState.adverts, action) {
   switch (action.type) {
     case ADVERTS_LOADED_SUCCESS:
       return { ...state, loaded: true, data: action.payload };
+    case ADVERTS_ORDER_SUCCESS:
+      return { ...state, order: action.payload };
     case ADVERTS_CREATED_SUCCESS:
     case ADVERTS_DETAIL_SUCCESS:
       return { ...state, loaded: false, data: [...state.data, action.payload] };
@@ -113,6 +119,7 @@ export function ui(state = initialState.ui, action) {
     case RESET_PASSWORD_REQUEST:
     case SEND_EMAIL_REQUEST:
     case CHANGE_PAGE_REQUEST:
+    case ADVERTS_ORDER_REQUEST:
       return { ...state, loading: true, error: null, messageSuccess: null };
     case AUTH_LOGOUT_SUCCESS:
     case ADVERTS_DETAIL_SUCCESS:
@@ -160,6 +167,7 @@ export function ui(state = initialState.ui, action) {
       };
     case ADVERTS_TAGS_SUCCESS:
     case CHANGE_PAGE_SUCCESS:
+    case ADVERTS_ORDER_SUCCESS:
       return { ...state, loading: false };
     case UI_RESET_ERROR:
       return {

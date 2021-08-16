@@ -14,6 +14,8 @@ export const getNumberTotalAdverts = (state) => state.adverts.data.length;
 
 export const getAdvertsLoaded = (state) => state.adverts.loaded;
 
+export const getAdvertsOrder = (state) => state.adverts.order;
+
 export const getAdvertDetail = (state, advertId) =>
   state.adverts.data.find((advert) => {
     return advert.id === advertId;

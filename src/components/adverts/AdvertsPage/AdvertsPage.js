@@ -3,16 +3,20 @@ import { Link } from "react-router-dom";
 import Layout from "../../layout/Layout";
 import AdvertsList from "./AdvertsList";
 import AdvertsFormFilter from "./AdvertsFormFilter";
-import { Button } from "../../shared";
+import { Button, Switch } from "../../shared";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAdverts,
   getNumberTotalAdverts,
   getPage,
 } from "../../../store/selectors";
-import { advertsLoadAction, changePageAction } from "../../../store/actions";
+import {
+  advertsLoadAction,
+  changePageAction,
+  advertsOrderAction,
+} from "../../../store/actions";
 import storage from "../../../utils/storage";
-import { SELL, LIMIT_NUMBER_ADS } from "../../../utils/utils";
+import { SELL, LIMIT_NUMBER_ADS, ASC, DESC } from "../../../utils/utils";
 import MessagePage from "../../message";
 import Pagination from "@material-ui/lab/Pagination";
 
@@ -26,7 +30,7 @@ const EmptyList = () => (
 );
 
 const AdvertsPage = ({ className, ...props }) => {
-  let query = `?sort=createdAt&sort=desc&`;
+  let query = `&sort=createdAt&sort=desc`;
   const adverts = useSelector((state) =>
     getAdverts(state, { limit: LIMIT_NUMBER_ADS })
   );
@@ -36,15 +40,28 @@ const AdvertsPage = ({ className, ...props }) => {
   const numberTotalAdverts = useSelector(getNumberTotalAdverts);
   const page = useSelector(getPage);
   const dispatch = useDispatch();
-  const handleChangePage = (event, value) => {
+
+  const handleSwitchOrder = (_event, value) => {
+    if (value) {
+      query = `&sort=createdAt&sort=asc`;
+      dispatch(advertsOrderAction(ASC));
+    } else {
+      query = `&sort=createdAt&sort=desc`;
+      dispatch(advertsOrderAction(DESC));
+    }
+    const filter = storage.get("filter");
+    dispatch(
+      advertsLoadAction(filter ? `?${filter}${query}` : `?${query}`, true)
+    );
+  };
+
+  const handleChangePage = (_event, value) => {
     dispatch(changePageAction(value));
-    query += `page=${value}&`;
-    dispatch(advertsLoadAction(query, true));
   };
 
   React.useEffect(() => {
     const filter = storage.get("filter");
-    dispatch(advertsLoadAction(filter ? filter : query));
+    dispatch(advertsLoadAction(filter ? `?${filter}${query}` : `?${query}`));
   });
 
   const handleSubmit = (advertFilter) => {
@@ -60,9 +77,9 @@ const AdvertsPage = ({ className, ...props }) => {
         queryArray.push(`${key}=${advertFilter[key]}`);
       }
     }
-    query += `${queryArray.join("&")}`;
-    storage.set("filter", query);
-    dispatch(advertsLoadAction(query, true));
+    query = `?${queryArray.join("&")}${query}`;
+    storage.set("filter", queryArray.join("&"));
+    dispatch(advertsLoadAction(`?${queryArray.join("&")}${query}`, true));
   };
 
   return (
@@ -73,8 +90,14 @@ const AdvertsPage = ({ className, ...props }) => {
           onSubmit={handleSubmit}
           prices={totalAdverts.map(({ price }) => price)}
         />
+        <Switch
+          firstChildren={DESC}
+          secondChildren={ASC}
+          handleChange={handleSwitchOrder}
+        />
         {adverts.length ? <AdvertsList adverts={adverts} /> : <EmptyList />}
       </div>
+
       {numberTotalAdverts ? (
         <Pagination
           className="pt-3"

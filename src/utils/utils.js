@@ -77,3 +77,5 @@ export const keyToObjectValidate = (formValue) => {
 
 export const BUY = "Buy";
 export const SELL = "Sell";
+export const ASC = "FROM OLDEST TO NEWEST";
+export const DESC = "FROM NEWEST TO OLDEST";
