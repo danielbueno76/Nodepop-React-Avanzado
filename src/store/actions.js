@@ -37,41 +37,77 @@ import {
   ADVERTS_ORDER_FAILURE,
   ADVERTS_ORDER_REQUEST,
   ADVERTS_ORDER_SUCCESS,
-  AUTH_GET_USER_FAILURE,
-  AUTH_GET_USER_REQUEST,
-  AUTH_GET_USER_SUCCESS,
+  AUTH_GET_OWN_USERNAME_FAILURE,
+  AUTH_GET_OWN_USERNAME_REQUEST,
+  AUTH_GET_OWN_USERNAME_SUCCESS,
+  GET_USER_FAILURE,
+  GET_USER_REQUEST,
+  GET_USER_SUCCESS,
   UI_RESET_ERROR,
 } from "./types";
 
-export const authGetUserRequest = () => {
+export const getUserRequest = () => {
   return {
-    type: AUTH_GET_USER_REQUEST,
+    type: GET_USER_REQUEST,
   };
 };
 
-export const authGetUserSuccess = (username) => {
+export const getUserSuccess = (user) => {
   return {
-    type: AUTH_GET_USER_SUCCESS,
-    payload: username,
+    type: GET_USER_SUCCESS,
+    payload: user,
   };
 };
 
-export const authGetUserFailure = (error) => {
+export const getUserFailure = (error) => {
   return {
-    type: AUTH_GET_USER_FAILURE,
+    type: GET_USER_FAILURE,
     payload: error,
     error: true,
   };
 };
 
-export const getUserAction = () => {
+export const getUserAction = (username) => {
   return async function (dispatch, getState, { api, history }) {
-    dispatch(authGetUserRequest());
+    dispatch(getUserRequest());
+    try {
+      const user = await api.user.getUser(username);
+      dispatch(getUserSuccess(user));
+    } catch (error) {
+      dispatch(getUserFailure(error));
+    }
+  };
+};
+
+export const authGetUsernameRequest = () => {
+  return {
+    type: AUTH_GET_OWN_USERNAME_REQUEST,
+  };
+};
+
+export const authGetUsernameSuccess = (username) => {
+  return {
+    type: AUTH_GET_OWN_USERNAME_SUCCESS,
+    payload: username,
+  };
+};
+
+export const authGetUsernameFailure = (error) => {
+  return {
+    type: AUTH_GET_OWN_USERNAME_FAILURE,
+    payload: error,
+    error: true,
+  };
+};
+
+export const getUsernameAction = () => {
+  return async function (dispatch, getState, { api, history }) {
+    dispatch(authGetUsernameRequest());
     try {
       const { username } = await api.auth.getUserInfo();
-      dispatch(authGetUserSuccess(username));
+      dispatch(authGetUsernameSuccess(username));
     } catch (error) {
-      dispatch(authGetUserFailure(error));
+      dispatch(authGetUsernameFailure(error));
     }
   };
 };

@@ -1,4 +1,5 @@
 import React from "react";
+import { Redirect } from "react-router";
 import Layout from "../../layout/Layout";
 import AdvertsList from "../../adverts/AdvertsPage/AdvertsList";
 import { Switch } from "../../shared";
@@ -10,14 +11,14 @@ import {
   getUi,
 } from "../../../store/selectors";
 import {
+  advertsOrderAction,
   advertsLoadAction,
   changePageAction,
-  advertsOrderAction,
+  getUserAction,
 } from "../../../store/actions";
 import { LIMIT_NUMBER_ADS, ASC, DESC } from "../../../utils/utils";
 import MessagePage from "../../message";
 import Pagination from "@material-ui/lab/Pagination";
-import { Redirect } from "react-router";
 
 const EmptyList = () => (
   <div className="pt-3" style={{ textAlign: "center" }}>
@@ -40,8 +41,9 @@ const UserPage = ({ match, ...props }) => {
     })
   );
   const page = useSelector(getPage);
-  const dispatch = useDispatch();
   const { error } = useSelector(getUi);
+
+  const dispatch = useDispatch();
 
   const handleSwitchOrder = (_event, value) => {
     if (value) {
@@ -59,8 +61,9 @@ const UserPage = ({ match, ...props }) => {
   };
 
   React.useEffect(() => {
+    dispatch(getUserAction(match.params.username));
     dispatch(advertsLoadAction(query));
-  });
+  }, [dispatch, query, match.params.username]);
 
   if (error && error.status === 404) {
     return <Redirect to="/404" />;

@@ -24,8 +24,10 @@ import {
   ADVERTS_TAGS_SUCCESS,
   CHANGE_PAGE_REQUEST,
   CHANGE_PAGE_SUCCESS,
-  AUTH_GET_USER_REQUEST,
-  AUTH_GET_USER_SUCCESS,
+  AUTH_GET_OWN_USERNAME_REQUEST,
+  AUTH_GET_OWN_USERNAME_SUCCESS,
+  GET_USER_REQUEST,
+  GET_USER_SUCCESS,
   UI_RESET_ERROR,
 } from "./types";
 
@@ -38,6 +40,10 @@ export const initialState = {
     loaded: false,
     order: DESC,
     data: [],
+  },
+  user: {
+    loaded: false,
+    data: {},
   },
   tags: {
     loaded: false,
@@ -57,7 +63,7 @@ export const initialState = {
 export function auth(state = initialState.auth, action) {
   switch (action.type) {
     case AUTH_LOGIN_SUCCESS:
-    case AUTH_GET_USER_SUCCESS:
+    case AUTH_GET_OWN_USERNAME_SUCCESS:
       return { ...state, isLogged: true, username: action.payload };
     case AUTH_LOGOUT_SUCCESS:
       return { ...state, isLogged: false, username: null };
@@ -81,6 +87,15 @@ export function adverts(state = initialState.adverts, action) {
         loaded: false,
         data: [...state.data.filter((advert) => advert.id !== action.payload)],
       };
+    default:
+      return state;
+  }
+}
+
+export function user(state = initialState.user, action) {
+  switch (action.type) {
+    case GET_USER_SUCCESS:
+      return { ...state, loaded: true, data: action.payload };
     default:
       return state;
   }
@@ -126,12 +141,13 @@ export function ui(state = initialState.ui, action) {
     case SEND_EMAIL_REQUEST:
     case CHANGE_PAGE_REQUEST:
     case ADVERTS_ORDER_REQUEST:
-    case AUTH_GET_USER_REQUEST:
+    case AUTH_GET_OWN_USERNAME_REQUEST:
+    case GET_USER_REQUEST:
       return { ...state, loading: true, error: null, messageSuccess: null };
     case AUTH_LOGOUT_SUCCESS:
     case ADVERTS_DETAIL_SUCCESS:
     case ADVERTS_LOADED_SUCCESS:
-    case AUTH_GET_USER_SUCCESS:
+    case AUTH_GET_OWN_USERNAME_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -176,6 +192,7 @@ export function ui(state = initialState.ui, action) {
     case ADVERTS_TAGS_SUCCESS:
     case CHANGE_PAGE_SUCCESS:
     case ADVERTS_ORDER_SUCCESS:
+    case GET_USER_SUCCESS:
       return { ...state, loading: false };
     case UI_RESET_ERROR:
       return {

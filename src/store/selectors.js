@@ -17,6 +17,8 @@ export const getAdverts = (state, { limit, username }) => {
   return adverts;
 };
 
+export const getUser = (state) => state.user.data;
+
 export const getNumberTotalAdverts = (state, { username }) => {
   let adverts = state.adverts.data;
 

@@ -7,7 +7,7 @@ import { NotFoundPage } from "./components/notFound";
 import { ResetPasswordPage } from "./components/resetPassword";
 import { ResetPasswordEmailPage } from "./components/resetPasswordEmail";
 import { UserPage } from "./components/users/";
-import { getUserAction } from "./store/actions";
+import { getUsernameAction } from "./store/actions";
 import storage from "./utils/storage";
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
   const accessToken = storage.get("auth");
 
   React.useEffect(() => {
-    if (accessToken) dispatch(getUserAction());
+    if (accessToken) dispatch(getUsernameAction());
   });
 
   return (
