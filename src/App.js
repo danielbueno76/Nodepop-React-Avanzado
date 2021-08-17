@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { LoginPage, SignupPage, PrivateRoute } from "./components/auth";
 import { AdvertsPage, AdvertPage, NewAdvertPage } from "./components/adverts";
@@ -6,8 +7,17 @@ import { NotFoundPage } from "./components/notFound";
 import { ResetPasswordPage } from "./components/resetPassword";
 import { ResetPasswordEmailPage } from "./components/resetPasswordEmail";
 import { UserPage } from "./components/users/";
+import { getUserAction } from "./store/actions";
+import storage from "./utils/storage";
 
 function App() {
+  const dispatch = useDispatch();
+  const accessToken = storage.get("auth");
+
+  React.useEffect(() => {
+    if (accessToken) dispatch(getUserAction());
+  });
+
   return (
     <div className="App">
       <Switch>

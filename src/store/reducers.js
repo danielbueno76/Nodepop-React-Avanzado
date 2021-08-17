@@ -24,11 +24,16 @@ import {
   ADVERTS_TAGS_SUCCESS,
   CHANGE_PAGE_REQUEST,
   CHANGE_PAGE_SUCCESS,
+  AUTH_GET_USER_REQUEST,
+  AUTH_GET_USER_SUCCESS,
   UI_RESET_ERROR,
 } from "./types";
 
 export const initialState = {
-  auth: false,
+  auth: {
+    isLogged: false,
+    username: null,
+  },
   adverts: {
     loaded: false,
     order: DESC,
@@ -52,9 +57,10 @@ export const initialState = {
 export function auth(state = initialState.auth, action) {
   switch (action.type) {
     case AUTH_LOGIN_SUCCESS:
-      return true;
+    case AUTH_GET_USER_SUCCESS:
+      return { ...state, isLogged: true, username: action.payload };
     case AUTH_LOGOUT_SUCCESS:
-      return false;
+      return { ...state, isLogged: false, username: null };
     default:
       return state;
   }
@@ -120,10 +126,12 @@ export function ui(state = initialState.ui, action) {
     case SEND_EMAIL_REQUEST:
     case CHANGE_PAGE_REQUEST:
     case ADVERTS_ORDER_REQUEST:
+    case AUTH_GET_USER_REQUEST:
       return { ...state, loading: true, error: null, messageSuccess: null };
     case AUTH_LOGOUT_SUCCESS:
     case ADVERTS_DETAIL_SUCCESS:
     case ADVERTS_LOADED_SUCCESS:
+    case AUTH_GET_USER_SUCCESS:
       return {
         ...state,
         loading: false,

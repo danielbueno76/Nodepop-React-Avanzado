@@ -37,8 +37,44 @@ import {
   ADVERTS_ORDER_FAILURE,
   ADVERTS_ORDER_REQUEST,
   ADVERTS_ORDER_SUCCESS,
+  AUTH_GET_USER_FAILURE,
+  AUTH_GET_USER_REQUEST,
+  AUTH_GET_USER_SUCCESS,
   UI_RESET_ERROR,
 } from "./types";
+
+export const authGetUserRequest = () => {
+  return {
+    type: AUTH_GET_USER_REQUEST,
+  };
+};
+
+export const authGetUserSuccess = (username) => {
+  return {
+    type: AUTH_GET_USER_SUCCESS,
+    payload: username,
+  };
+};
+
+export const authGetUserFailure = (error) => {
+  return {
+    type: AUTH_GET_USER_FAILURE,
+    payload: error,
+    error: true,
+  };
+};
+
+export const getUserAction = () => {
+  return async function (dispatch, getState, { api, history }) {
+    dispatch(authGetUserRequest());
+    try {
+      const { username } = await api.auth.getUserInfo();
+      dispatch(authGetUserSuccess(username));
+    } catch (error) {
+      dispatch(authGetUserFailure(error));
+    }
+  };
+};
 
 export const authLoginRequest = () => {
   return {
@@ -46,9 +82,10 @@ export const authLoginRequest = () => {
   };
 };
 
-export const authLoginSuccess = () => {
+export const authLoginSuccess = ({ username }) => {
   return {
     type: AUTH_LOGIN_SUCCESS,
+    payload: username,
   };
 };
 
@@ -65,7 +102,7 @@ export const loginAction = (credentials) => {
     dispatch(authLoginRequest());
     try {
       await api.auth.login(credentials);
-      dispatch(authLoginSuccess());
+      dispatch(authLoginSuccess(credentials));
       // Redirect
       const { from } = history.location.state || { from: { pathname: "/" } };
       history.replace(from);

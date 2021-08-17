@@ -4,7 +4,7 @@ import { Redirect } from "react-router";
 import { messageSale } from "../../../utils/utils";
 import Photo from "../../shared/Photo";
 import ConfirmButton from "../../shared/ConfirmButton";
-import { getUi, getAdvertDetail } from "../../../store/selectors";
+import { getUi, getAdvertDetail, getUsername } from "../../../store/selectors";
 import {
   advertsDetailAction,
   advertsDeleteAction,
@@ -24,6 +24,7 @@ const AdvertPage = ({ match, ...props }) => {
     return getAdvertDetail(state, match.params.advertId);
   });
   const { error } = useSelector(getUi);
+  const username = useSelector(getUsername);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -37,7 +38,16 @@ const AdvertPage = ({ match, ...props }) => {
   const handleDeleteAdvert = () => {
     dispatch(advertsDeleteAction(match.params.advertId));
   };
-  const { name, price, description, username, sale, tags, photo, createdAt } = {
+  const {
+    name,
+    price,
+    description,
+    username: usernameAd,
+    sale,
+    tags,
+    photo,
+    createdAt,
+  } = {
     ...advert,
   };
 
@@ -50,8 +60,8 @@ const AdvertPage = ({ match, ...props }) => {
             <p>Price: {price}</p>
             <p>Description: {description}</p>
             <p>{messageSale(sale)}</p>
-            <Link to={`/user/${username}`} className="button is-link">
-              {`Owner: ${username} -> Click and visit more ads of this user!`}
+            <Link to={`/user/${usernameAd}`} className="button is-link">
+              {`Owner: ${usernameAd} -> Click and visit more ads of this user!`}
             </Link>
             <p>Tags: {tags && tags.map((tag) => tag + ", ")}</p>
             <time dateTime={createdAt}>{createdAt}</time>
@@ -76,13 +86,17 @@ const AdvertPage = ({ match, ...props }) => {
           </FacebookShareButton>
         </div>
         <Photo src={photo} alt={name} />
-        <ConfirmButton
-          classname="button is-danger is-rounded mt-2"
-          messageConfirm={"Are you sure you want to delete the ad?"}
-          handleToDo={handleDeleteAdvert}
-        >
-          Delete
-        </ConfirmButton>
+        {username === usernameAd ? (
+          <ConfirmButton
+            classname="button is-danger is-rounded mt-2"
+            messageConfirm={"Are you sure you want to delete the ad?"}
+            handleToDo={handleDeleteAdvert}
+          >
+            Delete
+          </ConfirmButton>
+        ) : (
+          <></>
+        )}
       </div>
       <MessagePage />
     </Layout>
