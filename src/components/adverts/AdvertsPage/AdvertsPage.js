@@ -66,7 +66,7 @@ const AdvertsPage = ({ className, ...props }) => {
   React.useEffect(() => {
     const filter = storage.get("filter");
     dispatch(advertsLoadAction(filter ? `?${filter}${query}` : `?${query}`));
-  });
+  }, [dispatch, query]);
 
   const handleSubmit = (advertFilter) => {
     const queryArray = [];
@@ -81,7 +81,6 @@ const AdvertsPage = ({ className, ...props }) => {
         queryArray.push(`${key}=${advertFilter[key]}`);
       }
     }
-    query = `?${queryArray.join("&")}${query}`;
     storage.set("filter", queryArray.join("&"));
     dispatch(advertsLoadAction(`?${queryArray.join("&")}${query}`, true));
   };

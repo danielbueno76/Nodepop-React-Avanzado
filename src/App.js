@@ -16,7 +16,7 @@ function App() {
 
   React.useEffect(() => {
     if (accessToken) dispatch(getUsernameAction());
-  });
+  }, [dispatch, accessToken]);
 
   return (
     <div className="App">
