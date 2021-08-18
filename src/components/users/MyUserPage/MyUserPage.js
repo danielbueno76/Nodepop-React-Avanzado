@@ -1,5 +1,4 @@
 import React from "react";
-import { Redirect } from "react-router";
 import Layout from "../../layout/Layout";
 import AdvertsList from "../../adverts/AdvertsPage/AdvertsList";
 import { Switch, EmptyList } from "../../shared";
@@ -8,36 +7,33 @@ import {
   getAdverts,
   getNumberTotalAdverts,
   getPage,
-  getUi,
   getUsername,
 } from "../../../store/selectors";
 import {
   advertsOrderAction,
   advertsLoadAction,
   changePageAction,
-  getUserAction,
 } from "../../../store/actions";
 import { LIMIT_NUMBER_ADS, ASC, DESC } from "../../../utils/utils";
 import MessagePage from "../../message";
 import Pagination from "@material-ui/lab/Pagination";
 
-const UserPage = ({ match, ...props }) => {
+const MyUserPage = () => {
   let query = `?sort=createdAt&sort=desc`;
+  const username = useSelector(getUsername);
   const adverts = useSelector((state) =>
     getAdverts(state, {
       limit: LIMIT_NUMBER_ADS,
-      username: match.params.username,
+      username,
     })
   );
 
   const numberTotalAdverts = useSelector((state) =>
     getNumberTotalAdverts(state, {
-      username: match.params.username,
+      username,
     })
   );
   const page = useSelector(getPage);
-  const username = useSelector(getUsername);
-  const { error } = useSelector(getUi);
 
   const dispatch = useDispatch();
 
@@ -57,21 +53,11 @@ const UserPage = ({ match, ...props }) => {
   };
 
   React.useEffect(() => {
-    dispatch(getUserAction(match.params.username));
     dispatch(advertsLoadAction(query));
-  }, [dispatch, query, match.params.username]);
-
-  if (error && error.status === 404) {
-    return <Redirect to="/404" />;
-  } else if (username === match.params.username) {
-    return <Redirect to="/myuser" />;
-  }
+  }, [dispatch, query, username]);
 
   return (
-    <Layout
-      title={`List of advertisements by ${match.params.username}`}
-      {...props}
-    >
+    <Layout title={`List of your advertisements`}>
       <MessagePage />
       <div>
         {adverts.length ? (
@@ -104,4 +90,4 @@ const UserPage = ({ match, ...props }) => {
   );
 };
 
-export default UserPage;
+export default MyUserPage;

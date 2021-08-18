@@ -16,7 +16,7 @@ const AuthButton = () => {
     ? { handleToDo: handleLogoutClick, children: "Log out" }
     : {
         toLogin: "/login",
-        children: "Log in",
+        login: "Log in",
         toSignup: "/signup",
         signup: "Sign up",
       };

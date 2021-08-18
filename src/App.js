@@ -6,7 +6,7 @@ import { AdvertsPage, AdvertPage, NewAdvertPage } from "./components/adverts";
 import { NotFoundPage } from "./components/notFound";
 import { ResetPasswordPage } from "./components/resetPassword";
 import { ResetPasswordEmailPage } from "./components/resetPasswordEmail";
-import { UserPage } from "./components/users/";
+import { UserPage, MyUserPage } from "./components/users/";
 import { getUsernameAction } from "./store/actions";
 import storage from "./utils/storage";
 
@@ -45,6 +45,9 @@ function App() {
         <Route path="/user/:username">
           {(routeProps) => <UserPage {...routeProps} />}
         </Route>
+        <PrivateRoute path="/myuser">
+          <MyUserPage />
+        </PrivateRoute>
         <Route exact path="/">
           <Redirect to="/adverts" />
         </Route>

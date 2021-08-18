@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 const ConfirmButton = ({
   children,
   signup,
+  login,
   classname,
   messageConfirm,
   handleToDo,
@@ -29,7 +30,7 @@ const ConfirmButton = ({
         {signup}
       </Link>
       <Link className={classname} to={toLogin} {...props}>
-        {children}
+        {login}
       </Link>
     </>
   );

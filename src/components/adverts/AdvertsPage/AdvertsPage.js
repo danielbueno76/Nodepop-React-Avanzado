@@ -1,9 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import Layout from "../../layout/Layout";
 import AdvertsList from "./AdvertsList";
 import AdvertsFormFilter from "./AdvertsFormFilter";
-import { Button, Switch } from "../../shared";
+import { Switch, EmptyList } from "../../shared";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAdverts,
@@ -19,15 +18,6 @@ import storage from "../../../utils/storage";
 import { SELL, LIMIT_NUMBER_ADS, ASC, DESC } from "../../../utils/utils";
 import MessagePage from "../../message";
 import Pagination from "@material-ui/lab/Pagination";
-
-const EmptyList = () => (
-  <div style={{ textAlign: "center" }}>
-    <p>Be the first ad!</p>
-    <Button as={Link} to="/advert/new" variant="primary">
-      Create ad
-    </Button>
-  </div>
-);
 
 const AdvertsPage = ({ className, ...props }) => {
   let query = `&sort=createdAt&sort=desc`;
@@ -102,7 +92,11 @@ const AdvertsPage = ({ className, ...props }) => {
         ) : (
           <React.Fragment />
         )}
-        {adverts.length ? <AdvertsList adverts={adverts} /> : <EmptyList />}
+        {adverts.length ? (
+          <AdvertsList adverts={adverts} />
+        ) : (
+          <EmptyList>{"Be the first ad!"}</EmptyList>
+        )}
       </div>
 
       {numberTotalAdverts ? (
