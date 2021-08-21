@@ -4,7 +4,7 @@ import React from "react";
 import { advertsTagsAction } from "../../../store/actions";
 import { getTags } from "../../../store/selectors";
 
-const SelectTags = () => {
+const SelectTags = ({ ...props }) => {
   const dispatch = useDispatch();
 
   const allTags = useSelector(getTags);
@@ -12,7 +12,7 @@ const SelectTags = () => {
     dispatch(advertsTagsAction());
   }, [dispatch]);
 
-  return <Select name="tags" allTags={allTags} />;
+  return <Select name="tags" allTags={allTags} {...props} />;
 };
 
 export default SelectTags;

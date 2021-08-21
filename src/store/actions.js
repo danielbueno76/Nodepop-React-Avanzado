@@ -28,6 +28,9 @@ import {
   ADVERTS_DELETE_REQUEST,
   ADVERTS_DELETE_SUCCESS,
   ADVERTS_DELETE_FAILURE,
+  ADVERTS_UPDATED_FAILURE,
+  ADVERTS_UPDATED_REQUEST,
+  ADVERTS_UPDATED_SUCCESS,
   ADVERTS_TAGS_REQUEST,
   ADVERTS_TAGS_SUCCESS,
   ADVERTS_TAGS_FAILURE,
@@ -469,6 +472,40 @@ export const advertsCreateAction = (advert) => {
       history.push(`/adverts/${newAdvert.id}`);
     } catch (error) {
       dispatch(advertsCreatedFailure(error));
+    }
+  };
+};
+
+export const advertsUpdatedRequest = () => {
+  return {
+    type: ADVERTS_UPDATED_REQUEST,
+  };
+};
+
+export const advertsUpdatedSuccess = (advert) => {
+  return {
+    type: ADVERTS_UPDATED_SUCCESS,
+    payload: advert,
+  };
+};
+
+export const advertsUpdatedFailure = (error) => {
+  return {
+    type: ADVERTS_UPDATED_FAILURE,
+    payload: error,
+    error: true,
+  };
+};
+
+export const advertsUpdatedAction = (advertId, ad) => {
+  return async function (dispatch, getState, { api, history }) {
+    dispatch(advertsUpdatedRequest());
+    try {
+      const { result } = await api.adverts.updateAdvert(advertId, ad);
+      dispatch(advertsUpdatedSuccess(result));
+      history.push(`/advert/${advertId}`);
+    } catch (error) {
+      dispatch(advertsUpdatedFailure(error));
     }
   };
 };

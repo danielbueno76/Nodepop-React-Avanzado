@@ -2,8 +2,7 @@ import React from "react";
 import { FormContext } from "./Form";
 
 const Select = ({ allTags, ...props }) => {
-  const { handleChange } = React.useContext(FormContext);
-
+  const { formValue, handleChange } = React.useContext(FormContext);
   return (
     <label className="label">
       <span>{props.name}</span>
@@ -18,7 +17,11 @@ const Select = ({ allTags, ...props }) => {
           {allTags.length &&
             allTags.map((tag) => {
               return (
-                <option key={tag} value={tag}>
+                <option
+                  key={tag}
+                  value={tag}
+                  selected={formValue[props.name].includes(tag)}
+                >
                   {tag}
                 </option>
               );

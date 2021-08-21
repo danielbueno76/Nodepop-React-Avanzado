@@ -2,7 +2,12 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { LoginPage, SignupPage, PrivateRoute } from "./components/auth";
-import { AdvertsPage, AdvertPage, NewAdvertPage } from "./components/adverts";
+import {
+  AdvertsPage,
+  AdvertPage,
+  NewAdvertPage,
+  AdvertEditPage,
+} from "./components/adverts";
 import { NotFoundPage } from "./components/notFound";
 import { ResetPasswordPage } from "./components/resetPassword";
 import { ResetPasswordEmailPage } from "./components/resetPasswordEmail";
@@ -36,9 +41,12 @@ function App() {
         <PrivateRoute exact path="/advert/new">
           <NewAdvertPage />
         </PrivateRoute>
-        <Route path="/advert/:advertId">
+        <Route exact path="/advert/:advertId">
           {(routeProps) => <AdvertPage {...routeProps} />}
         </Route>
+        <PrivateRoute exact path="/advert/:advertId/edit">
+          {(routeProps) => <AdvertEditPage {...routeProps} />}
+        </PrivateRoute>
         <Route path="/adverts">
           <AdvertsPage />
         </Route>

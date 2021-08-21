@@ -57,6 +57,7 @@ const AdvertPage = ({ match, ...props }) => {
 
   return (
     <Layout title="Advertisement Detail" {...props}>
+      <MessagePage />
       <div className="card">
         <div className="card-content">
           <div className="content">
@@ -91,6 +92,14 @@ const AdvertPage = ({ match, ...props }) => {
         </div>
         <Photo src={photo} alt={name} />
         {username === usernameAd ? (
+          <Link
+            to={`/advert/${match.params.advertId}/edit`}
+            className="button is-link m-2"
+          >{`Click here to edit your ad`}</Link>
+        ) : (
+          <></>
+        )}
+        {username === usernameAd ? (
           <ConfirmButton
             classname="button is-danger is-rounded mt-2"
             messageConfirm={"Are you sure you want to delete the ad?"}
@@ -102,7 +111,6 @@ const AdvertPage = ({ match, ...props }) => {
           <></>
         )}
       </div>
-      <MessagePage />
     </Layout>
   );
 };

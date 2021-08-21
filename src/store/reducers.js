@@ -32,6 +32,8 @@ import {
   DELETE_USER_SUCCESS,
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
+  ADVERTS_UPDATED_REQUEST,
+  ADVERTS_UPDATED_SUCCESS,
   UI_RESET_ERROR,
 } from "./types";
 
@@ -87,6 +89,12 @@ export function adverts(state = initialState.adverts, action) {
     case ADVERTS_CREATED_SUCCESS:
     case ADVERTS_DETAIL_SUCCESS:
       return { ...state, loaded: false, data: [...state.data, action.payload] };
+    case ADVERTS_UPDATED_SUCCESS:
+      let newData;
+      newData = state.data.map((ad) =>
+        ad.id === action.payload.id ? action.payload : ad
+      );
+      return { ...state, loaded: false, data: [...newData] };
     case ADVERTS_DELETE_SUCCESS:
       return {
         ...state,
@@ -151,6 +159,7 @@ export function ui(state = initialState.ui, action) {
     case GET_USER_REQUEST:
     case DELETE_USER_REQUEST:
     case UPDATE_USER_REQUEST:
+    case ADVERTS_UPDATED_REQUEST:
       return { ...state, loading: true, error: null, messageSuccess: null };
     case AUTH_LOGOUT_SUCCESS:
     case ADVERTS_DETAIL_SUCCESS:
@@ -160,6 +169,12 @@ export function ui(state = initialState.ui, action) {
         ...state,
         loading: false,
         messageSuccess: "",
+      };
+    case ADVERTS_UPDATED_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        messageSuccess: "Ad updated correctly",
       };
     case UPDATE_USER_SUCCESS:
       return {

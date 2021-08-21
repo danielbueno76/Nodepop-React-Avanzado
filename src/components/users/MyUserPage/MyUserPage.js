@@ -73,7 +73,7 @@ const MyUserPage = () => {
   }
 
   return (
-    <Layout title={`List of your advertisements`}>
+    <Layout title={`List of your user info`}>
       <MessagePage />
       <MyUserForm onSubmit={handleSubmitUser} />
       <div>
