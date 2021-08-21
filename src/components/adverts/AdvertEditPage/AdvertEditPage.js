@@ -16,6 +16,7 @@ import Fab from "@material-ui/core/Fab";
 import EditIcon from "@material-ui/icons/Edit";
 import { BUY, SELL } from "../../../utils/utils";
 import SelectTags from "../SelectTags";
+import MessagePage from "../../message";
 
 const AdvertEditPage = ({ match, ...props }) => {
   const [disabledName, setDisabledName] = useState(true);
@@ -53,12 +54,19 @@ const AdvertEditPage = ({ match, ...props }) => {
     return <Redirect to={`/advert/${match.params.advertId}`} />;
   }
 
-  const handleEditAd = (ad) => {
-    ad.sale = ad.sale === SELL ? true : false;
-    dispatch(advertsUpdatedAction(match.params.advertId, ad));
+  const handleEditAd = (newAdvert) => {
+    const formDataAdvert = new FormData();
+    for (var key in newAdvert) {
+      if (key === "sale") {
+        newAdvert[key] = newAdvert[key] === SELL;
+      }
+      formDataAdvert.append(key, newAdvert[key]);
+    }
+    dispatch(advertsUpdatedAction(match.params.advertId, formDataAdvert));
   };
   return advert ? (
     <Layout title="Advertisement Detail" {...props}>
+      <MessagePage />
       <div className="box">
         <Form
           initialValue={{
