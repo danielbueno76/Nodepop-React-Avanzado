@@ -24,13 +24,7 @@ function SignupForm({ onSubmit }) {
         autofocus
         autocomplete
       />
-      <FormField
-        className="label"
-        type="text"
-        name="username"
-        autofocus
-        autocomplete
-      />
+      <FormField className="label" type="text" name="username" autocomplete />
       <FormField className="label" type="password" name="password" />
       <FormButton type="submit" variant="primary">
         Sign up

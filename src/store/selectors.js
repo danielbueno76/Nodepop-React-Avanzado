@@ -1,6 +1,6 @@
 export const getIsLogged = (state) => state.auth.isLogged;
 
-export const getUsername = (state) => state.auth.username;
+export const getOwnUserInfo = (state) => state.auth.user;
 
 export const getAdverts = (state, { limit, username }) => {
   let adverts = state.adverts.data;

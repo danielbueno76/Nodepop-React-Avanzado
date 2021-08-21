@@ -18,6 +18,21 @@ export const getUserInfo = () => {
   return client.get("/api/auth/me");
 };
 
+export const modifyUserInfo = ({ username, email, newPassword: password }) => {
+  return password
+    ? client.put("/api/auth/me", { username, email, password })
+    : client.put("/api/auth/me", { username, email });
+};
+
+export const checkUserPassword = ({ oldPassword: password }) => {
+  return client.post("/api/auth/checkPassword", { password });
+};
+
+export const deleteUser = async () => {
+  await client.delete("/api/auth/me");
+  return logout();
+};
+
 export const modifyUserPassword = (accessToken, password) => {
   configureClient({ accessToken });
   return client.put("/api/auth/me", { password });

@@ -37,9 +37,15 @@ import {
   ADVERTS_ORDER_FAILURE,
   ADVERTS_ORDER_REQUEST,
   ADVERTS_ORDER_SUCCESS,
-  AUTH_GET_OWN_USERNAME_FAILURE,
-  AUTH_GET_OWN_USERNAME_REQUEST,
-  AUTH_GET_OWN_USERNAME_SUCCESS,
+  AUTH_GET_OWN_USERDATA_FAILURE,
+  AUTH_GET_OWN_USERDATA_REQUEST,
+  AUTH_GET_OWN_USERDATA_SUCCESS,
+  DELETE_USER_FAILURE,
+  DELETE_USER_REQUEST,
+  DELETE_USER_SUCCESS,
+  UPDATE_USER_FAILURE,
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
   GET_USER_FAILURE,
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
@@ -79,35 +85,107 @@ export const getUserAction = (username) => {
   };
 };
 
-export const authGetUsernameRequest = () => {
+export const updateUserRequest = () => {
   return {
-    type: AUTH_GET_OWN_USERNAME_REQUEST,
+    type: UPDATE_USER_REQUEST,
   };
 };
 
-export const authGetUsernameSuccess = (username) => {
+export const updateUserSuccess = (result) => {
   return {
-    type: AUTH_GET_OWN_USERNAME_SUCCESS,
-    payload: username,
+    type: UPDATE_USER_SUCCESS,
+    payload: result,
   };
 };
 
-export const authGetUsernameFailure = (error) => {
+export const updateUserFailure = (error) => {
   return {
-    type: AUTH_GET_OWN_USERNAME_FAILURE,
+    type: UPDATE_USER_FAILURE,
     payload: error,
     error: true,
   };
 };
 
-export const getUsernameAction = () => {
+export const updateUserAction = (user) => {
   return async function (dispatch, getState, { api, history }) {
-    dispatch(authGetUsernameRequest());
+    dispatch(updateUserRequest());
     try {
-      const { username } = await api.auth.getUserInfo();
-      dispatch(authGetUsernameSuccess(username));
+      user.oldPassword &&
+        user.newPassword &&
+        (await api.auth.checkUserPassword(user));
+      const { result } = await api.auth.modifyUserInfo(user);
+      dispatch(updateUserSuccess(result));
     } catch (error) {
-      dispatch(authGetUsernameFailure(error));
+      dispatch(updateUserFailure(error));
+    }
+  };
+};
+
+export const deleteUserRequest = () => {
+  return {
+    type: DELETE_USER_REQUEST,
+  };
+};
+
+export const deleteUserSuccess = () => {
+  return {
+    type: DELETE_USER_SUCCESS,
+  };
+};
+
+export const deleteUserFailure = (error) => {
+  return {
+    type: DELETE_USER_FAILURE,
+    payload: error,
+    error: true,
+  };
+};
+
+export const deleteUserAction = () => {
+  return async function (dispatch, getState, { api, history }) {
+    dispatch(deleteUserRequest());
+    try {
+      await api.auth.deleteUser();
+      dispatch(deleteUserSuccess());
+      // Redirect
+      const { from } = history.location.state || { from: { pathname: "/" } };
+      console.log(from);
+      history.replace(from);
+    } catch (error) {
+      dispatch(deleteUserFailure(error));
+    }
+  };
+};
+
+export const authGetOwnUserRequest = () => {
+  return {
+    type: AUTH_GET_OWN_USERDATA_REQUEST,
+  };
+};
+
+export const authGetOwnUserSuccess = (user) => {
+  return {
+    type: AUTH_GET_OWN_USERDATA_SUCCESS,
+    payload: user,
+  };
+};
+
+export const authGetOwnUserFailure = (error) => {
+  return {
+    type: AUTH_GET_OWN_USERDATA_FAILURE,
+    payload: error,
+    error: true,
+  };
+};
+
+export const authGetOwnUserAction = () => {
+  return async function (dispatch, getState, { api, history }) {
+    dispatch(authGetOwnUserRequest());
+    try {
+      const user = await api.auth.getUserInfo();
+      dispatch(authGetOwnUserSuccess(user));
+    } catch (error) {
+      dispatch(authGetOwnUserFailure(error));
     }
   };
 };
@@ -118,10 +196,10 @@ export const authLoginRequest = () => {
   };
 };
 
-export const authLoginSuccess = ({ username }) => {
+export const authLoginSuccess = (user) => {
   return {
     type: AUTH_LOGIN_SUCCESS,
-    payload: username,
+    payload: user,
   };
 };
 
@@ -138,7 +216,8 @@ export const loginAction = (credentials) => {
     dispatch(authLoginRequest());
     try {
       await api.auth.login(credentials);
-      dispatch(authLoginSuccess(credentials));
+      const user = await api.auth.getUserInfo();
+      dispatch(authLoginSuccess(user));
       // Redirect
       const { from } = history.location.state || { from: { pathname: "/" } };
       history.replace(from);

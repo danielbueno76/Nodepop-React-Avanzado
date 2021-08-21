@@ -24,17 +24,21 @@ import {
   ADVERTS_TAGS_SUCCESS,
   CHANGE_PAGE_REQUEST,
   CHANGE_PAGE_SUCCESS,
-  AUTH_GET_OWN_USERNAME_REQUEST,
-  AUTH_GET_OWN_USERNAME_SUCCESS,
+  AUTH_GET_OWN_USERDATA_REQUEST,
+  AUTH_GET_OWN_USERDATA_SUCCESS,
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
+  DELETE_USER_REQUEST,
+  DELETE_USER_SUCCESS,
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
   UI_RESET_ERROR,
 } from "./types";
 
 export const initialState = {
   auth: {
     isLogged: false,
-    username: null,
+    user: {},
   },
   adverts: {
     loaded: false,
@@ -63,10 +67,12 @@ export const initialState = {
 export function auth(state = initialState.auth, action) {
   switch (action.type) {
     case AUTH_LOGIN_SUCCESS:
-    case AUTH_GET_OWN_USERNAME_SUCCESS:
-      return { ...state, isLogged: true, username: action.payload };
+    case AUTH_GET_OWN_USERDATA_SUCCESS:
+    case UPDATE_USER_SUCCESS:
+      return { ...state, isLogged: true, user: action.payload };
     case AUTH_LOGOUT_SUCCESS:
-      return { ...state, isLogged: false, username: null };
+    case DELETE_USER_SUCCESS:
+      return { ...state, isLogged: false, user: {} };
     default:
       return state;
   }
@@ -141,17 +147,31 @@ export function ui(state = initialState.ui, action) {
     case SEND_EMAIL_REQUEST:
     case CHANGE_PAGE_REQUEST:
     case ADVERTS_ORDER_REQUEST:
-    case AUTH_GET_OWN_USERNAME_REQUEST:
+    case AUTH_GET_OWN_USERDATA_REQUEST:
     case GET_USER_REQUEST:
+    case DELETE_USER_REQUEST:
+    case UPDATE_USER_REQUEST:
       return { ...state, loading: true, error: null, messageSuccess: null };
     case AUTH_LOGOUT_SUCCESS:
     case ADVERTS_DETAIL_SUCCESS:
     case ADVERTS_LOADED_SUCCESS:
-    case AUTH_GET_OWN_USERNAME_SUCCESS:
+    case AUTH_GET_OWN_USERDATA_SUCCESS:
       return {
         ...state,
         loading: false,
         messageSuccess: "",
+      };
+    case UPDATE_USER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        messageSuccess: "User updated correctly",
+      };
+    case DELETE_USER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        messageSuccess: "User deleted correctly",
       };
     case AUTH_SIGNUP_SUCCESS:
       return {

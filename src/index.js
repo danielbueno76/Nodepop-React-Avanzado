@@ -12,7 +12,7 @@ const accessToken = storage.get("auth");
 configureClient({ accessToken });
 const history = createBrowserHistory();
 const store = configureStore({
-  preloadedState: { auth: { isLogged: !!accessToken, username: null } },
+  preloadedState: { auth: { isLogged: !!accessToken, user: null } },
   history,
 });
 

@@ -7,7 +7,7 @@ import { NotFoundPage } from "./components/notFound";
 import { ResetPasswordPage } from "./components/resetPassword";
 import { ResetPasswordEmailPage } from "./components/resetPasswordEmail";
 import { UserPage, MyUserPage } from "./components/users/";
-import { getUsernameAction } from "./store/actions";
+import { authGetOwnUserAction } from "./store/actions";
 import storage from "./utils/storage";
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
   const accessToken = storage.get("auth");
 
   React.useEffect(() => {
-    if (accessToken) dispatch(getUsernameAction());
+    if (accessToken) dispatch(authGetOwnUserAction());
   }, [dispatch, accessToken]);
 
   return (
@@ -45,9 +45,9 @@ function App() {
         <Route path="/user/:username">
           {(routeProps) => <UserPage {...routeProps} />}
         </Route>
-        <PrivateRoute path="/myuser">
+        <Route path="/myuser">
           <MyUserPage />
-        </PrivateRoute>
+        </Route>
         <Route exact path="/">
           <Redirect to="/adverts" />
         </Route>

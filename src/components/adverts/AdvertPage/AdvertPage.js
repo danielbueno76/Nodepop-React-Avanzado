@@ -4,7 +4,11 @@ import { Redirect } from "react-router";
 import { messageSale } from "../../../utils/utils";
 import Photo from "../../shared/Photo";
 import ConfirmButton from "../../shared/ConfirmButton";
-import { getUi, getAdvertDetail, getUsername } from "../../../store/selectors";
+import {
+  getUi,
+  getAdvertDetail,
+  getOwnUserInfo,
+} from "../../../store/selectors";
 import {
   advertsDetailAction,
   advertsDeleteAction,
@@ -24,7 +28,7 @@ const AdvertPage = ({ match, ...props }) => {
     return getAdvertDetail(state, match.params.advertId);
   });
   const { error } = useSelector(getUi);
-  const username = useSelector(getUsername);
+  const { username = null } = useSelector(getOwnUserInfo) || {};
   const dispatch = useDispatch();
 
   React.useEffect(() => {

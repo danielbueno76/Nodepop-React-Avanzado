@@ -9,7 +9,7 @@ import {
   getNumberTotalAdverts,
   getPage,
   getUi,
-  getUsername,
+  getOwnUserInfo,
 } from "../../../store/selectors";
 import {
   advertsOrderAction,
@@ -36,7 +36,7 @@ const UserPage = ({ match, ...props }) => {
     })
   );
   const page = useSelector(getPage);
-  const username = useSelector(getUsername);
+  const { username = null } = useSelector(getOwnUserInfo) || {};
   const { error } = useSelector(getUi);
 
   const dispatch = useDispatch();
