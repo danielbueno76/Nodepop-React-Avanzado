@@ -13,7 +13,7 @@ function SignupForm({ onSubmit }) {
         username: "",
         email: "",
         password: "",
-        remember: false,
+        "repeat password": "",
       }}
       onSubmit={onSubmit}
     >
@@ -26,6 +26,7 @@ function SignupForm({ onSubmit }) {
       />
       <FormField className="label" type="text" name="username" autocomplete />
       <FormField className="label" type="password" name="password" />
+      <FormField className="label" type="password" name="repeat password" />
       <FormButton type="submit" variant="primary">
         Sign up
       </FormButton>

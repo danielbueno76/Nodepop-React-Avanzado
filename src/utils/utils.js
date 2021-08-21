@@ -35,6 +35,8 @@ const validUsername = ({ username }) => username;
 const validDescription = ({ description }) => description;
 const validEmail = ({ email }) => email;
 const validPassword = ({ password }) => password;
+const validRepeatPassword = ({ password, "repeat password": repeatPassword }) =>
+  password === repeatPassword;
 const validName = ({ name }) => name;
 const validPrice = ({ price }) => price;
 const validSale = ({ sale }) => sale;
@@ -55,6 +57,9 @@ export const keyToObjectValidate = (formValue) => {
         break;
       case "password":
         formFunction.push(validPassword);
+        break;
+      case "repeat password":
+        formFunction.push(validRepeatPassword);
         break;
       case "name":
         formFunction.push(validName);
