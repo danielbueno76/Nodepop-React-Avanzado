@@ -27,6 +27,7 @@ const AdvertsFormFilter = ({ onSubmit, prices }) => {
         initialValue={{
           name: "",
           price: [min, max],
+          sale: null,
           tags: [],
         }}
         onSubmit={onSubmit}

@@ -60,17 +60,21 @@ const AdvertsPage = ({ className, ...props }) => {
 
   const handleSubmit = (advertFilter) => {
     const queryArray = [];
-    if (advertFilter["sale"]) {
-      advertFilter["sale"] = advertFilter["sale"] === SELL; // convert to boolean
-    }
-
+    console.log(advertFilter);
     for (const key in advertFilter) {
+      if (key === "sale") {
+        queryArray.push(`${key}=${advertFilter[key] === SELL}`);
+        continue;
+      }
+
       if (Array.isArray(advertFilter[key])) {
         advertFilter[key].forEach((elem) => queryArray.push(`${key}=${elem}`));
       } else if (advertFilter[key]) {
         queryArray.push(`${key}=${advertFilter[key]}`);
       }
     }
+    console.log(queryArray);
+
     storage.set("filter", queryArray.join("&"));
     dispatch(advertsLoadAction(`?${queryArray.join("&")}${query}`, true));
   };
