@@ -152,7 +152,6 @@ export const deleteUserAction = () => {
       dispatch(deleteUserSuccess());
       // Redirect
       const { from } = history.location.state || { from: { pathname: "/" } };
-      console.log(from);
       history.replace(from);
     } catch (error) {
       dispatch(deleteUserFailure(error));
@@ -469,7 +468,7 @@ export const advertsCreateAction = (advert) => {
     try {
       const newAdvert = await api.adverts.createAdvert(advert);
       dispatch(advertsCreatedSuccess(newAdvert));
-      history.push(`/adverts/${newAdvert.id}`);
+      history.push(`/advert/${newAdvert.id}`);
     } catch (error) {
       dispatch(advertsCreatedFailure(error));
     }

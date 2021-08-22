@@ -19,7 +19,7 @@ const NewAdvertPage = (props) => {
       }
       formDataAdvert.append(key, newAdvert[key]);
     }
-    return await dispatch(advertsCreateAction(formDataAdvert));
+    return dispatch(advertsCreateAction(formDataAdvert));
   };
 
   if (error && error.status === 401) {
