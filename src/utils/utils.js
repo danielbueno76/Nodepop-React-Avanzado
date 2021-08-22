@@ -8,6 +8,26 @@ export const messageSale = (sale) => {
   return message;
 };
 
+export const messageBooked = (booked) => {
+  let message = "";
+  if (booked) {
+    message = "This product is booked.";
+  } else {
+    message = "This product is not booked.";
+  }
+  return message;
+};
+
+export const messageSold = (sold) => {
+  let message = "";
+  if (sold) {
+    message = "This product is sold.";
+  } else {
+    message = "This product is not sold.";
+  }
+  return message;
+};
+
 export const stepByDecimals = (num) => {
   switch (num) {
     case 1:

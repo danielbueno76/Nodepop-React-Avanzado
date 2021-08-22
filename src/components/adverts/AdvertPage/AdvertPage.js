@@ -1,9 +1,9 @@
 import React from "react";
 import Layout from "../../layout/Layout";
 import { Redirect } from "react-router";
-import { messageSale } from "../../../utils/utils";
+import { messageSale, messageBooked, messageSold } from "../../../utils/utils";
 import Photo from "../../shared/Photo";
-import ConfirmButton from "../../shared/ConfirmButton";
+import { ConfirmButton, Button } from "../../shared/";
 import {
   getUi,
   getAdvertDetail,
@@ -12,6 +12,7 @@ import {
 import {
   advertsDetailAction,
   advertsDeleteAction,
+  advertsUpdatedAction,
 } from "../../../store/actions";
 import MessagePage from "../../message";
 import { useDispatch, useSelector } from "react-redux";
@@ -42,6 +43,13 @@ const AdvertPage = ({ match, ...props }) => {
   const handleDeleteAdvert = () => {
     dispatch(advertsDeleteAction(match.params.advertId));
   };
+  const handleBooked = () => {
+    dispatch(advertsUpdatedAction(match.params.advertId, { booked: !booked }));
+  };
+  const handleSold = () => {
+    dispatch(advertsUpdatedAction(match.params.advertId, { sold: !sold }));
+  };
+
   const {
     name,
     price,
@@ -51,6 +59,8 @@ const AdvertPage = ({ match, ...props }) => {
     tags,
     photo,
     createdAt,
+    booked,
+    sold,
   } = {
     ...advert,
   };
@@ -65,6 +75,8 @@ const AdvertPage = ({ match, ...props }) => {
             <p>Price: {price}</p>
             <p>Description: {description}</p>
             <p>{messageSale(sale)}</p>
+            <p>{messageBooked(booked)}</p>
+            <p>{messageSold(sold)}</p>
             <Link to={`/user/${usernameAd}`} className="button is-link">
               {`Owner: ${usernameAd} -> Click and visit more ads of this user!`}
             </Link>
@@ -90,10 +102,25 @@ const AdvertPage = ({ match, ...props }) => {
             Share on Facebook
           </FacebookShareButton>
         </div>
+        <div className="box content">
+          {username === usernameAd ? (
+            <>
+              <Button onClick={handleBooked}>{`Click here to ${
+                booked ? "un" : ""
+              }booked your ad!`}</Button>
+              <Button onClick={handleSold}>{`Click here to ${
+                sold ? "un" : ""
+              }sold your ad!`}</Button>
+            </>
+          ) : (
+            <></>
+          )}
+        </div>
+
         <Photo src={photo} alt={name} />
         {username === usernameAd ? (
           <Link
-            to={`/advert/${match.params.advertId}/edit`}
+            to={`/advert/${match.params.advertId}/edit#${name}`}
             className="button is-link m-2"
           >{`Click here to edit your ad`}</Link>
         ) : (

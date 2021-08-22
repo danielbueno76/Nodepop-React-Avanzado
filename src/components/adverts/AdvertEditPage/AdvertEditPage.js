@@ -51,7 +51,7 @@ const AdvertEditPage = ({ match, ...props }) => {
   };
 
   if (username && usernameAd && usernameAd !== username) {
-    return <Redirect to={`/advert/${match.params.advertId}`} />;
+    return <Redirect to={`/advert/${match.params.advertId}#${name}`} />;
   }
 
   const handleEditAd = (newAdvert) => {

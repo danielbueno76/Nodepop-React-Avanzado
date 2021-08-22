@@ -34,6 +34,8 @@ import {
   UPDATE_USER_SUCCESS,
   ADVERTS_UPDATED_REQUEST,
   ADVERTS_UPDATED_SUCCESS,
+  ADVERTS_FAV_REQUEST,
+  ADVERTS_FAV_SUCCESS,
   UI_RESET_ERROR,
 } from "./types";
 
@@ -110,6 +112,8 @@ export function user(state = initialState.user, action) {
   switch (action.type) {
     case GET_USER_SUCCESS:
       return { ...state, loaded: true, data: action.payload };
+    case ADVERTS_FAV_SUCCESS:
+      return { ...state, loaded: true, data: action.payload };
     default:
       return state;
   }
@@ -160,6 +164,7 @@ export function ui(state = initialState.ui, action) {
     case DELETE_USER_REQUEST:
     case UPDATE_USER_REQUEST:
     case ADVERTS_UPDATED_REQUEST:
+    case ADVERTS_FAV_REQUEST:
       return { ...state, loading: true, error: null, messageSuccess: null };
     case AUTH_LOGOUT_SUCCESS:
     case ADVERTS_DETAIL_SUCCESS:
@@ -169,6 +174,12 @@ export function ui(state = initialState.ui, action) {
         ...state,
         loading: false,
         messageSuccess: "",
+      };
+    case ADVERTS_FAV_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        messageSuccess: "Ad marked as fav correctly",
       };
     case ADVERTS_UPDATED_SUCCESS:
       return {
