@@ -52,9 +52,9 @@ import {
   GET_USER_FAILURE,
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
-  ADVERTS_FAV_REQUEST,
-  ADVERTS_FAV_SUCCESS,
-  ADVERTS_FAV_FAILURE,
+  ADVERTS_ADD_FAV_REQUEST,
+  ADVERTS_ADD_FAV_SUCCESS,
+  ADVERTS_ADD_FAV_FAILURE,
   UI_RESET_ERROR,
 } from "./types";
 
@@ -129,20 +129,20 @@ export const updateUserAction = (user) => {
 
 export const adFavRequest = () => {
   return {
-    type: ADVERTS_FAV_REQUEST,
+    type: ADVERTS_ADD_FAV_REQUEST,
   };
 };
 
 export const adFavSuccess = (result) => {
   return {
-    type: ADVERTS_FAV_SUCCESS,
+    type: ADVERTS_ADD_FAV_SUCCESS,
     payload: result,
   };
 };
 
 export const adFavFailure = (error) => {
   return {
-    type: ADVERTS_FAV_FAILURE,
+    type: ADVERTS_ADD_FAV_FAILURE,
     payload: error,
     error: true,
   };

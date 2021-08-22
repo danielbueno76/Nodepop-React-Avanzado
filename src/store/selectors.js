@@ -1,17 +1,36 @@
+import { orderAds } from "../utils/utils";
+
 export const getIsLogged = (state) => state.auth.isLogged;
 
 export const getOwnUserInfo = (state) => state.auth.user;
 
+export const getAdvertsFav = (state) => {
+  return (
+    state.adverts.data &&
+    state.adverts.data.filter(
+      (ad) => state.auth.user && state.auth.user.adsFav.includes(ad.id)
+    )
+  );
+};
+
+export const getOwnAdverts = (state) => {
+  return (
+    state.adverts.data &&
+    state.adverts.data.filter((ad) => ad.username === state.auth.user.username)
+  );
+};
+
 export const getAdverts = (state, { limit, username }) => {
   let adverts = state.adverts.data;
 
-  if (username) {
+  if (username && adverts) {
     adverts = adverts.filter((ad) => ad.username === username);
   }
+  if (adverts) orderAds(state.adverts.order, state.adverts.data);
 
-  if (limit) {
+  if (limit && adverts) {
     const page = (state.page.data - 1) * limit;
-    return adverts.slice(page, page + limit);
+    adverts = adverts.slice(page, page + limit);
   }
 
   return adverts;
@@ -26,7 +45,7 @@ export const getNumberTotalAdverts = (state, { username }) => {
     adverts = adverts.filter((ad) => ad.username === username);
   }
 
-  return adverts.length;
+  return adverts ? adverts.length : 0;
 };
 
 export const getAdvertsLoaded = (state) => state.adverts.loaded;

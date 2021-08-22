@@ -53,9 +53,9 @@ function App() {
         <Route path="/user/:username">
           {(routeProps) => <UserPage {...routeProps} />}
         </Route>
-        <Route path="/myuser">
+        <PrivateRoute path="/myuser">
           <MyUserPage />
-        </Route>
+        </PrivateRoute>
         <Route exact path="/">
           <Redirect to="/adverts" />
         </Route>

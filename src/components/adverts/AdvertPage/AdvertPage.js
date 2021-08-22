@@ -49,6 +49,7 @@ const AdvertPage = ({ match, ...props }) => {
   const handleSold = () => {
     dispatch(advertsUpdatedAction(match.params.advertId, { sold: !sold }));
   };
+  const handleFav = () => {};
 
   const {
     name,
@@ -102,8 +103,8 @@ const AdvertPage = ({ match, ...props }) => {
             Share on Facebook
           </FacebookShareButton>
         </div>
-        <div className="box content">
-          {username === usernameAd ? (
+        {username === usernameAd ? (
+          <div className="box content">
             <>
               <Button onClick={handleBooked}>{`Click here to ${
                 booked ? "un" : ""
@@ -112,11 +113,19 @@ const AdvertPage = ({ match, ...props }) => {
                 sold ? "un" : ""
               }sold your ad!`}</Button>
             </>
-          ) : (
-            <></>
-          )}
-        </div>
-
+          </div>
+        ) : (
+          <></>
+        )}
+        {username !== usernameAd ? (
+          <div className="box content">
+            <Button onClick={handleFav}>{`Click here to ${
+              booked ? "un" : ""
+            }fav this ad!`}</Button>
+          </div>
+        ) : (
+          <></>
+        )}
         <Photo src={photo} alt={name} />
         {username === usernameAd ? (
           <Link

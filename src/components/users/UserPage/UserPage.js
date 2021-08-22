@@ -10,6 +10,7 @@ import {
   getPage,
   getUi,
   getOwnUserInfo,
+  getAdvertsOrder,
 } from "../../../store/selectors";
 import {
   advertsOrderAction,
@@ -38,18 +39,16 @@ const UserPage = ({ match, ...props }) => {
   const page = useSelector(getPage);
   const { username = null } = useSelector(getOwnUserInfo) || {};
   const { error } = useSelector(getUi);
+  const order = useSelector(getAdvertsOrder);
 
   const dispatch = useDispatch();
 
-  const handleSwitchOrder = (_event, value) => {
+  const handleSwitch = (_event, value) => {
     if (value) {
-      query = `?sort=createdAt&sort=asc`;
       dispatch(advertsOrderAction(ASC));
     } else {
-      query = `?sort=createdAt&sort=desc`;
       dispatch(advertsOrderAction(DESC));
     }
-    dispatch(advertsLoadAction(query, true));
   };
 
   const handleChangePage = (_event, value) => {
@@ -78,7 +77,9 @@ const UserPage = ({ match, ...props }) => {
           <Switch
             firstChildren={DESC}
             secondChildren={ASC}
-            handleChange={handleSwitchOrder}
+            handleChange={handleSwitch}
+            defaultValue={DESC}
+            value={order}
           />
         ) : (
           <React.Fragment />

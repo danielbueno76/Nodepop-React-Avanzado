@@ -8,6 +8,7 @@ import {
   getAdverts,
   getNumberTotalAdverts,
   getPage,
+  getAdvertsOrder,
 } from "../../../store/selectors";
 import {
   advertsLoadAction,
@@ -33,20 +34,15 @@ const AdvertsPage = ({ className, ...props }) => {
     })
   );
   const page = useSelector(getPage);
+  const order = useSelector(getAdvertsOrder);
   const dispatch = useDispatch();
 
-  const handleSwitchOrder = (_event, value) => {
+  const handleSwitch = (_event, value) => {
     if (value) {
-      query = `&sort=createdAt&sort=asc`;
       dispatch(advertsOrderAction(ASC));
     } else {
-      query = `&sort=createdAt&sort=desc`;
       dispatch(advertsOrderAction(DESC));
     }
-    const filter = storage.get("filter");
-    dispatch(
-      advertsLoadAction(filter ? `?${filter}${query}` : `?${query}`, true)
-    );
   };
 
   const handleChangePage = (_event, value) => {
@@ -60,20 +56,16 @@ const AdvertsPage = ({ className, ...props }) => {
 
   const handleSubmit = (advertFilter) => {
     const queryArray = [];
-    console.log(advertFilter);
     for (const key in advertFilter) {
       if (key === "sale") {
         queryArray.push(`${key}=${advertFilter[key] === SELL}`);
         continue;
-      }
-
-      if (Array.isArray(advertFilter[key])) {
+      } else if (Array.isArray(advertFilter[key])) {
         advertFilter[key].forEach((elem) => queryArray.push(`${key}=${elem}`));
       } else if (advertFilter[key]) {
         queryArray.push(`${key}=${advertFilter[key]}`);
       }
     }
-    console.log(queryArray);
 
     storage.set("filter", queryArray.join("&"));
     dispatch(advertsLoadAction(`?${queryArray.join("&")}${query}`, true));
@@ -91,7 +83,9 @@ const AdvertsPage = ({ className, ...props }) => {
           <Switch
             firstChildren={DESC}
             secondChildren={ASC}
-            handleChange={handleSwitchOrder}
+            handleChange={handleSwitch}
+            defaultValue={DESC}
+            value={order}
           />
         ) : (
           <React.Fragment />

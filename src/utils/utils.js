@@ -28,6 +28,27 @@ export const messageSold = (sold) => {
   return message;
 };
 
+export const orderAds = (order, ads) => {
+  if (order === ASC) {
+    ads.sort(function (a, b) {
+      if (Date.parse(a.createdAt) > Date.parse(b.createdAt)) {
+        return 1;
+      } else if (Date.parse(a.createdAt) < Date.parse(b.createdAt)) {
+        return -1;
+      }
+      return 0;
+    });
+  } else {
+    ads.sort(function (a, b) {
+      if (Date.parse(a.createdAt) < Date.parse(b.createdAt)) {
+        return 1;
+      } else if (Date.parse(a.createdAt) > Date.parse(b.createdAt)) {
+        return -1;
+      }
+      return 0;
+    });
+  }
+};
 export const stepByDecimals = (num) => {
   switch (num) {
     case 1:
@@ -104,3 +125,5 @@ export const BUY = "Buy";
 export const SELL = "Sell";
 export const ASC = "FROM OLDEST TO NEWEST";
 export const DESC = "FROM NEWEST TO OLDEST";
+export const YOUR_ADS = "SHOW YOUR ADS";
+export const FAV_ADS = "SHOW FAV ADS";

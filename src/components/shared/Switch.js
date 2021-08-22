@@ -1,11 +1,8 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
-import Switch from "@material-ui/core/Switch";
+import { Switch as CoreSwitch } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import { useSelector } from "react-redux";
-import { getAdvertsOrder } from "../../store/selectors";
-import { DESC } from "../../utils/utils";
 const MySwitch = withStyles((theme) => ({
   root: {
     width: 28,
@@ -38,17 +35,22 @@ const MySwitch = withStyles((theme) => ({
     backgroundColor: theme.palette.common.white,
   },
   checked: {},
-}))(Switch);
+}))(CoreSwitch);
 
-const SwitchOrder = ({ firstChildren, secondChildren, handleChange }) => {
-  const order = useSelector(getAdvertsOrder);
+const Switch = ({
+  firstChildren,
+  secondChildren,
+  handleChange,
+  defaultValue,
+  value,
+}) => {
   return (
     <Typography component="div">
       <Grid component="label" container alignItems="center" spacing={1}>
         <Grid item>{firstChildren}</Grid>
         <Grid item>
           <MySwitch
-            checked={order !== DESC}
+            checked={value !== defaultValue}
             onChange={handleChange}
             name="checked"
           />
@@ -59,4 +61,4 @@ const SwitchOrder = ({ firstChildren, secondChildren, handleChange }) => {
   );
 };
 
-export default SwitchOrder;
+export default Switch;

@@ -8,6 +8,8 @@ import {
   getNumberTotalAdverts,
   getPage,
   getOwnUserInfo,
+  getAdvertsOrder,
+  getAdvertsFav,
 } from "../../../store/selectors";
 import {
   advertsOrderAction,
@@ -15,23 +17,29 @@ import {
   changePageAction,
   updateUserAction,
 } from "../../../store/actions";
-import { LIMIT_NUMBER_ADS, ASC, DESC } from "../../../utils/utils";
+import {
+  LIMIT_NUMBER_ADS,
+  ASC,
+  DESC,
+  YOUR_ADS,
+  FAV_ADS,
+} from "../../../utils/utils";
 import MessagePage from "../../message/";
 import Pagination from "@material-ui/lab/Pagination";
 import MyUserForm from "./MyUserForm";
-import { Redirect } from "react-router-dom";
 
 const MyUserPage = () => {
   let query = `?sort=createdAt&sort=desc`;
+  const [typeFilter, setTypeFilter] = React.useState(YOUR_ADS);
   const user = useSelector(getOwnUserInfo);
-
+  const adsFav = useSelector(getAdvertsFav) || [];
   const adverts =
     useSelector(
       (state) =>
         user &&
         getAdverts(state, {
           limit: LIMIT_NUMBER_ADS,
-          username: user.username,
+          username: typeFilter === YOUR_ADS ? user.username : null,
         })
     ) || [];
   const numberTotalAdverts =
@@ -39,24 +47,28 @@ const MyUserPage = () => {
       (state) =>
         user &&
         getNumberTotalAdverts(state, {
-          username: user.username,
+          username: typeFilter === YOUR_ADS ? user.username : null,
         })
     ) || 0;
+  const order = useSelector(getAdvertsOrder);
   const page = useSelector(getPage);
 
   const dispatch = useDispatch();
 
-  const handleSwitchOrder = (_event, value) => {
+  const handleSwitch = (_event, value) => {
     if (value) {
-      query = `?sort=createdAt&sort=asc`;
       dispatch(advertsOrderAction(ASC));
     } else {
-      query = `?sort=createdAt&sort=desc`;
       dispatch(advertsOrderAction(DESC));
     }
-    dispatch(advertsLoadAction(query, true));
   };
-
+  const handleFavAds = (_event, value) => {
+    if (value) {
+      setTypeFilter(FAV_ADS);
+    } else {
+      setTypeFilter(YOUR_ADS);
+    }
+  };
   const handleChangePage = (_event, value) => {
     dispatch(changePageAction(value));
   };
@@ -68,30 +80,39 @@ const MyUserPage = () => {
     dispatch(advertsLoadAction(query));
   }, [dispatch, query]);
 
-  if (!user) {
-    return <Redirect to="/login" />;
-  }
-
   return (
     <Layout title={`List of your user info`}>
       <MessagePage />
       <MyUserForm onSubmit={handleSubmitUser} />
-      <div>
-        {adverts.length ? (
-          <Switch
-            firstChildren={DESC}
-            secondChildren={ASC}
-            handleChange={handleSwitchOrder}
-          />
-        ) : (
-          <React.Fragment />
-        )}
-        {adverts.length ? (
-          <AdvertsList adverts={adverts} />
+      <>
+        {adverts.length && adsFav.length ? (
+          <>
+            <Switch
+              firstChildren={DESC}
+              secondChildren={ASC}
+              defaultValue={DESC}
+              handleChange={handleSwitch}
+              value={order}
+            />
+            <Switch
+              firstChildren={YOUR_ADS}
+              secondChildren={FAV_ADS}
+              defaultValue={YOUR_ADS}
+              handleChange={handleFavAds}
+              value={typeFilter}
+            />
+            <>
+              {typeFilter === YOUR_ADS ? (
+                <AdvertsList adverts={adverts} />
+              ) : (
+                <AdvertsList adverts={adsFav} />
+              )}
+            </>
+          </>
         ) : (
           <EmptyList>{"This user does not have any ads published!"}</EmptyList>
         )}
-      </div>
+      </>
 
       {numberTotalAdverts ? (
         <Pagination
