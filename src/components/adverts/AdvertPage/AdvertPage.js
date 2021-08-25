@@ -141,15 +141,15 @@ const AdvertPage = ({ match, ...props }) => {
         {username !== usernameAd ? (
           <div className="box content">
             {adsFav.includes(match.params.advertId) ? (
-              <>
-                <FavoriteIcon onClick={handleFav} fontSize={"large"} />
-                {"Click here to remove this ad as favorite!"}
-              </>
+              <Button className="button is-focused" onClick={handleFav}>
+                <FavoriteIcon fontSize={"large"} />
+                {"<-- Click here to remove this ad as favorite!"}
+              </Button>
             ) : (
-              <>
-                <FavoriteBorderIcon onClick={handleFav} fontSize={"large"} />{" "}
-                {"Click here to add this ad as favorite!"}
-              </>
+              <Button className="button is-focused" onClick={handleFav}>
+                <FavoriteBorderIcon fontSize={"large"} />{" "}
+                {"<-- Click here to add this ad as favorite!"}
+              </Button>
             )}
           </div>
         ) : (
