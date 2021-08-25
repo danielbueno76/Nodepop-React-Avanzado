@@ -18,10 +18,15 @@ export const getUserInfo = () => {
   return client.get("/api/auth/me");
 };
 
-export const modifyUserInfo = ({ username, email, newPassword: password }) => {
+export const modifyUserInfo = ({
+  username,
+  email,
+  newPassword: password,
+  adsFav,
+}) => {
   return password
-    ? client.put("/api/auth/me", { username, email, password })
-    : client.put("/api/auth/me", { username, email });
+    ? client.put("/api/auth/me", { username, email, password, adsFav })
+    : client.put("/api/auth/me", { username, email, adsFav });
 };
 
 export const checkUserPassword = ({ oldPassword: password }) => {

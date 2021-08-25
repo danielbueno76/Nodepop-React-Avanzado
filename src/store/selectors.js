@@ -5,6 +5,8 @@ export const getIsLogged = (state) => state.auth.isLogged;
 export const getOwnUserInfo = (state) => state.auth.user;
 
 export const getAdvertsFav = (state) => {
+  if (state.adverts.data) orderAds(state.adverts.order, state.adverts.data);
+
   return (
     state.adverts.data &&
     state.adverts.data.filter(
@@ -22,9 +24,8 @@ export const getOwnAdverts = (state) => {
 
 export const getAdverts = (state, { limit, username }) => {
   let adverts = state.adverts.data;
-
-  if (username && adverts) {
-    adverts = adverts.filter((ad) => ad.username === username);
+  if (username) {
+    adverts = getOwnAdverts(state);
   }
   if (adverts) orderAds(state.adverts.order, state.adverts.data);
 

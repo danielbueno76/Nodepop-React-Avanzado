@@ -52,9 +52,6 @@ import {
   GET_USER_FAILURE,
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
-  ADVERTS_ADD_FAV_REQUEST,
-  ADVERTS_ADD_FAV_SUCCESS,
-  ADVERTS_ADD_FAV_FAILURE,
   UI_RESET_ERROR,
 } from "./types";
 
@@ -123,39 +120,6 @@ export const updateUserAction = (user) => {
       dispatch(updateUserSuccess(result));
     } catch (error) {
       dispatch(updateUserFailure(error));
-    }
-  };
-};
-
-export const adFavRequest = () => {
-  return {
-    type: ADVERTS_ADD_FAV_REQUEST,
-  };
-};
-
-export const adFavSuccess = (result) => {
-  return {
-    type: ADVERTS_ADD_FAV_SUCCESS,
-    payload: result,
-  };
-};
-
-export const adFavFailure = (error) => {
-  return {
-    type: ADVERTS_ADD_FAV_FAILURE,
-    payload: error,
-    error: true,
-  };
-};
-
-export const adFavAction = (user) => {
-  return async function (dispatch, getState, { api, history }) {
-    dispatch(adFavRequest());
-    try {
-      const { result } = await api.auth.modifyUserInfo(user);
-      dispatch(adFavSuccess(result));
-    } catch (error) {
-      dispatch(adFavFailure(error));
     }
   };
 };

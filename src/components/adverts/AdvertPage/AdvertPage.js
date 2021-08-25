@@ -13,6 +13,7 @@ import {
   advertsDetailAction,
   advertsDeleteAction,
   advertsUpdatedAction,
+  updateUserAction,
 } from "../../../store/actions";
 import MessagePage from "../../message";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,13 +24,15 @@ import {
   TwitterIcon,
 } from "react-share";
 import { Link } from "react-router-dom";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 
 const AdvertPage = ({ match, ...props }) => {
   const advert = useSelector((state) => {
     return getAdvertDetail(state, match.params.advertId);
   });
   const { error } = useSelector(getUi);
-  const { username = null } = useSelector(getOwnUserInfo) || {};
+  const { username = null, adsFav = [] } = useSelector(getOwnUserInfo) || {};
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -49,7 +52,25 @@ const AdvertPage = ({ match, ...props }) => {
   const handleSold = () => {
     dispatch(advertsUpdatedAction(match.params.advertId, { sold: !sold }));
   };
-  const handleFav = () => {};
+  const handleFav = () => {
+    if (adsFav.includes(match.params.advertId)) {
+      const index = adsFav.indexOf(match.params.advertId);
+      if (index > -1) {
+        adsFav.splice(index, 1);
+      }
+      dispatch(
+        updateUserAction({
+          adsFav: [...adsFav],
+        })
+      );
+    } else {
+      dispatch(
+        updateUserAction({
+          adsFav: [...adsFav, match.params.advertId],
+        })
+      );
+    }
+  };
 
   const {
     name,
@@ -119,9 +140,17 @@ const AdvertPage = ({ match, ...props }) => {
         )}
         {username !== usernameAd ? (
           <div className="box content">
-            <Button onClick={handleFav}>{`Click here to ${
-              booked ? "un" : ""
-            }fav this ad!`}</Button>
+            {adsFav.includes(match.params.advertId) ? (
+              <>
+                <FavoriteIcon onClick={handleFav} fontSize={"large"} />
+                {"Click here to remove this ad as favorite!"}
+              </>
+            ) : (
+              <>
+                <FavoriteBorderIcon onClick={handleFav} fontSize={"large"} />{" "}
+                {"Click here to add this ad as favorite!"}
+              </>
+            )}
           </div>
         ) : (
           <></>
