@@ -34,6 +34,8 @@ import {
   UPDATE_USER_SUCCESS,
   ADVERTS_UPDATED_REQUEST,
   ADVERTS_UPDATED_SUCCESS,
+  SEND_MESSAGE_REQUEST,
+  SEND_MESSAGE_SUCCESS,
   UI_RESET_ERROR,
 } from "./types";
 
@@ -58,6 +60,10 @@ export const initialState = {
   page: {
     loaded: false,
     data: 1,
+  },
+  message: {
+    loaded: false,
+    data: {},
   },
   ui: {
     loading: false,
@@ -133,6 +139,15 @@ export function page(state = initialState.page, action) {
   }
 }
 
+export const message = (state = initialState.message, action) => {
+  switch (action.type) {
+    case SEND_MESSAGE_SUCCESS:
+      return { ...state, loaded: true, data: action.payload };
+    default:
+      return state;
+  }
+};
+
 export function ui(state = initialState.ui, action) {
   if (action.error) {
     return {
@@ -160,11 +175,13 @@ export function ui(state = initialState.ui, action) {
     case DELETE_USER_REQUEST:
     case UPDATE_USER_REQUEST:
     case ADVERTS_UPDATED_REQUEST:
+    case SEND_MESSAGE_REQUEST:
       return { ...state, loading: true, error: null, messageSuccess: null };
     case AUTH_LOGOUT_SUCCESS:
     case ADVERTS_DETAIL_SUCCESS:
     case ADVERTS_LOADED_SUCCESS:
     case AUTH_GET_OWN_USERDATA_SUCCESS:
+    case SEND_MESSAGE_SUCCESS:
       return {
         ...state,
         loading: false,

@@ -52,8 +52,43 @@ import {
   GET_USER_FAILURE,
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
+  SEND_MESSAGE_REQUEST,
+  SEND_MESSAGE_SUCCESS,
+  SEND_MESSAGE_FAILURE,
   UI_RESET_ERROR,
 } from "./types";
+
+export const sendMessageRequest = () => {
+  return {
+    type: SEND_MESSAGE_REQUEST,
+  };
+};
+
+export const sendMessageSuccess = (message) => {
+  return {
+    type: SEND_MESSAGE_SUCCESS,
+    payload: message,
+  };
+};
+
+export const sendMessageFailure = (error) => {
+  return {
+    type: SEND_MESSAGE_FAILURE,
+    payload: error,
+    error: true,
+  };
+};
+
+export const sendMessageAction = (message) => {
+  return async function (dispatch, getState, { api }) {
+    dispatch(sendMessageRequest());
+    try {
+      dispatch(sendMessageSuccess(message));
+    } catch (error) {
+      dispatch(sendMessageFailure(error));
+    }
+  };
+};
 
 export const getUserRequest = () => {
   return {

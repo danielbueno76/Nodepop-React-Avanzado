@@ -26,6 +26,9 @@ import {
 import { Link } from "react-router-dom";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import Chat from "../../chat";
+import io from "socket.io-client";
+const socket = io.connect("/");
 
 const AdvertPage = ({ match, ...props }) => {
   const advert = useSelector((state) => {
@@ -176,6 +179,7 @@ const AdvertPage = ({ match, ...props }) => {
           <></>
         )}
       </div>
+      <Chat username={username} usernameAd={usernameAd} socket={socket} />
     </Layout>
   );
 };
