@@ -25,7 +25,7 @@ export const getOwnAdverts = (state) => {
 export const getAdverts = (state, { limit, username }) => {
   let adverts = state.adverts.data;
   if (username) {
-    adverts = getOwnAdverts(state);
+    adverts = adverts.filter((ad) => ad.username === username);
   }
   if (adverts) orderAds(state.adverts.order, state.adverts.data);
 
@@ -65,3 +65,5 @@ export const getTags = (state) => state.tags.data;
 export const getPage = (state) => state.page.data;
 
 export const getUi = (state) => state.ui;
+
+export const getLanguage = (state) => state.language;

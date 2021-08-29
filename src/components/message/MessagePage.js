@@ -1,8 +1,10 @@
 import { getUi } from "../../store/selectors";
 import { resetError } from "../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 const MessagePage = () => {
+  const { t } = useTranslation();
   const { error, messageSuccess } = useSelector(getUi);
   const dispatch = useDispatch();
   const handleResetError = () => {
@@ -17,7 +19,7 @@ const MessagePage = () => {
           }
         >
           <button className="delete" onClick={handleResetError}></button>
-          {error ? error.errorCause : messageSuccess}
+          {error ? t(error.errorCause) : t(messageSuccess)}
         </div>
       </div>
     )

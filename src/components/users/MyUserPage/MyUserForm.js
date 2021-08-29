@@ -5,11 +5,13 @@ import { deleteUserAction } from "../../../store/actions";
 import { getOwnUserInfo } from "../../../store/selectors";
 import Fab from "@material-ui/core/Fab";
 import EditIcon from "@material-ui/icons/Edit";
+import { useTranslation } from "react-i18next";
 
 const MyUserForm = ({ onSubmit, ...props }) => {
   const [disabledUsername, setDisabledUsername] = useState(true);
   const [disabledEmail, setDisabledEmail] = useState(true);
   const [disabledPassword, setDisabledPassword] = useState(true);
+  const { t } = useTranslation();
 
   const dispatch = useDispatch();
   const user = useSelector(getOwnUserInfo);
@@ -72,7 +74,7 @@ const MyUserForm = ({ onSubmit, ...props }) => {
         </Fab>
         <br />
         <FormButton type="submit" variant="primary" notDisabled>
-          Save changes
+          {t("save_changes")}
         </FormButton>
       </Form>
       <ConfirmButton
@@ -81,7 +83,7 @@ const MyUserForm = ({ onSubmit, ...props }) => {
         messageConfirm={"Are you sure you want to delete your user?"}
         handleToDo={handleDeleteUser}
       >
-        Delete user
+        {t("delete_user")}
       </ConfirmButton>
     </div>
   ) : (

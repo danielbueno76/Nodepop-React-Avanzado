@@ -37,6 +37,9 @@ import {
   CHANGE_PAGE_REQUEST,
   CHANGE_PAGE_SUCCESS,
   CHANGE_PAGE_FAILURE,
+  CHANGE_LANGUAGE_REQUEST,
+  CHANGE_LANGUAGE_SUCCESS,
+  CHANGE_LANGUAGE_FAILURE,
   ADVERTS_ORDER_FAILURE,
   ADVERTS_ORDER_REQUEST,
   ADVERTS_ORDER_SUCCESS,
@@ -53,6 +56,9 @@ import {
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
   UI_RESET_ERROR,
+  SIGN_EMAIL_REQUEST,
+  SIGN_EMAIL_SUCCESS,
+  SIGN_EMAIL_FAILURE,
 } from "./types";
 
 export const getUserRequest = () => {
@@ -301,6 +307,39 @@ export const logoutAction = (credentials) => {
   };
 };
 
+export const signEmailRequest = () => {
+  return {
+    type: SIGN_EMAIL_REQUEST,
+  };
+};
+
+export const signEmailSuccess = () => {
+  return {
+    type: SIGN_EMAIL_SUCCESS,
+  };
+};
+
+export const signEmailFailure = (error) => {
+  return {
+    type: SIGN_EMAIL_FAILURE,
+    payload: error,
+    error: true,
+  };
+};
+
+export const signEmailAction = (email) => {
+  return async function (dispatch, getState, { api, history }) {
+    dispatch(signEmailRequest());
+    try {
+      const dataSigned = await api.others.signEmail(email);
+      dispatch(signEmailSuccess());
+      return dataSigned;
+    } catch (error) {
+      dispatch(signEmailFailure(error));
+    }
+  };
+};
+
 export const sendEmailRequest = () => {
   return {
     type: SEND_EMAIL_REQUEST,
@@ -321,11 +360,11 @@ export const sendEmailFailure = (error) => {
   };
 };
 
-export const sendEmailAction = (email) => {
+export const sendEmailAction = ({ email, subject, body }) => {
   return async function (dispatch, getState, { api, history }) {
     dispatch(sendEmailRequest());
     try {
-      await api.others.resetPasswordSendEmail(email);
+      await api.others.resetPasswordSendEmail({ email, subject, body });
       dispatch(sendEmailSuccess());
       // Redirect
       const { from } = history.location.state || { from: { pathname: "/" } };
@@ -615,6 +654,38 @@ export const advertsTagsAction = () => {
       dispatch(advertsTagsSuccess(tags));
     } catch (error) {
       dispatch(advertsTagsFailure(error));
+    }
+  };
+};
+
+export const changeLanguageRequest = () => {
+  return {
+    type: CHANGE_LANGUAGE_REQUEST,
+  };
+};
+
+export const changeLanguageSuccess = (language) => {
+  return {
+    type: CHANGE_LANGUAGE_SUCCESS,
+    payload: language,
+  };
+};
+
+export const changeLanguageFailure = (error) => {
+  return {
+    type: CHANGE_LANGUAGE_FAILURE,
+    payload: error,
+    error: true,
+  };
+};
+
+export const changeLanguageAction = (language) => {
+  return async function (dispatch, getState, { api }) {
+    dispatch(changeLanguageRequest());
+    try {
+      dispatch(changeLanguageSuccess(language));
+    } catch (error) {
+      dispatch(changeLanguageFailure(error));
     }
   };
 };

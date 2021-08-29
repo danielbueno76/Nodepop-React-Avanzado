@@ -21,8 +21,10 @@ import {
 import { LIMIT_NUMBER_ADS, ASC, DESC } from "../../../utils/utils";
 import MessagePage from "../../message";
 import Pagination from "@material-ui/lab/Pagination";
+import { useTranslation } from "react-i18next";
 
 const UserPage = ({ match, ...props }) => {
+  const { t } = useTranslation();
   let query = `?sort=createdAt&sort=desc`;
   const adverts = useSelector((state) =>
     getAdverts(state, {
@@ -68,7 +70,7 @@ const UserPage = ({ match, ...props }) => {
 
   return (
     <Layout
-      title={`List of advertisements by ${match.params.username}`}
+      title={t("list_ads_user", { username: match.params.username })}
       {...props}
     >
       <MessagePage />
@@ -87,7 +89,7 @@ const UserPage = ({ match, ...props }) => {
         {adverts.length ? (
           <AdvertsList adverts={adverts} />
         ) : (
-          <EmptyList>{"This user does not have any ads published!"}</EmptyList>
+          <EmptyList>{t("empty_ads_other_user")}</EmptyList>
         )}
       </div>
 

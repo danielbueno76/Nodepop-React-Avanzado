@@ -2,8 +2,11 @@ import React from "react";
 import { FormField, Radio, Form, FormButton } from "../../shared";
 import { BUY, SELL } from "../../../utils/utils";
 import SelectTags from "../SelectTags";
+import { useTranslation } from "react-i18next";
 
 const NewAdvertForm = ({ onSubmit }) => {
+  const { t } = useTranslation();
+
   return (
     <Form
       initialValue={{
@@ -22,7 +25,7 @@ const NewAdvertForm = ({ onSubmit }) => {
       <SelectTags />
       <FormField type="file" name="photo" accept="image/*" />
       <FormButton type="submit" variant="primary" id="form-submit">
-        Publish
+        {t("publish")}
       </FormButton>
     </Form>
   );

@@ -1,11 +1,13 @@
 import React from "react";
 import T from "prop-types";
-
 import FormButton from "../../shared/FormButton";
 import FormField from "../../shared/FormField";
 import Form from "../../shared/Form";
+import { useTranslation } from "react-i18next";
 
 function SignupForm({ onSubmit }) {
+  const { t } = useTranslation();
+
   return (
     <Form
       className="signupForm"
@@ -13,7 +15,7 @@ function SignupForm({ onSubmit }) {
         username: "",
         email: "",
         password: "",
-        "repeat password": "",
+        repeat_password: "",
       }}
       onSubmit={onSubmit}
     >
@@ -26,9 +28,9 @@ function SignupForm({ onSubmit }) {
       />
       <FormField className="label" type="text" name="username" autocomplete />
       <FormField className="label" type="password" name="password" />
-      <FormField className="label" type="password" name="repeat password" />
+      <FormField className="label" type="password" name="repeat_password" />
       <FormButton type="submit" variant="primary">
-        Sign up
+        {t("signup")}
       </FormButton>
     </Form>
   );

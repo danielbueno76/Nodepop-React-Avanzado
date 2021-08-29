@@ -1,11 +1,14 @@
 import React from "react";
 import { FormContext } from "./Form";
+import { useTranslation } from "react-i18next";
 
 const Select = ({ allTags, ...props }) => {
+  const { t } = useTranslation();
+
   const { formValue, handleChange } = React.useContext(FormContext);
   return (
     <label className="label">
-      <span>{props.name}</span>
+      <span>{t(props.name)}</span>
       <br />
       <div className="select is-multiple">
         <select

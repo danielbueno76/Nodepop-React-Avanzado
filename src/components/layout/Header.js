@@ -3,10 +3,21 @@ import { Link, NavLink } from "react-router-dom";
 import AuthButton from "../auth/AuthButton";
 import "../../styles/Header.css";
 import { getIsLogged } from "../../store/selectors";
-import { useSelector } from "react-redux";
+import { changeLanguageAction } from "../../store/actions";
+import { useSelector, useDispatch } from "react-redux";
+import { Button } from "../shared";
+import i18n from "../../translations/i18n";
+import { useTranslation } from "react-i18next";
 
 const Header = ({ notButtons, ...props }) => {
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
   const isLogged = useSelector(getIsLogged);
+  const handleChangeLanguage = (e) => {
+    e.preventDefault();
+    i18n.changeLanguage(e.target.value);
+    dispatch(changeLanguageAction(e.target.value));
+  };
   return (
     <nav className="navbar" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
@@ -22,9 +33,21 @@ const Header = ({ notButtons, ...props }) => {
       <div className="navbar-end">
         <div className="navbar-item">
           <div className="buttons">
+            <Button value="en" onClick={handleChangeLanguage}>
+              {t("english")}
+            </Button>
+            <Button value="es" onClick={handleChangeLanguage}>
+              {t("spanish")}
+            </Button>
+          </div>
+        </div>
+      </div>
+      <div className="navbar-end">
+        <div className="navbar-item">
+          <div className="buttons">
             {isLogged ? (
               <Link to="/myuser" className="button is-danger is-rounded">
-                Go to private page
+                {t("private_page")}
               </Link>
             ) : (
               <React.Fragment />
@@ -40,7 +63,7 @@ const Header = ({ notButtons, ...props }) => {
             ) : (
               <React.Fragment>
                 <Link to="/advert/new" className="button is-danger is-rounded">
-                  Create ad
+                  {t("create_ad")}
                 </Link>
                 <AuthButton />
               </React.Fragment>

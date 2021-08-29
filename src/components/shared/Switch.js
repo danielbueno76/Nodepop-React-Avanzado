@@ -3,6 +3,8 @@ import { withStyles } from "@material-ui/core/styles";
 import { Switch as CoreSwitch } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+import { useTranslation } from "react-i18next";
+
 const MySwitch = withStyles((theme) => ({
   root: {
     width: 28,
@@ -44,10 +46,12 @@ const Switch = ({
   defaultValue,
   value,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <Typography component="div">
       <Grid component="label" container alignItems="center" spacing={1}>
-        <Grid item>{firstChildren}</Grid>
+        <Grid item>{t(firstChildren)}</Grid>
         <Grid item>
           <MySwitch
             checked={value !== defaultValue}
@@ -55,7 +59,7 @@ const Switch = ({
             name="checked"
           />
         </Grid>
-        <Grid item>{secondChildren}</Grid>
+        <Grid item>{t(secondChildren)}</Grid>
       </Grid>
     </Typography>
   );

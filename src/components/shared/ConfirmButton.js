@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const ConfirmButton = ({
   children,
@@ -11,6 +12,8 @@ const ConfirmButton = ({
   toSignup,
   ...props
 }) => {
+  const { t } = useTranslation();
+
   return handleToDo ? (
     <button
       className={classname}
@@ -27,10 +30,10 @@ const ConfirmButton = ({
   ) : (
     <>
       <Link className={classname} to={toSignup} {...props}>
-        {signup}
+        {t(signup)}
       </Link>
       <Link className={classname} to={toLogin} {...props}>
-        {login}
+        {t(login)}
       </Link>
     </>
   );

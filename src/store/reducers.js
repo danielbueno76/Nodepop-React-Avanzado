@@ -34,6 +34,8 @@ import {
   UPDATE_USER_SUCCESS,
   ADVERTS_UPDATED_REQUEST,
   ADVERTS_UPDATED_SUCCESS,
+  CHANGE_LANGUAGE_REQUEST,
+  CHANGE_LANGUAGE_SUCCESS,
   UI_RESET_ERROR,
 } from "./types";
 
@@ -64,7 +66,20 @@ export const initialState = {
     error: null,
     messageSuccess: null,
   },
+  language: {
+    loaded: false,
+    data: "en",
+  },
 };
+
+export function language(state = initialState.language, action) {
+  switch (action.type) {
+    case CHANGE_LANGUAGE_SUCCESS:
+      return { ...state, loaded: true, data: action.payload };
+    default:
+      return state;
+  }
+}
 
 export function auth(state = initialState.auth, action) {
   switch (action.type) {
@@ -160,6 +175,7 @@ export function ui(state = initialState.ui, action) {
     case DELETE_USER_REQUEST:
     case UPDATE_USER_REQUEST:
     case ADVERTS_UPDATED_REQUEST:
+    case CHANGE_LANGUAGE_REQUEST:
       return { ...state, loading: true, error: null, messageSuccess: null };
     case AUTH_LOGOUT_SUCCESS:
     case ADVERTS_DETAIL_SUCCESS:
@@ -170,59 +186,65 @@ export function ui(state = initialState.ui, action) {
         loading: false,
         messageSuccess: "",
       };
+    case CHANGE_LANGUAGE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        messageSuccess: "change_language_msg",
+      };
     case ADVERTS_UPDATED_SUCCESS:
       return {
         ...state,
         loading: false,
-        messageSuccess: "Ad updated correctly",
+        messageSuccess: "adverts_updated_msg",
       };
     case UPDATE_USER_SUCCESS:
       return {
         ...state,
         loading: false,
-        messageSuccess: "User updated correctly",
+        messageSuccess: "user_updated_msg",
       };
     case DELETE_USER_SUCCESS:
       return {
         ...state,
         loading: false,
-        messageSuccess: "User deleted correctly",
+        messageSuccess: "user_deleted_msg",
       };
     case AUTH_SIGNUP_SUCCESS:
       return {
         ...state,
         loading: false,
-        messageSuccess: "You have just registered correctly!",
+        messageSuccess: "user_registered_msg",
       };
     case RESET_PASSWORD_SUCCESS:
       return {
         ...state,
         loading: false,
-        messageSuccess: "You have just reset your password correctly!",
+        messageSuccess: "password_reset_msg",
       };
     case SEND_EMAIL_SUCCESS:
       return {
         ...state,
         loading: false,
-        messageSuccess: "Email sent it correctly! Check your email, please",
+        messageSuccess: "email_sent_msg",
       };
     case AUTH_LOGIN_SUCCESS:
       return {
         ...state,
         loading: false,
-        messageSuccess: "Login successfully!",
+        messageSuccess: "login_msg",
       };
     case ADVERTS_CREATED_SUCCESS:
       return {
         ...state,
         loading: false,
-        messageSuccess: "Advert created successfully!",
+        messageSuccess: "advert_created_msg",
       };
     case ADVERTS_DELETE_SUCCESS:
       return {
         ...state,
         loading: false,
-        messageSuccess: "Advert deleted successfully!",
+        messageSuccess: "advert_deleted_msg",
       };
     case ADVERTS_TAGS_SUCCESS:
     case CHANGE_PAGE_SUCCESS:

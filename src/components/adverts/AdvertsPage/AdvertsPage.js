@@ -19,8 +19,11 @@ import storage from "../../../utils/storage";
 import { SELL, LIMIT_NUMBER_ADS, ASC, DESC } from "../../../utils/utils";
 import MessagePage from "../../message";
 import Pagination from "@material-ui/lab/Pagination";
+import { useTranslation } from "react-i18next";
 
 const AdvertsPage = ({ className, ...props }) => {
+  const { t } = useTranslation();
+
   let query = `&sort=createdAt&sort=desc`;
   const adverts = useSelector((state) =>
     getAdverts(state, { limit: LIMIT_NUMBER_ADS })
@@ -72,7 +75,7 @@ const AdvertsPage = ({ className, ...props }) => {
   };
 
   return (
-    <Layout title="List of advertisements" {...props}>
+    <Layout title={t("list_ads")} {...props}>
       <MessagePage />
       <div className={className}>
         <AdvertsFormFilter
@@ -93,7 +96,7 @@ const AdvertsPage = ({ className, ...props }) => {
         {adverts.length ? (
           <AdvertsList adverts={adverts} />
         ) : (
-          <EmptyList>{"Be the first ad!"}</EmptyList>
+          <EmptyList>{t("first_ad")}</EmptyList>
         )}
       </div>
 

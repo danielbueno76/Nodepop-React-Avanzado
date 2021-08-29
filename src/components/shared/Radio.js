@@ -1,8 +1,10 @@
 import React from "react";
 import { FormContext } from "./Form";
+import { useTranslation } from "react-i18next";
 
 const Radio = ({ arrayValues, ...props }) => {
   const { formValue, handleChange } = React.useContext(FormContext);
+  const { t } = useTranslation();
 
   return (
     <div className="control">
@@ -11,13 +13,13 @@ const Radio = ({ arrayValues, ...props }) => {
           <label key={optionValue} className="radio">
             <input
               type="radio"
-              name={props.name}
+              name={t(props.name)}
               value={optionValue}
               checked={optionValue === formValue[props.name]}
               onChange={handleChange}
               {...props}
             />
-            {optionValue}
+            {t(optionValue)}
           </label>
         );
       })}

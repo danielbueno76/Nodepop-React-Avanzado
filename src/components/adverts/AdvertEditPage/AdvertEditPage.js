@@ -17,8 +17,10 @@ import EditIcon from "@material-ui/icons/Edit";
 import { BUY, SELL } from "../../../utils/utils";
 import SelectTags from "../SelectTags";
 import MessagePage from "../../message";
+import { useTranslation } from "react-i18next";
 
 const AdvertEditPage = ({ match, ...props }) => {
+  const { t } = useTranslation();
   const [disabledName, setDisabledName] = useState(true);
   const [disabledPrice, setDisabledPrice] = useState(true);
   const [disabledDescription, setDisabledDescription] = useState(true);
@@ -65,7 +67,7 @@ const AdvertEditPage = ({ match, ...props }) => {
     dispatch(advertsUpdatedAction(match.params.advertId, formDataAdvert));
   };
   return advert ? (
-    <Layout title="Advertisement Detail" {...props}>
+    <Layout title={t("titleAd")} {...props}>
       <MessagePage />
       <div className="box">
         <Form

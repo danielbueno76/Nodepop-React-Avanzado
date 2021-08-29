@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Provider } from "react-redux";
 import { ConnectedRouter as Router } from "connected-react-router";
 import App from "./App";
@@ -7,7 +7,9 @@ function Root({ store, history }) {
   return (
     <Provider store={store}>
       <Router history={history}>
-        <App />
+        <Suspense fallback="...is loading">
+          <App />
+        </Suspense>
       </Router>
     </Provider>
   );

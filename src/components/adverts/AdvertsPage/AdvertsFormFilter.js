@@ -9,6 +9,7 @@ import {
 } from "../../shared";
 import { BUY, SELL, stepByDecimals } from "../../../utils/utils";
 import SelectTags from "../SelectTags";
+import { useTranslation } from "react-i18next";
 
 // eslint-disable-next-line
 Number.prototype.countDecimals = function () {
@@ -19,6 +20,8 @@ Number.prototype.countDecimals = function () {
 };
 
 const AdvertsFormFilter = ({ onSubmit, prices }) => {
+  const { t } = useTranslation();
+
   const min = prices.length ? Math.min(...prices) : 0;
   const max = prices.length ? Math.max(...prices) : 0;
   return (
@@ -43,9 +46,9 @@ const AdvertsFormFilter = ({ onSubmit, prices }) => {
         <Radio name="sale" arrayValues={[BUY, SELL]} />
         <SelectTags />
         <FormButton type="submit" variant="primary" notDisabled>
-          Apply filter
+          {t("apply_filter")}
         </FormButton>
-        <ClearButton type="submit">Clear filter</ClearButton>
+        <ClearButton type="submit"> {t("clear_filter")}</ClearButton>
       </Form>
     </div>
   );

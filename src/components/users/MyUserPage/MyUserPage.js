@@ -26,9 +26,12 @@ import {
 } from "../../../utils/utils";
 import MessagePage from "../../message/";
 import Pagination from "@material-ui/lab/Pagination";
+import { useTranslation } from "react-i18next";
 import MyUserForm from "./MyUserForm";
 
 const MyUserPage = () => {
+  const { t } = useTranslation();
+
   let query = `?sort=createdAt&sort=desc`;
   const [typeFilter, setTypeFilter] = React.useState(YOUR_ADS);
   const user = useSelector(getOwnUserInfo);
@@ -81,7 +84,7 @@ const MyUserPage = () => {
   }, [dispatch, query]);
 
   return (
-    <Layout title={`List of your user info`}>
+    <Layout title={t("user_intro")}>
       <MessagePage />
       <MyUserForm onSubmit={handleSubmitUser} />
       <>
@@ -110,7 +113,7 @@ const MyUserPage = () => {
             </>
           </>
         ) : (
-          <EmptyList>{"This user does not have any ads published!"}</EmptyList>
+          <EmptyList>{t("empty_ads_user")}</EmptyList>
         )}
       </>
 

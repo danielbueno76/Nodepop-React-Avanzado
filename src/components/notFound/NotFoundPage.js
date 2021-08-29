@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const NotFoundPage = () => {
+  const { t } = useTranslation();
+
   return (
     <div
       style={{
@@ -9,9 +12,9 @@ const NotFoundPage = () => {
         fontWeight: "bold",
       }}
     >
-      404 | Not found page
+      {t("404")}
       <br />
-      <Link to="/">Go Home</Link>
+      <Link to="/">{t("go_home")}</Link>
     </div>
   );
 };

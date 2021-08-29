@@ -7,8 +7,10 @@ import { advertsCreateAction } from "../../../store/actions.js";
 import { getUi } from "../../../store/selectors";
 import ErrorPage from "../../message/ErrorPage";
 import { SELL } from "../../../utils/utils";
+import { useTranslation } from "react-i18next";
 
 const NewAdvertPage = (props) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { error } = useSelector(getUi);
   const handleSubmit = async (newAdvert) => {
@@ -27,7 +29,7 @@ const NewAdvertPage = (props) => {
   }
 
   return (
-    <Layout title="What do you want to buy or sell?" {...props}>
+    <Layout title={t("publish_ad")} {...props}>
       <div className="container">
         <div className="columns">
           <div className="column is-two-thirds">

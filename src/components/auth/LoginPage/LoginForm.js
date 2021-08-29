@@ -1,10 +1,12 @@
 import React from "react";
 import T from "prop-types";
 import { Link } from "react-router-dom";
-
+import { useTranslation } from "react-i18next";
 import { FormButton, FormField, Form } from "../../shared";
 
 function LoginForm({ onSubmit }) {
+  const { t } = useTranslation();
+
   return (
     <Form
       className="loginForm"
@@ -24,12 +26,11 @@ function LoginForm({ onSubmit }) {
       />
       <FormField className="label" type="password" name="password" />
       <FormField className="checkbox" type="checkbox" name="remember" />
-
       <FormButton type="submit" variant="primary">
-        Log in
+        {t("login")}
       </FormButton>
       <Link to="/resetPasswordSendEmail" variant="primary">
-        Reset Password
+        {t("reset_password")}
       </Link>
     </Form>
   );

@@ -5,9 +5,11 @@ import { signupAction } from "../../../store/actions";
 import Layout from "../../layout/Layout";
 import { useDispatch } from "react-redux";
 import "../../../styles/GeneralPage.css";
+import { useTranslation } from "react-i18next";
 
 function SignupPage() {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const handleSubmit = (credentials) => {
     dispatch(signupAction(credentials));
@@ -16,7 +18,7 @@ function SignupPage() {
   return (
     <Layout notButtons>
       <div className="generalPage">
-        <h1 className="generalPage-title">Sign up in to Nodepop</h1>
+        <h1 className="generalPage-title">{t("signup_intro")}</h1>
         <SignupForm onSubmit={handleSubmit} />
         <ErrorPage />
       </div>

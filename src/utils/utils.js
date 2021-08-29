@@ -1,33 +1,3 @@
-export const messageSale = (sale) => {
-  let message = "";
-  if (sale) {
-    message = "This product is available for sale.";
-  } else {
-    message = "I am looking for this product.";
-  }
-  return message;
-};
-
-export const messageBooked = (booked) => {
-  let message = "";
-  if (booked) {
-    message = "This product is booked.";
-  } else {
-    message = "This product is not booked.";
-  }
-  return message;
-};
-
-export const messageSold = (sold) => {
-  let message = "";
-  if (sold) {
-    message = "This product is sold.";
-  } else {
-    message = "This product is not sold.";
-  }
-  return message;
-};
-
 export const orderAds = (order, ads) => {
   if (order === ASC) {
     ads.sort(function (a, b) {
@@ -76,7 +46,7 @@ const validUsername = ({ username }) => username;
 const validDescription = ({ description }) => description;
 const validEmail = ({ email }) => email;
 const validPassword = ({ password }) => password;
-const validRepeatPassword = ({ password, "repeat password": repeatPassword }) =>
+const validRepeatPassword = ({ password, repeat_password: repeatPassword }) =>
   password === repeatPassword;
 const validName = ({ name }) => name;
 const validPrice = ({ price }) => price;
@@ -99,7 +69,7 @@ export const keyToObjectValidate = (formValue) => {
       case "password":
         formFunction.push(validPassword);
         break;
-      case "repeat password":
+      case "repeat_password":
         formFunction.push(validRepeatPassword);
         break;
       case "name":
@@ -121,9 +91,9 @@ export const keyToObjectValidate = (formValue) => {
   return formFunction;
 };
 
-export const BUY = "Buy";
-export const SELL = "Sell";
-export const ASC = "FROM OLDEST TO NEWEST";
-export const DESC = "FROM NEWEST TO OLDEST";
-export const YOUR_ADS = "SHOW YOUR ADS";
-export const FAV_ADS = "SHOW FAV ADS";
+export const BUY = "buy_label";
+export const SELL = "sell_label";
+export const ASC = "asc";
+export const DESC = "desc";
+export const YOUR_ADS = "my_ads";
+export const FAV_ADS = "fav_ads";

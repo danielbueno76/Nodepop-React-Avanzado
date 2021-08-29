@@ -1,8 +1,11 @@
 import FormButton from "../shared/FormButton";
 import FormField from "../shared/FormField";
 import Form from "../shared/Form";
+import { useTranslation } from "react-i18next";
 
 const ResetPasswordEmailForm = ({ onSubmit }) => {
+  const { t } = useTranslation();
+
   return (
     <Form
       className="resetPasswordEmailForm"
@@ -13,7 +16,7 @@ const ResetPasswordEmailForm = ({ onSubmit }) => {
     >
       <FormField className="label" type="email" name="email" />
       <FormButton type="submit" variant="primary">
-        Send email to change password
+        {t("send_email_password")}
       </FormButton>
     </Form>
   );

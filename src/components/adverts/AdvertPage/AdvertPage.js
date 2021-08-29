@@ -1,7 +1,6 @@
 import React from "react";
 import Layout from "../../layout/Layout";
 import { Redirect } from "react-router";
-import { messageSale, messageBooked, messageSold } from "../../../utils/utils";
 import Photo from "../../shared/Photo";
 import { ConfirmButton, Button } from "../../shared/";
 import {
@@ -26,8 +25,11 @@ import {
 import { Link } from "react-router-dom";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import { useTranslation } from "react-i18next";
 
 const AdvertPage = ({ match, ...props }) => {
+  const { t } = useTranslation();
+
   const advert = useSelector((state) => {
     return getAdvertDetail(state, match.params.advertId);
   });
@@ -88,51 +90,51 @@ const AdvertPage = ({ match, ...props }) => {
   };
 
   return (
-    <Layout title="Advertisement Detail" {...props}>
+    <Layout title={t("titleAd")} {...props}>
       <MessagePage />
       <div className="card">
         <div className="card-content">
           <div className="content">
-            <p>Title: {name}</p>
-            <p>Price: {price}</p>
-            <p>Description: {description}</p>
-            <p>{messageSale(sale)}</p>
-            <p>{messageBooked(booked)}</p>
-            <p>{messageSold(sold)}</p>
+            <p>{t("name", { name })}</p>
+            <p>{t("price", { price })}</p>
+            <p>{t("description", { description })}</p>
+            <p>{sale ? t("sale") : t("buy")}</p>
+            <p>{booked ? t("booked") : t("no_booked")}</p>
+            <p>{sold ? t("sold") : t("no_sold")}</p>
             <Link to={`/user/${usernameAd}`} className="button is-link">
-              {`Owner: ${usernameAd} -> Click and visit more ads of this user!`}
+              {t("msgInfoUserAds", { usernameAd })}
             </Link>
-            <p>Tags: {tags && tags.map((tag) => tag + ", ")}</p>
+            <p>{t("tags", { tags: tags && tags.map((tag) => tag + ", ") })}</p>
             <time dateTime={createdAt}>{createdAt}</time>
           </div>
         </div>
         <div className="box content">
           <TwitterShareButton
             url={window.location.href}
-            title={`I have found this ${name} in `}
+            title={t("msgInfoShareAds", { name })}
           >
             <TwitterIcon size={40} round className="pl-2" />
-            Share on Twitter
+            {t("msgInfoShareIcon", { share: "Twitter" })}
           </TwitterShareButton>
         </div>
         <div className="box content">
           <FacebookShareButton
             url={window.location.href}
-            title={`I have found this ${name} in `}
+            title={t("msgInfoShareAds", { name })}
           >
             <FacebookIcon size={40} round className="pl-2" />
-            Share on Facebook
+            {t("msgInfoShareIcon", { share: "Facebook" })}
           </FacebookShareButton>
         </div>
         {username === usernameAd ? (
           <div className="box content">
             <>
-              <Button onClick={handleBooked}>{`Click here to ${
-                booked ? "un" : ""
-              }booked your ad!`}</Button>
-              <Button onClick={handleSold}>{`Click here to ${
-                sold ? "un" : ""
-              }sold your ad!`}</Button>
+              <Button onClick={handleBooked}>
+                {booked ? t("msgInfoUnBookedAd") : t("msgInfoBookedAd")}
+              </Button>
+              <Button onClick={handleSold}>
+                {sold ? t("msgInfoUnSoldAd") : t("msgInfoSoldAd")}
+              </Button>
             </>
           </div>
         ) : (
@@ -143,34 +145,36 @@ const AdvertPage = ({ match, ...props }) => {
             {adsFav.includes(match.params.advertId) ? (
               <Button className="button is-focused" onClick={handleFav}>
                 <FavoriteIcon fontSize={"large"} />
-                {"<-- Click here to remove this ad as favorite!"}
+                {t("msgInfoUnFavoriteAd")}
               </Button>
             ) : (
               <Button className="button is-focused" onClick={handleFav}>
-                <FavoriteBorderIcon fontSize={"large"} />{" "}
-                {"<-- Click here to add this ad as favorite!"}
+                <FavoriteBorderIcon fontSize={"large"} />
+                {t("msgInfoFavoriteAd")}
               </Button>
             )}
           </div>
         ) : (
           <></>
         )}
-        <Photo src={photo} alt={name} />
+        <Photo src={photo} name={name} />
         {username === usernameAd ? (
           <Link
             to={`/advert/${match.params.advertId}/edit#${name}`}
             className="button is-link m-2"
-          >{`Click here to edit your ad`}</Link>
+          >
+            {t("msgInfoEditAd")}
+          </Link>
         ) : (
           <></>
         )}
         {username === usernameAd ? (
           <ConfirmButton
             classname="button is-danger is-rounded mt-2"
-            messageConfirm={"Are you sure you want to delete the ad?"}
+            messageConfirm={t("confirmDelete")}
             handleToDo={handleDeleteAdvert}
           >
-            Delete
+            {t("delete")}
           </ConfirmButton>
         ) : (
           <></>

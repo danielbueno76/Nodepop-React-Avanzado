@@ -1,7 +1,10 @@
 import React from "react";
 import { FormContext } from "./Form";
+import { useTranslation } from "react-i18next";
 
 function FormField({ className, autofocus, autocomplete, ...props }) {
+  const { t } = useTranslation();
+
   const { formValue, handleChange } = React.useContext(FormContext);
   const inputRef = React.useRef(null);
   React.useEffect(() => {
@@ -12,7 +15,7 @@ function FormField({ className, autofocus, autocomplete, ...props }) {
 
   return (
     <label className={className}>
-      <span>{props.name}</span>
+      <span>{t(props.name)}</span>
       <br />
       {props.type !== "textarea" ? (
         <input
@@ -21,7 +24,7 @@ function FormField({ className, autofocus, autocomplete, ...props }) {
           autoComplete={autocomplete ? "on" : "off"}
           onChange={handleChange}
           value={props.type === "file" ? undefined : formValue[props.name]}
-          placeholder={props.name}
+          placeholder={t(props.name)}
           {...props}
         />
       ) : (
@@ -29,7 +32,7 @@ function FormField({ className, autofocus, autocomplete, ...props }) {
           className="textarea"
           onChange={handleChange}
           value={formValue[props.name]}
-          placeholder={props.name}
+          placeholder={t(props.name)}
           {...props}
         />
       )}
