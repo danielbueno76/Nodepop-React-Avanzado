@@ -178,8 +178,6 @@ export function ui(state = initialState.ui, action) {
     case CHANGE_LANGUAGE_REQUEST:
       return { ...state, loading: true, error: null, messageSuccess: null };
     case AUTH_LOGOUT_SUCCESS:
-    case ADVERTS_DETAIL_SUCCESS:
-    case ADVERTS_LOADED_SUCCESS:
     case AUTH_GET_OWN_USERDATA_SUCCESS:
       return {
         ...state,
@@ -250,6 +248,8 @@ export function ui(state = initialState.ui, action) {
     case CHANGE_PAGE_SUCCESS:
     case ADVERTS_ORDER_SUCCESS:
     case GET_USER_SUCCESS:
+    case ADVERTS_DETAIL_SUCCESS:
+    case ADVERTS_LOADED_SUCCESS:
       return { ...state, loading: false };
     case UI_RESET_ERROR:
       return {
