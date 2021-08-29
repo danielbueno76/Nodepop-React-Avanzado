@@ -9,7 +9,7 @@ const Photo = ({ src, name, ...props }) => {
       <figure className="image is-4by3">
         <img
           alt={t(name)}
-          src={process.env.REACT_APP_API_BASE_URL + src}
+          src={src && process.env.REACT_APP_API_BASE_URL + src}
           {...props}
         />
       </figure>
