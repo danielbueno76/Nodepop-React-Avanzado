@@ -2,7 +2,7 @@ import React from "react";
 import { Redirect } from "react-router";
 import Layout from "../../layout/Layout";
 import AdvertsList from "../../adverts/AdvertsPage/AdvertsList";
-import { Switch, EmptyList } from "../../shared";
+import { Switch } from "../../shared";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAdverts,
@@ -86,11 +86,7 @@ const UserPage = ({ match, ...props }) => {
         ) : (
           <React.Fragment />
         )}
-        {adverts.length ? (
-          <AdvertsList adverts={adverts} />
-        ) : (
-          <EmptyList>{t("empty_ads_other_user")}</EmptyList>
-        )}
+        <AdvertsList adverts={adverts} msgEmpty={t("empty_ads_other_user")} />
       </div>
 
       {numberTotalAdverts ? (

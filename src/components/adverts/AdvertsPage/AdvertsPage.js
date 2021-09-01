@@ -2,7 +2,7 @@ import React from "react";
 import Layout from "../../layout/Layout";
 import AdvertsList from "./AdvertsList";
 import AdvertsFormFilter from "./AdvertsFormFilter";
-import { Switch, EmptyList } from "../../shared";
+import { Switch } from "../../shared";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAdverts,
@@ -93,11 +93,7 @@ const AdvertsPage = ({ className, ...props }) => {
         ) : (
           <React.Fragment />
         )}
-        {adverts.length ? (
-          <AdvertsList adverts={adverts} />
-        ) : (
-          <EmptyList>{t("first_ad")}</EmptyList>
-        )}
+        <AdvertsList adverts={adverts} msgEmpty={t("first_ad")} />
       </div>
 
       {numberTotalAdverts ? (

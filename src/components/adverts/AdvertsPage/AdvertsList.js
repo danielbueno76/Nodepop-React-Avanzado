@@ -3,11 +3,8 @@ import T from "prop-types";
 import { Link } from "react-router-dom";
 import Advert, { AdvertType } from "./Advert";
 import { EmptyList } from "../../shared";
-import { useTranslation } from "react-i18next";
 
-const AdvertsList = ({ adverts, fav }) => {
-  const { t } = useTranslation();
-
+const AdvertsList = ({ adverts, msgEmpty }) => {
   return (
     <>
       {adverts.length ? (
@@ -17,9 +14,7 @@ const AdvertsList = ({ adverts, fav }) => {
           </Link>
         ))
       ) : (
-        <EmptyList>
-          {fav ? t("empty_ads_user_fav") : t("empty_ads_user")}
-        </EmptyList>
+        <EmptyList>{msgEmpty}</EmptyList>
       )}
     </>
   );

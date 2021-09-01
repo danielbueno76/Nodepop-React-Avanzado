@@ -104,7 +104,11 @@ const MyUserPage = () => {
         />
         <AdvertsList
           adverts={typeFilter === YOUR_ADS ? adverts : adsFav}
-          fav={typeFilter === FAV_ADS ? true : false}
+          msgEmpty={
+            typeFilter === FAV_ADS
+              ? t("empty_ads_user_fav")
+              : t("empty_ads_user")
+          }
         />
       </>
 
