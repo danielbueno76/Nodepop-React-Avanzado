@@ -140,7 +140,7 @@ const AdvertPage = ({ match, ...props }) => {
         ) : (
           <></>
         )}
-        {username !== usernameAd ? (
+        {username && username !== usernameAd ? (
           <div className="box content">
             {adsFav.includes(match.params.advertId) ? (
               <Button className="button is-focused" onClick={handleFav}>
