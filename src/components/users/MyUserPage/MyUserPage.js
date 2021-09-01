@@ -1,7 +1,7 @@
 import React from "react";
 import Layout from "../../layout/Layout";
 import AdvertsList from "../../adverts/AdvertsPage/AdvertsList";
-import { Switch, EmptyList } from "../../shared";
+import { Switch } from "../../shared";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAdverts,
@@ -75,8 +75,8 @@ const MyUserPage = () => {
   const handleChangePage = (_event, value) => {
     dispatch(changePageAction(value));
   };
-  const handleSubmitUser = (user) => {
-    dispatch(updateUserAction(user));
+  const handleSubmitUser = (_user) => {
+    dispatch(updateUserAction(_user));
   };
 
   React.useEffect(() => {
@@ -88,33 +88,24 @@ const MyUserPage = () => {
       <MessagePage />
       <MyUserForm onSubmit={handleSubmitUser} />
       <>
-        {adverts.length && adsFav.length ? (
-          <>
-            <Switch
-              firstChildren={DESC}
-              secondChildren={ASC}
-              defaultValue={DESC}
-              handleChange={handleSwitch}
-              value={order}
-            />
-            <Switch
-              firstChildren={YOUR_ADS}
-              secondChildren={FAV_ADS}
-              defaultValue={YOUR_ADS}
-              handleChange={handleFavAds}
-              value={typeFilter}
-            />
-            <>
-              {typeFilter === YOUR_ADS ? (
-                <AdvertsList adverts={adverts} />
-              ) : (
-                <AdvertsList adverts={adsFav} />
-              )}
-            </>
-          </>
-        ) : (
-          <EmptyList>{t("empty_ads_user")}</EmptyList>
-        )}
+        <Switch
+          firstChildren={DESC}
+          secondChildren={ASC}
+          defaultValue={DESC}
+          handleChange={handleSwitch}
+          value={order}
+        />
+        <Switch
+          firstChildren={YOUR_ADS}
+          secondChildren={FAV_ADS}
+          defaultValue={YOUR_ADS}
+          handleChange={handleFavAds}
+          value={typeFilter}
+        />
+        <AdvertsList
+          adverts={typeFilter === YOUR_ADS ? adverts : adsFav}
+          fav={typeFilter === FAV_ADS ? true : false}
+        />
       </>
 
       {numberTotalAdverts ? (
