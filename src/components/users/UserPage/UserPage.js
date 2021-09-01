@@ -11,6 +11,7 @@ import {
   getUi,
   getOwnUserInfo,
   getAdvertsOrder,
+  getUser,
 } from "../../../store/selectors";
 import {
   advertsOrderAction,
@@ -40,6 +41,7 @@ const UserPage = ({ match, ...props }) => {
   );
   const page = useSelector(getPage);
   const { username = null } = useSelector(getOwnUserInfo) || {};
+  const { email = null } = useSelector(getUser) || {};
   const { error } = useSelector(getUi);
   const order = useSelector(getAdvertsOrder);
 
@@ -73,6 +75,7 @@ const UserPage = ({ match, ...props }) => {
       title={t("list_ads_user", { username: match.params.username })}
       {...props}
     >
+      <div class="block">{t("email_user", { email })}</div>
       <MessagePage />
       <div>
         {adverts.length ? (
