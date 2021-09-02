@@ -96,7 +96,7 @@ const AdvertPage = ({ match, ...props }) => {
         <div className="card-content">
           <div className="content">
             <p>{t("name", { name })}</p>
-            <p>{t("price", { price })}</p>
+            <p>{t("price", { price })} €</p>
             <p>{t("description", { description })}</p>
             <p>{sale ? t("sale") : t("buy")}</p>
             <p>{booked ? t("booked") : t("no_booked")}</p>
